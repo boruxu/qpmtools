@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:mvc="http://www.springframework.org/schema/mvc" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc  
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/data/mongo  
+        http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
+  
+
+    <!-- 自动扫描的包名 -->  
+    <context:component-scan base-package="cn.edu.buaa.g305.qpm" ></context:component-scan>  
+      
+    <!-- 默认的注解映射的支持 --> 
+    <mvc:annotation-driven />
+    
+    <!-- 对静态资源文件的访问 -->  
+    <mvc:default-servlet-handler/>
+      
+    <!-- 视图解释类 -->  
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!-- 为controllers的return自动添加前缀和后缀 -->  
+        <property name="prefix" value="/WEB-INF/jsp/"/>  
+        <!--<property name="suffix" value=""/>可为空,方便实现自已的依据扩展名来选择视图解释类的逻辑  -->  
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />  
+    </bean> 
+    <!-- MongoDB配置项 
+    <mongo:db-factory id="mongoDbFactory" dbname="QPMTools"/> 
+    
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+         <constructor-arg ref="mongoDbFactory"/>
+         <property name="writeConcern" value="SAFE"/>
+    </bean>
+    -->
+</beans>   
