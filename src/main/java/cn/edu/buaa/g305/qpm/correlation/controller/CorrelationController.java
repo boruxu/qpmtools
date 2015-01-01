@@ -10,18 +10,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/correlation")
 public class CorrelationController {
-	
+	//进入相关性分析主页
 	@RequestMapping()
 	public String correlationHome()
 	{
 		return "correlation.jsp";
 	}
-	@RequestMapping("/add")
-	public String correlationAdd()
-	{
-		return "add.jsp";
-	}
-	
+	//计算相关性
 	@ExceptionHandler
 	@RequestMapping(value="/outputProduct",method=RequestMethod.POST)
 	@ResponseBody
