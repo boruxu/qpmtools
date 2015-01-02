@@ -205,7 +205,7 @@
     <div class="box col-md-9">
         <div class="box-inner">
             <div class="box-header well">
-                <h2><i class="glyphicon glyphicon-info-sign"></i>X和Y散点图</h2>           
+                <h2><i class="glyphicon glyphicon-info-sign"></i>散点图</h2>           
                 <div class="box-icon">
                     <a href="#" class="btn btn-setting btn-round btn-default"><i
                             class="glyphicon glyphicon-cog"></i></a>
@@ -259,9 +259,10 @@
             <div class="box-content row" >
                 <div class="col-lg-12 col-md-12 ">
                     <p>
-                       <h2 id="correlationName" style="color:#000">相关：X,Y<h2>
+                       <h4 id="correlationName" style="color:#000">相关：<h2>
                        <h4 id="correlationR" style="color:#000">Pearson相关系数 r=<h4>
-                       <h4 id="correlationPa" style="color:#000">P值= α=<h4>
+                       <h4 id="correlationP" style="color:#000">P值=<h4>
+                       <h4 id="correlationAlpha" style="color:#000">α值=<h4>
                        <h4 id="correlationResult" style="color:#000">相关？<h4>
                     </p>
            
@@ -375,21 +376,32 @@
 <script type="text/javascript" src="js/d3.js"></script>
 <script type="text/javascript">
 <!--以下为生成散点图的代码-->
+//初始化数据
 var dataXY={
 	x:[45,59,33,81,77,26,19,55,50,34,99,61,38,72,59,25],
 	y:[25,36,19,45,42,23,16,38,32,22,48,42,29,36,29,17],
 	xName:"测试1X轴（单位）",
-	yName:"测试1y轴（单位）" };
+	yName:"测试1y轴（单位）",
+	p:0,
+	r:0,
+	alpha:0.05};
 var dataXY1={
 	x:[10,20,30,40,50,60,70,80],
 	y:[10,20,30,40,50,60,70,80],
 	xName:"测试2X轴（单位）",
-	yName:"测试2y轴（单位）" };
+	yName:"测试2y轴（单位）",
+	p:0,
+	r:0,
+	alpha:0.05};
 var dataXY2={
 	x:[10,20,30],
 	y:[30,20,10],
 	xName:"测试3X轴（单位）",
-	yName:"测试3y轴（单位）" };
+	yName:"测试3y轴（单位）" ,
+	p:0,
+	r:0,
+	alpha:0.05};
+	
 var dataXYArray=[dataXY,dataXY1,dataXY2];
 var arrayNumber=0;
 var xmin=0;
@@ -398,6 +410,10 @@ var ymin=0;
 var ymax=100;
 var xName="x轴";
 var yName="y轴";
+var xyP="未计算";
+var xyR="未计算";
+var xyAlpha="未计算";
+
 
 var width =$("#scatterplot").width()*8/9, 
     height =$("#scatterplot").height(), 
@@ -431,9 +447,7 @@ function renderXAxis(){
             return "translate(" + margin + "," + (height - margin) + ")";
         })
         .call(xAxis);
-		
-	//设置散点图X轴名字
-	$("#scatterplotXname").text(xName);
+
 }
 
 function renderYAxis(){        
@@ -454,8 +468,7 @@ function renderYAxis(){
             return "translate(" + margin + "," + margin + ")";
         })
         .call(yAxis);
-	//设置散点图y轴名字
-	$("#scatterplotYname").text(yName);
+
 }   
 <!--数据轮换显示按钮变化-->        
 function rescale(){
@@ -475,8 +488,7 @@ function rescale(){
         renderXGridlines();
         renderYGridlines();
 		
-		$("#scatterplotXname").text(xName);
-		$("#scatterplotYname").text(yName);
+		setOther();
 
 	    renderXYPoint(dataXYArray[arrayNumber]);
 
@@ -487,7 +499,18 @@ function rescale(){
 		rescale();
 	}
            
-}       
+}
+function setOther(){
+			
+	//设置散点图X轴名字
+	$("#scatterplotXname").text(xName);
+		//设置散点图y轴名字
+	$("#scatterplotYname").text(yName);
+	$("#correlationName").text("相关:"+xName+","+yName);
+	$("#correlationR").text("R="+xyR);
+	$("#correlationP").text("P="+xyP);
+	$("#correlationAlpha").text(xyAlpha);
+	}        
 <!--建立X坐标轴-->
 function renderXGridlines(){
     var lines = d3.selectAll("g.x-axis g.tick")
@@ -525,6 +548,9 @@ function getXYrange(data){
 	ymax=d3.max(data.y)+5;
 	xName=data["xName"];
 	yName=data["yName"];
+    xyP=data["p"];
+    xyR=data["r"];
+    xyAlpha=data["alpha"];
 	
 }
 <!--数据转换函数-->	
@@ -575,7 +601,8 @@ svg.selectAll("circle")
 svg.selectAll("circle")
 	   .data(dataset)
 	   .exit()
-	   .remove(); 		
+	   .remove(); 
+		
 }
 <!--画出散点图-->
 function scatterplot(){
@@ -585,6 +612,7 @@ function scatterplot(){
   renderXGridlines();
   renderYGridlines();
   renderXYPoint(dataXYArray[0]);
+  setOther();
 };
 //窗口改变事件，SVG散点图也要改变大小已适应不同窗口的大小
 $(window).resize(function() {
@@ -597,7 +625,7 @@ $(window).resize(function() {
    scatterplot();
 });
 
-scatterplot();
+//scatterplot();
 <!--以下为按钮弹出框等CSS设置-->
  $('.btn-setting-alpha').click(function (e) {
     e.preventDefault();
@@ -626,12 +654,15 @@ $("#selectTags").chosen().change(
 	  }
 );
 
+
+
 //提交计算结果
 function compute()
 {
 	var dataArraysUpload={correlationIn:dataXYArray};
 
 		 $.ajax({
+			
 			contentType: 'application/json', 
             type: "POST",
             url: "correlation/outputProduct",
@@ -643,13 +674,20 @@ function compute()
 				},
             success: function(json){
 				
-				//json.forEach()
+				json.forEach(function(d,i)
+				{
+					dataXYArray[i].p=d.p;
+					dataXYArray[i].r=d.r;
+					});
+				
+				//画图
+				$("svg").empty();
+			    scatterplot();
 					     	
             },
          
 		 });
-    
-     
+   
 	
 	};
 
