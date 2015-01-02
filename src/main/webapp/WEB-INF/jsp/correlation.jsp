@@ -193,7 +193,7 @@
                         </p>
                        
                </div>
-               <input onClick="compute()" value="tijaio1"/>
+               
    
                           
            </div>
@@ -629,7 +629,7 @@ $("#selectTags").chosen().change(
 //提交计算结果
 function compute()
 {
-	var dataArraysUpload={dataArrays:dataXYArray};
+	var dataArraysUpload={correlationIn:dataXYArray};
 
 		 $.ajax({
 			contentType: 'application/json', 

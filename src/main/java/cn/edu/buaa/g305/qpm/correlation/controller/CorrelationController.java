@@ -1,5 +1,6 @@
 package cn.edu.buaa.g305.qpm.correlation.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -7,9 +8,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cn.edu.buaa.g305.qpm.correlation.domain.CorrelationIn;
+import cn.edu.buaa.g305.qpm.correlation.domain.CorrelationInXYArray;
+import cn.edu.buaa.g305.qpm.correlation.domain.CorrelationOut;
+
 @Controller
 @RequestMapping("/correlation")
 public class CorrelationController {
+
 	//进入相关性分析主页
 	@RequestMapping()
 	public String correlationHome()
@@ -20,10 +26,10 @@ public class CorrelationController {
 	@ExceptionHandler
 	@RequestMapping(value="/outputProduct",method=RequestMethod.POST)
 	@ResponseBody
-	public  RAndP[] getOutputProduct(@RequestBody DataArrays dataArrays)
+	public  CorrelationOut[] getOutputProduct(@RequestBody CorrelationIn correlationIn)
 	{
 			
-		for (DataArray dataArray : dataArrays.getDataArrays()) {
+		for (CorrelationInXYArray dataArray : correlationIn.getCorrelationIn()) {
 			
 			System.out.print("x:[");
 			for (Double x : dataArray.getX()) {
@@ -44,10 +50,10 @@ public class CorrelationController {
 	
 		}
 		
-		RAndP[] rAndPs=new RAndP[3];
+		 CorrelationOut[] rAndPs=new  CorrelationOut[3];
 		 for(int i=0;i<3;i++)
     	 {
-    		 rAndPs[i]=new RAndP();
+    		 rAndPs[i]=new  CorrelationOut();
     		 rAndPs[i].setP(i);
     		 rAndPs[i].setR(i);
     	 }
