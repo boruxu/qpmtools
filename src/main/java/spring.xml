@@ -3,6 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:mvc="http://www.springframework.org/schema/mvc" 
     xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mongo="http://www.springframework.org/schema/data/mongo"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
@@ -29,12 +30,12 @@
         <!--<property name="suffix" value=""/>可为空,方便实现自已的依据扩展名来选择视图解释类的逻辑  -->  
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />  
     </bean> 
-    <!-- MongoDB配置项 
+    <!-- MongoDB配置项  -->
     <mongo:db-factory id="mongoDbFactory" dbname="QPMTools"/> 
     
     <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
          <constructor-arg ref="mongoDbFactory"/>
          <property name="writeConcern" value="SAFE"/>
     </bean>
-    -->
+   
 </beans>   

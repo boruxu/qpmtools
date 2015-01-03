@@ -3,6 +3,10 @@
 <%  String path = request.getContextPath();  
     String basePath = request.getScheme()+"://"+request.getServerName()
     		+":"+request.getServerPort()+path+"/";%>      
+     
+
+
+
 <!DOCTYPE html>
 <html >
 <head>
@@ -204,12 +208,12 @@
 <div class="row">  
     <div class="box col-md-9">
         <div class="box-inner">
-            <div class="box-header well">
+            <div class="box-header well" id="scatterplot">
                 <h2><i class="glyphicon glyphicon-info-sign"></i>散点图</h2>           
                 <div class="box-icon">
                     <a href="#" class="btn btn-setting btn-round btn-default"><i
                             class="glyphicon glyphicon-cog"></i></a>
-                    <a href="#" class="btn btn-minimize btn-round btn-default"><i
+                    <a href="#" id="outputResult_1" class="btn btn-minimize btn-round btn-default"><i
                             class="glyphicon glyphicon-chevron-up"></i></a>
                     <a href="#" class="btn btn-close btn-round btn-default"><i
                             class="glyphicon glyphicon-remove"></i></a>
@@ -219,7 +223,7 @@
             
                  <div class="col-lg-12 col-md-12 " id="scatterplotYname" style=" text-align:left">Y轴</div>
 
-                 <div class="col-lg-12 col-md-12 " id="scatterplot" style=" height:500px">
+                 <div class="col-lg-12 col-md-12 " id="scatterplotSvg" style=" height:500px">
                       
                       <svg>
                       </svg>
@@ -250,7 +254,7 @@
                 <div class="box-icon">
                     <a href="#" class="btn btn-setting-alpha btn-round btn-default"><i
                             class="glyphicon glyphicon-cog"></i></a>
-                    <a href="#" class="btn btn-minimize btn-round btn-default"><i
+                    <a href="#" id="outputResult_2" class="btn btn-minimize btn-round btn-default"><i
                             class="glyphicon glyphicon-chevron-up"></i></a>
                     <a href="#" class="btn btn-close btn-round btn-default"><i
                             class="glyphicon glyphicon-remove"></i></a>
@@ -276,7 +280,7 @@
                 <h2><i class="glyphicon glyphicon-info-sign"></i>术语解释</h2>
 
                 <div class="box-icon">                  
-                    <a href="#" class="btn btn-minimize btn-round btn-default"><i
+                    <a href="#" id="outputResult_3" class="btn btn-minimize btn-round btn-default"><i
                             class="glyphicon glyphicon-chevron-up"></i></a>
                     <a href="#" class="btn btn-close btn-round btn-default"><i
                             class="glyphicon glyphicon-remove"></i></a>
@@ -401,22 +405,33 @@ var dataXY2={
 	p:0,
 	r:0,
 	alpha:0.05};
-	
+		
 var dataXYArray=[dataXY,dataXY1,dataXY2];
-var arrayNumber=0;
-var xmin=0;
-var xmax=100;
-var ymin=0;
-var ymax=100;
-var xName="x轴";
-var yName="y轴";
-var xyP="未计算";
-var xyR="未计算";
-var xyAlpha="未计算";
+
+initialGlobelValues();
+
+function initialGlobelValues()
+{
+	//全局变量
+	arrayNumber=0;
+    xmin=0;
+    xmax=0;
+    ymin=0;
+    ymax=0;
+    xName="x";
+    yName="y";
+    xyP="未计算";
+    xyR="未计算";
+    xyAlpha="未计算";
+	outputMin("#outputResult_1");
+	outputMin("#outputResult_2");
+	outputMin("#outputResult_3");
+	
+}
 
 
 var width =$("#scatterplot").width()*8/9, 
-    height =$("#scatterplot").height(), 
+    height =$("#scatterplotSvg").height(), 
     margin = 25,
     xAxis, yAxis, xAxisLength, yAxisLength;
     
@@ -621,7 +636,7 @@ $(window).resize(function() {
    $("svg").empty();
    $("plot-button").empty();
    width=$("#scatterplot").width()*8/9;
-   height =$("#scatterplot").height();
+   height =$("#scatterplotSvg").height();
    scatterplot();
 });
 
@@ -653,20 +668,57 @@ $("#selectTags").chosen().change(
 		//ajax查询数据
 	  }
 );
+//展示块的最化
+function outputMin(dom)
+{
+	var $target = $(dom).parent().parent().next('.box-content');
+    if ($target.is(':visible')) 
+	{
+		$('i', $(dom)).removeClass('glyphicon-chevron-up').addClass('glyphicon-chevron-down');
+	    $target.slideUp(0);
+	}  
+}
+function outputMax(dom)
+{
+	var $target = $(dom).parent().parent().next('.box-content');
+    if ($target.is(':visible')){} 
+	else
+	{
+		 $('i', $(dom)).removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-up');
+         $target.slideDown();
+		}
+}
 
+//清空数据，收起输出结果栏
+function clearData(){
+	//清除散点图
+	$("svg").empty();
+	//初始化其他数据
+	initialGlobelValues();
+	 outputMin("#outputResult_1");
+	 outputMin("#outputResult_2");
+	 outputMin("#outputResult_3");
+	
+}
 
 
 //提交计算结果
 function compute()
 {
 	var dataArraysUpload={correlationIn:dataXYArray};
+	clearData();
+	setTimeout(function(){correlationAjax(dataArraysUpload);},1000);
 
-		 $.ajax({
-			
+	};
+	
+//ajax
+function correlationAjax(data)
+{ 
+	 $.ajax({
 			contentType: 'application/json', 
             type: "POST",
             url: "correlation/outputProduct",
-            data:JSON.stringify(dataArraysUpload),
+            data:JSON.stringify(data),
 			dataType: "json",
             error: function(e){
             	 alert(e.status);
@@ -679,17 +731,17 @@ function compute()
 					dataXYArray[i].p=d.p;
 					dataXYArray[i].r=d.r;
 					});
-				
-				//画图
-				$("svg").empty();
+				 
 			    scatterplot();
+				outputMax("#outputResult_1");
+	            outputMax("#outputResult_2");
+	            outputMax("#outputResult_3");
+		
 					     	
             },
          
 		 });
-   
-	
-	};
+}
 
 
 
@@ -698,3 +750,4 @@ function compute()
 
 </body>
 </html>
+
