@@ -16,18 +16,22 @@ import org.springframework.web.context.WebApplicationContext;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;  
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;  
 
-
-//XML风格  
+ 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:spring.xml")
-//@WebAppConfiguration(value = "src/main/java/spring.xml")  
+@ContextConfiguration("classpath:spring.xml")
+@WebAppConfiguration("classpath:spring.xml")  
  
 
 public class CorrelationTest { 
 	
 
-  @Autowired  
-  private WebApplicationContext wac;  
+
+  @Autowired
+  private WebApplicationContext wac;
+  
+  public void setWac(WebApplicationContext wac) {
+	this.wac = wac;
+  }
   private MockMvc mockMvc;  
 
   @Before  
@@ -37,35 +41,23 @@ public class CorrelationTest {
   @Test
   public void correlationJsonTest() throws Exception
   {
-	  String requestBody = "{correlationIn:[{x:"
-	  		+ "[45,59,33,81,77,26,19,55,50,34,99,61,38,72,59,25],"
-	  		+ "y:[25,36,19,45,42,23,16,38,32,22,48,42,29,36,29,17],"
-	  		+ "xName:\"测试1X轴（单位）\","
-	  		+ "yName:\"测试1y轴（单位）\","
-	  		+ "p:0,"
-	  		+ "r:0,"
-	  		+ "alpha:0.05},"
-	  		+ "{x:[10,20,30,40,50,60,70,80],"
-	  		+ "y:[10,20,30,40,50,60,70,80],"
-	  		+ "xName:\"测试2X轴（单位）\","
-	  		+ "yName:\"测试2y轴（单位）\","
-	  		+ "p:0,"
-	  		+ "r:0,"
-	  		+ "alpha:0.05},"
-	  		+ "{x:[10,20,30],y:[30,20,10],xName:\"测试3X轴（单位）\","
-	  		+ "yName:\"测试3y轴（单位）\" ,p:0,r:0,alpha:0.05}]"
-	  		+ "}";
+	  String requestBody = "{\"correlationIn\":[{\"x\":[45,59,33,81,77,26,19,55,50,34,99,61,38,72,59,25],"
+			  +"\"y\":[25,36,19,45,42,23,16,38,32,22,48,42,29,36,29,17],\"xName\":\"娴嬭瘯1X杞达紙鍗曚綅锛塡""
+		      +",\"yName\":\"娴嬭瘯1y杞达紙鍗曚綅锛塡",\"p\":0,\"r\":0,\"alpha\":0.05},"
+		      +"{\"x\":[10,20,30,40,50,60,70,80],\"y\":[10,20,30,40,50,60,70,80],"
+			  +"\"xName\":\"娴嬭瘯2X杞达紙鍗曚綅锛塡",\"yName\":\"娴嬭瘯2y杞达紙鍗曚綅锛塡",\"p\":0,\"r\":0,\"alpha\":0.05},"
+			  +"{\"x\":[10,20,30],\"y\":[30,20,10],\"xName\":\"娴嬭瘯3X杞达紙鍗曚綅锛塡",\"yName\":\"娴嬭瘯3y杞达紙鍗曚綅锛塡","
+			  +"\"p\":0,\"r\":0,\"alpha\":0.05}]};";
 
-	  mockMvc.perform(post("/correltion/outputProduct")
+	  mockMvc.perform(post("/correlation/outputProduct")
 			          .contentType(MediaType.APPLICATION_JSON)
 			          .content(requestBody)  
 	                  .accept(MediaType.APPLICATION_JSON))
 	         .andExpect(status().isOk())
-	         .andExpect(content().contentType(MediaType.APPLICATION_JSON)); 
-	          
-	          //.andDo()
-	         // .andExpect(content().contentType(MediaType.APPLICATION_JSON)) //验证响应contentType  
-	         // .andExpect(jsonPath("$.id").value(1));  
+	         .andExpect(content().contentType("application/json;charset=UTF-8")); 
+	  mockMvc.perform(get("/home"))
+             .andExpect(status().isOk())
+             .andReturn(); 
   }
 
 } 
