@@ -11,7 +11,7 @@ public class HomeController {
 	{
 		return "login.jsp";
 	}
-	//之后处理登陆
+	//涓婚〉
 	@RequestMapping("/home")
 	public String homePage()
 	{

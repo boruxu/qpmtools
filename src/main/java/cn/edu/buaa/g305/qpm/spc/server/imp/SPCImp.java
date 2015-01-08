@@ -12,7 +12,7 @@ public class SPCImp implements SPC {
 		double xAverage=0;
 		double rSum=0;
 		double rAverage=0;
-		//¼ÆËãX×ÜÆ½¾ùÖµ¡¢¼«²îRµÄÆ½¾ùÖµ
+		//è®¡ç®—Xæ€»å¹³å‡å€¼å’ŒRçš„å¹³å‡å€¼
 		for (double[] xSum : spcxrIn.getX()) {
 			
 			double min=xSum[0];
@@ -39,7 +39,7 @@ public class SPCImp implements SPC {
 		rAverage=rSum/spcxrIn.getX().length;
 		xSumAverage=xSumAverage/spcxrIn.getX().length;
 		
-		//¼ÆËã¿ØÖÆÏŞ
+		
 		
 		
 		return null;

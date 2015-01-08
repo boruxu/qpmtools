@@ -4,10 +4,10 @@ import java.math.BigDecimal;
 
 public class DoublePrecision {
 	/**
-	 * Òª±£ÁôµÄÎ»Êın£¬Ô­Êı¾İÊı¾İ¾«¶ÈÒªÎªn+2
-	 * @param doubleValue ÊäÈëÒª±£ÁôĞ¡ÊıµÄ¾«¶È
-	 * @param precision ±£ÁôµÄÎ»Êı
-	 * @return ±£ÁôºóµÄĞ¡Êı
+	 * ä¿ç•™ç²¾åº¦ä¸ºnï¼Œè¢«ä¿ç•™æ•°è¿›åº¦éœ€n+2
+	 * @param doubleValue è¢«ä¿ç•™æ•°
+	 * @param precision ä¿ç•™ä½æ•°
+	 * @return ç›¸åº”ç²¾åº¦çš„doubleæ•°
 	 */
 	public static double precision(double doubleValue,int precision)
 	{

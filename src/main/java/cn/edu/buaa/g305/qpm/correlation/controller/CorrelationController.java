@@ -20,13 +20,13 @@ public class CorrelationController {
 	@Autowired
 	private CorrelationServer correlationServer;
 
-	//进入相关性分析主页
+	//鐩稿叧鍒嗘瀽涓婚〉
 	@RequestMapping()
 	public String correlationHome()
 	{
 		return "correlation.jsp";
 	}
-	//计算相关性
+	//璁＄畻鐩稿叧鍒嗘瀽
 	@ExceptionHandler
 	@RequestMapping(value="/outputProduct",method=RequestMethod.POST)
 	@ResponseBody

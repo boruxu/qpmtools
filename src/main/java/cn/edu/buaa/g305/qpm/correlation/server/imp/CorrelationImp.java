@@ -20,9 +20,9 @@ public class CorrelationImp implements Correlation{
 		pearsonsCorrelation=new PearsonsCorrelation();
 	}
 	/**
-	 * ÀûÓÃcommon-math3°ü£¬¼ÆËãÁ½Êı×éµÄÏà¹ØÏµÊıºÍ¼ÙÉè¼ìÑéµÄpÖµ
-	 * @param xArray double[]  xÊı×é
-	 * @param yArray double[]  yÊı×é
+	 * åˆ©ç”¨common-math3è®¡ç®—ç›¸å…³æ€§çš„På’ŒR
+	 * @param xArray double[]  xæ•°ç»„
+	 * @param yArray double[]  yæ•°ç»„
 	 * @return CorrealtionOut
 	 */
 	public CorrelationOut computeCorrelationAndPValue(double[] xArray,
@@ -36,10 +36,10 @@ public class CorrelationImp implements Correlation{
 	}
 	
 	/**
-	 * ×ª»»rÎªt·Ö²¼µÄÍ³¼ÆÁ¿ ,¼ÆËãtÍ³¼ÆÁ¿ÏàÓ¦µÄPÖµ£¨¼ÆËãPÖµµÄË«Î²¶Ë¸ÅÂÊ£©
-	 * @param  r double Ïà¹ØÏµÊı
-	 * @param  n int Ïà¹ØÊı×éµÄ¸öÊı
-	 * @return p double PÖµ
+	 * ç›¸å…³ç³»æ•°Rè½¬åŒ–ä¸ºç»Ÿè®¡é‡Tï¼ŒTæ˜¯tåˆ†å¸ƒ
+	 * @param  r double çš®å°”æ£®ç›¸å…³ç³»æ•°
+	 * @param  n int æ•°ç»„ä¸ªæ•°
+	 * @return p double På€¼
 	 */
 	private double rToTDistribution(double r,int n)
 	{

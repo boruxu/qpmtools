@@ -4,7 +4,7 @@ import cn.edu.buaa.g305.qpm.correlation.domain.CorrelationOut;
 
 public interface Correlation {
 	
-	//计算出X、Y之间的P值和R值
+	//杈撳叆涓や釜鏁扮粍锛岃绠楃浉搴旂殑r鍜孭
 	public CorrelationOut computeCorrelationAndPValue(double[] xArray,double[] yArray);
 
 }
