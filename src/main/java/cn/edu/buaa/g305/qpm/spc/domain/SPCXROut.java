@@ -4,13 +4,32 @@ public class SPCXROut {
 	
 	private double[] x;
 	private double[] r;
+	private String[] time;
 	private double xUCL;
-	private double xCCL;
+	private double xCL;
 	private double xLCL;
 	private double rUCL;
-	private double rCCL;
+	private double rCL;
 	private double rLCL;
 	
+	public String[] getTime() {
+		return time;
+	}
+	public void setTime(String[] time) {
+		this.time = time;
+	}
+	public double getxCL() {
+		return xCL;
+	}
+	public void setxCL(double xCL) {
+		this.xCL = xCL;
+	}
+	public double getrCL() {
+		return rCL;
+	}
+	public void setrCL(double rCL) {
+		this.rCL = rCL;
+	}
 	public double[] getX() {
 		return x;
 	}
@@ -30,12 +49,7 @@ public class SPCXROut {
 	public void setxUCL(double xUCL) {
 		this.xUCL = xUCL;
 	}
-	public double getxCCL() {
-		return xCCL;
-	}
-	public void setxCCL(double xCCL) {
-		this.xCCL = xCCL;
-	}
+
 	public double getxLCL() {
 		return xLCL;
 	}
@@ -48,12 +62,7 @@ public class SPCXROut {
 	public void setrUCL(double rUCL) {
 		this.rUCL = rUCL;
 	}
-	public double getrCCL() {
-		return rCCL;
-	}
-	public void setrCCL(double rCCL) {
-		this.rCCL = rCCL;
-	}
+
 	public double getrLCL() {
 		return rLCL;
 	}

@@ -3,20 +3,18 @@ package cn.edu.buaa.g305.qpm.spc.domain;
 public class SPCXRIn {
 	
 	private double[][] x;
-	private double[] time;
+	private String[] time;
 	public double[][] getX() {
 		return x;
 	}
 	public void setX(double[][] x) {
 		this.x = x;
 	}
-	public double[] getTime() {
+	public String[] getTime() {
 		return time;
 	}
-	public void setTime(double[] time) {
+	public void setTime(String[] time) {
 		this.time = time;
 	}
 	
-	
-
 }
