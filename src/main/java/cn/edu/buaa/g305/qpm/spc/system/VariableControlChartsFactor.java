@@ -30,7 +30,10 @@ public class VariableControlChartsFactor {
                                                   0.321,0.354,0.382,0.406,0.428,0.448,
                                                   0.466,0.482,0.497,0.510,0.523,0.534,
                                                   0.545,0.555,0.565};
-	private static final double[] B4=new double[]{3.267,2.568,2.266,2.089};
+	private static final double[] B4=new double[]{3.267,2.568,2.266,2.089,1.970,1.882,1.815,
+		                                          1.761,1.716,1.679,1.646,1.618,1.594,1.572,
+		                                          1.552,1.534,1.518,1.503,1.490,1.477,1.466,
+		                                          1.455,1.445,1.453};
 	
 	/**
 	 * 输入样本数，获取控制线系数A
@@ -102,7 +105,7 @@ public class VariableControlChartsFactor {
 	 * @param n
 	 * @return c4
 	 */
-	private static double computeC4(int n){
+	public static double computeC4(int n){
 		double result=0.0;
 		result=computeC2(n)*Math.sqrt((double)n/(n-1));
 		return result;
@@ -139,9 +142,10 @@ public class VariableControlChartsFactor {
 	public static double computeB3(int n){
 		
 		double result=0.0;
-		//n<6时计算公式不适用，用图表中的数据
-		if(n<6)
+		//n<26时计算公式不适用，用图表中的数据
+		if(n<26)
 		{
+			result=B3[n-2];
 			return result;
 		}
 		result=1-(3/(computeC4(n)*Math.sqrt(2*(n-1))));
@@ -164,6 +168,34 @@ public class VariableControlChartsFactor {
 		result=1+(3/(computeC4(n)*Math.sqrt(2*(n-1))));
 		return result;
 	}
-	
+	/**
+	 * 输入样本数，获取控制线系数B5
+	 * @param n
+	 * @return b5
+	 */
+	public static double computeB5(int n){
+		
+		double result=0.0;
+		if(n<=5)
+		{
+			return result;
+		}
+		result=computeC4(n)-3*Math.sqrt(1-Math.pow(computeC4(n), 2));
+		
+		return result;
+	}
+	/**
+	 * 输入样本数，获取控制线系数B6
+	 * @param n
+	 * @return b6
+	 */
+	public static double computeB6(int n){
+		
+		double result=0.0;
 
+		result=computeC4(n)+3*Math.sqrt(1-Math.pow(computeC4(n), 2));
+
+		return result;
+	}
+	
 }
