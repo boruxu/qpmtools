@@ -1,11 +1,6 @@
 package cn.edu.buaa.g305.qpm.spc.server.imp;
 
-import org.springframework.web.servlet.resource.GzipResourceResolver;
-
-import cn.edu.buaa.g305.qpm.spc.domain.SPCXRIn;
-import cn.edu.buaa.g305.qpm.spc.domain.SPCXROut;
-import cn.edu.buaa.g305.qpm.spc.domain.SPCXSIn;
-import cn.edu.buaa.g305.qpm.spc.domain.SPCXSOut;
+import cn.edu.buaa.g305.qpm.spc.domain.*;
 import cn.edu.buaa.g305.qpm.spc.server.SPC;
 import static cn.edu.buaa.g305.qpm.spc.system.VariableControlChartsFactor.*;
 import static cn.edu.buaa.g305.qpm.system.DoublePrecision.*;
@@ -110,13 +105,13 @@ public class SPCImp implements SPC {
 		//计算X总平均值
 		xSumAverage=xSumAverage/n;
 	    //计算各个s
-		for (int m=0;i<n;i++)
+		for (int m=0;m<n;m++)
 		{
 			for(int k=0;k<group_n;k++)
 			{
-				s[m]+=Math.pow(xAverage[k]-xSumAverage,2);
+				s[m]+=Math.pow(spcxsIn.getX()[m][k]-xAverage[m],2);
 			}
-			s[m]=s[m]/(group_n-1);
+			s[m]=Math.sqrt(s[m]/(group_n-1));
 			sAverage+=s[m];
 		}
 		//计算s的平均值
@@ -163,6 +158,77 @@ public class SPCImp implements SPC {
 			
 			spcxsOut.setTime(spcxsIn.getTime());
 			return spcxsOut;
+			
+		}
+		
+		
+	}
+	public SPCXMROut computeXMR(SPCXMRIn spcxmrIn) {
+		SPCXMROut spcxmrOut=new SPCXMROut();
+		
+		double[] x= spcxmrIn.getX();
+		//样本数
+		int n=spcxmrIn.getX().length;
+		//样本X平均值
+		double xAverage=0;
+		//移动极差
+		double[] mR=new double[n-1];
+		//移动极差均值
+		double mRAverage=0;
+	
+		//计算X平均值,移动极差,移动极差平均值
+		for (int i=0;i<n;i++) {
+			if(i<n-1)
+			{
+				mR[i]=Math.abs(x[i+1]-x[i]);
+				mRAverage+=mR[i];
+			}			
+			xAverage+=x[i];
+		}
+		xAverage=xAverage/n;
+		mRAverage=mRAverage/(n-1);
+
+		for (double xv : x) {
+			
+			xv=precision(xv, 4);
+			
+		}
+		for (double mrv : mR) {
+				
+				mrv=precision(mrv, 4);
+				
+	    }
+		if(spcxmrIn.getSigma()<0)
+		{
+			spcxmrOut.setX(x);
+			spcxmrOut.setxCL(precision(xAverage, 4));
+			spcxmrOut.setxUCL(precision(xAverage+2.66*mRAverage,4));
+			spcxmrOut.setxLCL(precision(xAverage-2.66*mRAverage,4));
+			//计算MR图的UCL，设置S图输出
+	      
+			spcxmrOut.setMr(mR);
+			spcxmrOut.setMrCL(precision(mRAverage, 4));
+			spcxmrOut.setMrUCL(precision(mRAverage*computeD4(2), 4));
+			
+			
+			spcxmrOut.setTime(spcxmrIn.getTime());
+			return spcxmrOut;
+		}
+		else
+		{
+			spcxmrOut.setX(x);
+			spcxmrOut.setxCL(precision(xAverage, 4));
+			spcxmrOut.setxUCL(precision(xAverage+3*spcxmrIn.getSigma(),4));
+			spcxmrOut.setxLCL(precision(xAverage-3*spcxmrIn.getSigma(),4));
+			//计算MR图的UCL，设置S图输出
+	      
+			spcxmrOut.setMr(mR);
+			spcxmrOut.setMrCL(precision(1.13*spcxmrIn.getSigma(), 4));
+			spcxmrOut.setMrUCL(precision(3.69*spcxmrIn.getSigma(), 4));
+			
+			
+			spcxmrOut.setTime(spcxmrIn.getTime());
+			return spcxmrOut;
 			
 		}
 		
