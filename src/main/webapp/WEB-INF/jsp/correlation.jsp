@@ -705,7 +705,7 @@ function clearData(){
 //提交计算结果
 function compute()
 {
-	var dataArraysUpload={correlationIn:dataXYArray};
+	var dataArraysUpload={project:{name:"QPMToolTest"},correlationIn:dataXYArray};
 	clearData();
 	setTimeout(function(){correlationAjax(dataArraysUpload);},1000);
 

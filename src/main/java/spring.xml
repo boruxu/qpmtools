@@ -37,5 +37,8 @@
          <constructor-arg ref="mongoDbFactory"/>
          <property name="writeConcern" value="SAFE"/>
     </bean>
+    <!-- 获取领域类对象，并却在应用上下文启动的时候构建持久化元数据 -->
+    <mongo:mapping-converter id="mongoConverter" base-package="cn.edu.buaa.g305.qpm"/>
+    <mongo:repositories base-package="cn.edu.buaa.g305.qpm"/>
    
 </beans>   

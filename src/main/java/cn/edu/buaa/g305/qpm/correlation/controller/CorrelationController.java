@@ -12,6 +12,7 @@ import cn.edu.buaa.g305.qpm.correlation.domain.CorrelationIn;
 import cn.edu.buaa.g305.qpm.correlation.domain.CorrelationInXYArray;
 import cn.edu.buaa.g305.qpm.correlation.domain.CorrelationOut;
 import cn.edu.buaa.g305.qpm.correlation.server.CorrelationServer;
+import cn.edu.buaa.g305.qpm.correlation.server.imp.CorrelationServerImp;
 
 @Controller
 @RequestMapping("/correlation")
@@ -53,7 +54,7 @@ public class CorrelationController {
 			System.out.println("]");
 	
 		}
-		
+		correlationServer.saveCorrelationI(correlationIn);
 		 /*CorrelationOut[] rAndPs=new  CorrelationOut[3];
 		 CorrelationImp correlationImp=new CorrelationImp();
 		 double[] xArray=new double[]{45,59,33,81,77,26,19,55,50,34,99,61,38,72,59,25};
