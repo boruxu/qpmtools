@@ -7,5 +7,7 @@ import cn.edu.buaa.g305.qpm.correlation.domain.CorrelationIn;
 
 public interface CorrelationInRepository extends CrudRepository<CorrelationIn
 , Long> {
+	
+	CorrelationIn findByName(String name);
 
 }

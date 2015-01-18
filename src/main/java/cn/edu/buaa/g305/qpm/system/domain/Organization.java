@@ -4,20 +4,10 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class Project extends AbstractDocument{
+public class Organization extends AbstractDocument{
 	
 	@Indexed(unique=true)
 	private String name;
-
-	private String organization;
-	
-	public String getOrganization() {
-		return organization;
-	}
-
-	public void setOrganization(String organization) {
-		this.organization = organization;
-	}
 
 	public String getName() {
 		return name;
@@ -27,5 +17,4 @@ public class Project extends AbstractDocument{
 		this.name = name;
 	}
 	
-
 }

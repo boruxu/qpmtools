@@ -1,8 +1,5 @@
 package cn.edu.buaa.g305.qpm.correlation.server.imp;
 
-
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -12,8 +9,7 @@ import cn.edu.buaa.g305.qpm.correlation.domain.CorrelationInXYArray;
 import cn.edu.buaa.g305.qpm.correlation.domain.CorrelationOut;
 import cn.edu.buaa.g305.qpm.correlation.server.Correlation;
 import cn.edu.buaa.g305.qpm.correlation.server.CorrelationServer;
-import cn.edu.buaa.g305.qpm.system.dao.ProjectRepository;
-import cn.edu.buaa.g305.qpm.system.domain.Project;
+import cn.edu.buaa.g305.qpm.system.server.SystemFind;
 
 @Component
 public class CorrelationServerImp implements CorrelationServer{
@@ -23,7 +19,8 @@ public class CorrelationServerImp implements CorrelationServer{
 	@Autowired
 	private CorrelationInRepository correlationInRepository;
 	@Autowired
-	private ProjectRepository projectRepository;
+	private SystemFind systemFind;
+	
 
 	public CorrelationOut[] computeRAndP(CorrelationIn correlationIn) {
 		CorrelationOut[] correlationOuts=new CorrelationOut[correlationIn.getCorrelationIn().length];
@@ -38,17 +35,20 @@ public class CorrelationServerImp implements CorrelationServer{
 		return correlationOuts;
 	}
 
-	public void saveCorrelationI(CorrelationIn correlationIn) {
-	    correlationIn.setProject(findProject(correlationIn));
-		correlationInRepository.save(correlationIn);
-		
+	public void saveCorrelationIn(CorrelationIn correlationIn) {
+	   
+		correlationIn.setProject(
+				systemFind.findProductAffiliation(correlationIn.getProject()));
+		if(correlationInRepository.findByName(correlationIn.getName())==null)
+		{
+			correlationInRepository.save(correlationIn);
+		}
+		else
+		{
+			System.out.println("重复键！");
+		}
+		    	
 	}
-
-	public Project findProject(CorrelationIn correlationIn) {
-		
-		String name=correlationIn.getProject().getName();
-		List<Project> projects=projectRepository.findByName(name);
-		return projects.get(0);
-	}
+	
 
 }
