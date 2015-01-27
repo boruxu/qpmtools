@@ -1,5 +1,8 @@
 package cn.edu.buaa.g305.qpm.correlation.domain;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -19,7 +22,16 @@ public class CorrelationIn extends AbstractDocument {
 	private CorrelationInXYArray[] correlationIn;
 	
 
-	
+	@Override
+	public String toString()
+	{
+		String correlationInString="";
+		correlationInString="{"+"_id:"+id+","+
+		                        "project:"+project+","+
+				                "name:"+name+","+
+		                        "correlationIn:"+Arrays.toString(correlationIn)+"}";
+		return correlationInString;
+	}
 	public String getProject() {
 		return project;
 	}

@@ -49,6 +49,19 @@ public class CorrelationServerImp implements CorrelationServer{
 		}
 		    	
 	}
+
+	public CorrelationIn getCorrelationInByName(String name) {
+		
+		if(correlationInRepository.findByName(name)==null)
+		{
+			System.out.println("为空");
+			return null;
+		}
+		else {
+			System.out.print(correlationInRepository.findByName(name));
+			return correlationInRepository.findByName(name);
+		}	
+	}
 	
 
 }

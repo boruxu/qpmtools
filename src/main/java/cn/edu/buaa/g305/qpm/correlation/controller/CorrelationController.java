@@ -1,12 +1,18 @@
 package cn.edu.buaa.g305.qpm.correlation.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.fasterxml.jackson.core.sym.Name;
 
 import cn.edu.buaa.g305.qpm.correlation.domain.CorrelationIn;
 import cn.edu.buaa.g305.qpm.correlation.domain.CorrelationInXYArray;
@@ -66,6 +72,14 @@ public class CorrelationController {
     		 rAndPs[i].setR(i);
     	 }*/
          return correlationServer.computeRAndP(correlationIn);
+	}
+	@RequestMapping(value="/{name}",method=RequestMethod.GET)
+	@ResponseBody
+	public  CorrelationIn getInputProduct(@PathVariable String name)
+	{
+	
+		return correlationServer.getCorrelationInByName(name);
+		
 	}
 
 	

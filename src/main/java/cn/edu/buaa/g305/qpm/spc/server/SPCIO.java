@@ -6,6 +6,6 @@ import cn.edu.buaa.g305.qpm.spc.domain.SPCXROut;
 
 public interface SPCIO {
 	
-	SPCXROut computeXR(SPCXRIn spcxrIn);
+	SPCXRIn getSpcxrInByName(String name);
 
 }
