@@ -1,11 +1,11 @@
 package cn.edu.buaa.g305.qpm.spc.server.imp;
 
 import cn.edu.buaa.g305.qpm.spc.domain.*;
-import cn.edu.buaa.g305.qpm.spc.server.SPC;
+import cn.edu.buaa.g305.qpm.spc.server.SPCCompute;
 import static cn.edu.buaa.g305.qpm.spc.system.VariableControlChartsFactor.*;
 import static cn.edu.buaa.g305.qpm.system.DoublePrecision.*;
 
-public class SPCImp implements SPC {
+public class SPCImp implements SPCCompute {
 
 	public SPCXROut computeXR(SPCXRIn spcxrIn) {
 		
