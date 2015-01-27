@@ -6,5 +6,7 @@ public interface SPC {
 	
 	SPCXROut computeXR(SPCXRIn spcxrIn);
 	SPCXSOut computeXS(SPCXSIn spcxsIn);
+	SPCXMROut computeXMR(SPCXMRIn spcxmrIn);
+	SPCCOut computeC(SPCCIn spccIn);
 
 }

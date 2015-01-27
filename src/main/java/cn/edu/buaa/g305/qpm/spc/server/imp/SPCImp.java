@@ -234,7 +234,30 @@ public class SPCImp implements SPC {
 		
 		
 	}
-	
+
+	public SPCCOut computeC(SPCCIn spccIn) {
+		double xAverage=0;
+		SPCCOut spccOut=new SPCCOut();
+		for (double x : spccIn.getX()) {
+			xAverage+=x;
+		}
+		xAverage=xAverage/spccIn.getX().length;
+		double sigma3=3*Math.sqrt(xAverage);
+		spccOut.setC(xAverage);
+		spccOut.setcUCL(xAverage+sigma3);
+		if((xAverage-sigma3)<0)
+		{
+			spccOut.setcLCL(0);
+		}
+		else {
+			spccOut.setcLCL(xAverage-sigma3);
+		}
+		spccOut.setX(spccIn.getX());
+		spccOut.setTime(spccIn.getTime());
+		
+		return spccOut;
+		
+	}
 	
 
 }

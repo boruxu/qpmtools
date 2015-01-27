@@ -105,5 +105,28 @@ public class SPCTest {
 	    assertArrayEquals(expecteds, actuals, 0.01);
 	   
 	}
+	@Test
+	public void testC() {
+		SPCImp spc=new SPCImp();
+		SPCCIn spccIn=new SPCCIn();
+		String[] time=new String[21];
+		for (int i = 0; i < time.length; i++) {
+			time[i]=i+1+"";
+		}
+		spccIn.setTime(time);
+		double[] x=new double[]{0,0,0,4,0,
+				                0,0,1,0,0,
+				                0,0,3,1,1,
+				                0,2,0,1,0,
+				                0
+				                };
+	    spccIn.setX(x);
+	    SPCCOut spccOut=spc.computeC(spccIn);
+	    double[] expecteds=new double[]{0.62,2.98,0};
+	    double[] actuals=new double[]{spccOut.getC(),spccOut.getcUCL(),spccOut.getcLCL()};
+	    
+	    assertArrayEquals(expecteds, actuals, 0.01);
+	   
+	}
 
 }
