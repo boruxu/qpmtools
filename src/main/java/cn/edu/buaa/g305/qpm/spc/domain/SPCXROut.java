@@ -1,5 +1,7 @@
 package cn.edu.buaa.g305.qpm.spc.domain;
 
+import java.util.Arrays;
+
 public class SPCXROut {
 	
 	private double[] x;
@@ -68,6 +70,22 @@ public class SPCXROut {
 	}
 	public void setrLCL(double rLCL) {
 		this.rLCL = rLCL;
+	}
+	
+	@Override
+	
+	public String toString()
+	{
+		String spcxrString="{"+"x:"+Arrays.toString(x)+","+
+	                           "time:"+Arrays.toString(time)+","+
+				               "r:"+Arrays.toString(r)+","+
+	                           "xUCL:"+xUCL+","+
+	                           "xCL:"+xCL+","+
+	                           "xLCL:"+xLCL+","+
+	                           "rUCL:"+rUCL+","+
+	                           "rCL:"+rCL+","+
+	                           "rLCL:"+rLCL+"}";
+		return spcxrString;
 	}
 	
 	

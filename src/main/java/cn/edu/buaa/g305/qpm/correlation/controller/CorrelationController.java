@@ -77,7 +77,6 @@ public class CorrelationController {
 	@ResponseBody
 	public  CorrelationIn getInputProduct(@PathVariable String name)
 	{
-	
 		return correlationServer.getCorrelationInByName(name);
 		
 	}

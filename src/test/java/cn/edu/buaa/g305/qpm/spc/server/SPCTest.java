@@ -46,6 +46,7 @@ public class SPCTest {
 				                    };
 	    spcxrIn.setX(x);
 	    SPCXROut spcxrOut=spc.computeXR(spcxrIn);
+	    System.out.println(spcxrOut);
 	    double[] expecteds=new double[]{10.9837,10.9502,10.9168,0.1226,0.058,0.0};
 	    double[] actuals=new double[]{spcxrOut.getxUCL(),spcxrOut.getxCL(),spcxrOut.getxLCL(),
 	    		                      spcxrOut.getrUCL(),spcxrOut.getrCL(),spcxrOut.getrLCL()};

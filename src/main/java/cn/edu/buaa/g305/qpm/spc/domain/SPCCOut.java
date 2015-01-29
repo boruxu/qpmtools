@@ -1,6 +1,5 @@
 package cn.edu.buaa.g305.qpm.spc.domain;
 
-import java.sql.Time;
 
 public class SPCCOut {
 	

@@ -17,5 +17,11 @@ public class HomeController {
 	{
 		return "home.jsp";
 	}
+	
+	@RequestMapping("/spc")
+	public String spcHome()
+	{
+		return "spc.jsp";
+	}
 
 }
