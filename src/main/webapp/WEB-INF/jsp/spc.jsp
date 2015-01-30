@@ -350,7 +350,32 @@
 
 
 <script type="text/javascript" src="js/spcD3.js"></script>
-
+<style>
+.dot {
+  fill: #fff;
+  stroke: steelblue;
+}
+path.line {
+fill: none;
+stroke: steelblue;
+stroke-width: 3;
+}
+line._0 {
+fill: none;
+stroke: orangered ;
+stroke-width: 3;
+}
+line._1 {
+fill: none;
+stroke: yellowgreen;
+stroke-width: 3;
+}
+line._2 {
+fill: none;
+stroke: orangered ;
+stroke-width: 3;
+}
+</style>
 <script type="text/javascript">
 
  var svgX="#svg_1";

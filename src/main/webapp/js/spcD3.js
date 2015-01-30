@@ -115,13 +115,13 @@
 		renderXGridlines(yAxisLength);
 
 		renderYGridlines(xAxisLength);
-		renderXRXYPoint(spcOutData,svg_1,svg_2,xAxisLength,yAxisLength,margin);
+		renderXRXYLines(spcOutData,svg_1,svg_2,xAxisLength,yAxisLength,margin);
 		  
 			  
 		}; 
 		
 		      
-<!--建立X灰色坐标轴-->
+//建立X灰色坐标轴
 function renderXGridlines(yAxisLength){
     var lines = d3.selectAll("g.x-axis g.tick")
             .select("line.grid-line")
@@ -136,7 +136,7 @@ function renderXGridlines(yAxisLength){
             .attr("x2", 0)
             .attr("y2", - yAxisLength); 
 }
-<!--建立灰色Y坐标轴-->
+//建立灰色Y坐标轴
 function renderYGridlines(xAxisLength){
 
     var lines = d3.selectAll("g.y-axis g.tick")
@@ -151,8 +151,8 @@ function renderYGridlines(xAxisLength){
         .attr("x2", xAxisLength)
         .attr("y2", 0);
 }
-<!--画出XY的点函数-->
-function renderXRXYPoint(spcOutData,svg_1,svg_2,xAxisLength,yAxisLength,margin){
+//画出XY的点函数
+function renderXRXYLines(spcOutData,svg_1,svg_2,xAxisLength,yAxisLength,margin){
 
 var scalex= d3.scale.linear()
                     .domain([timemin, timemax])
@@ -168,15 +168,81 @@ var scaley_2= d3.scale.linear()
 var dataset_1=dataToPointArray(spcOutData.time,spcOutData.x);
 var dataset_2=dataToPointArray(spcOutData.time,spcOutData.r);
 
+//画连接线
+		var lines_1= d3.svg.line() 
+                        .x(function (d) { return scalex(d[0]); })
+                        .y(function (d) { return scaley_1(d[1]); });
+        var lines_2= d3.svg.line() 
+                        .x(function (d) { return scalex(d[0]); })
+                        .y(function (d) { return scaley_2(d[1]); });
+						
+		var lineDataset_1=new Array;
+		lineDataset_1.push(dataset_1);
+		var lineDataset_2=new Array;
+		lineDataset_2.push(dataset_2);
+						
+		svg_1.selectAll("path.line")
+                    .data(lineDataset_1)
+                .enter() 
+                .append("path")                
+                .attr("class", "line")
+				.attr("transform", function(){
+            return "translate(" + margin + "," + margin + ")";
+        });
+				
+	    svg_2.selectAll("path.line")
+                    .data(lineDataset_2)
+                .enter() 
+                .append("path")                
+                .attr("class", "line")
+			    .attr("transform", function(){
+            return "translate(" + margin + "," + margin + ")";
+        }).style("stroke", "rgb(255, 127, 14)");
+
+
+        svg_1.selectAll("path.line")
+                .data(lineDataset_1)
+                .transition() 
+                .attr("d", function (d) {  return lines_1(d); });
+				
+        svg_2.selectAll("path.line")
+                .data(lineDataset_2)
+                .transition() 
+                .attr("d", function (d) { return lines_2(d); });
+		var c_lineDataset=[10.970,10.950,10.935];
+		var styleColor=["orangered","yellowgreen","orangered"];
+	   //画控制限
+		svg_1.selectAll("line.control_line")
+		     .data(c_lineDataset)
+             .enter() 
+             .append("line")                
+             .attr("class", "control_line")
+			 .attr("class",function(d,i){ return "control_line "+"_"+i;})
+			 .attr("transform", function(){return "translate(" + margin + "," + margin + ")";});
+			 
+	    svg_1.selectAll("line.control_line")
+                .data(c_lineDataset)
+                .transition() 
+			 .attr("x1",0)
+			 .attr("y1",function(d){  return scaley_1(d);})
+			 .attr("x2",xAxisLength)
+			 .attr("y2",function(d){return scaley_1(d);});
+		
+	    
+   
+				
+		//画点
+
 svg_1.selectAll("circle")
 	   .data(dataset_1)
 	   .enter()
-	   .append("circle");
+	   .append("circle")
+	   .attr("class", "dot");;
 	   
 svg_1.selectAll("circle")
 	   .data(dataset_1)
        .transition()
-	   .attr("cx", function(d) {
+	   .attr("cx", function(d) { 
 		   return scalex(d[0]);})
 	   .attr("cy", function(d) {
 			   return scaley_1(d[1]);
@@ -190,7 +256,8 @@ svg_1.selectAll("circle")
 svg_2.selectAll("circle")
 	   .data(dataset_2)
 	   .enter()
-	   .append("circle");
+	   .append("circle")
+	   .attr("class", "dot");;
 	   
 svg_2.selectAll("circle")
 	   .data(dataset_2)
@@ -204,10 +271,29 @@ svg_2.selectAll("circle")
 	   .attr("transform", function(){
             return "translate(" + margin + "," + margin + ")";
         });	
-
 		
+	
 }
-<!--数据转换函数-->	
+    function renderLines() {
+       var  line = d3.svg.line() //<-4A
+                        .x(function (d) { return _x(d.x); })
+                        .y(function (d) { return _y(d.y); });
+                        
+        _bodyG.selectAll("path.line")
+                    .data(_data)
+                .enter() //<-4B
+                .append("path")                
+                .style("stroke", function (d, i) { 
+                    return _colors(i); //<-4C
+                })
+                .attr("class", "line");
+
+        _bodyG.selectAll("path.line")
+                .data(_data)
+                .transition() //<-4D
+                .attr("d", function (d) { return _line(d); });
+    }
+    //数据转换函数
 function dataToPointArray(data_x,data_y){
 //输入数据为dataXY格式
     var dataset=new Array();
