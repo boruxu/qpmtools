@@ -1,35 +1,31 @@
 package cn.edu.buaa.g305.qpm.correlation.domain;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
-
 import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
-
 import cn.edu.buaa.g305.qpm.system.domain.AbstractDocument;
-import cn.edu.buaa.g305.qpm.system.domain.Project;
+
 
 @Document
 public class CorrelationIn extends AbstractDocument {
 	
 	//所属项目的名字，存储时检查表中项目名，若无赋值为“无归属项目”
-	private String project;
+	protected String project;
 	//名唯一
 	@Indexed(unique=true)
-	private String name;
+	protected String name;
 	
-	private CorrelationInXYArray[] correlationIn;
+	protected CorrelationInXYArray[] correlationIn;
 	
 
 	@Override
 	public String toString()
 	{
 		String correlationInString="";
-		correlationInString="{"+"_id:"+id+","+
-		                        "project:"+project+","+
-				                "name:"+name+","+
-		                        "correlationIn:"+Arrays.toString(correlationIn)+"}";
+		correlationInString="{"+"\"_id:\""+id+","+
+		                        "\"project:\""+project+","+
+				                "\"name\":"+name+","+
+		                        "\"correlationIn\":"+Arrays.toString(correlationIn)+"}";
 		return correlationInString;
 	}
 	public String getProject() {

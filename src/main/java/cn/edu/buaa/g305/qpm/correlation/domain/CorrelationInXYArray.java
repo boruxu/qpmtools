@@ -11,8 +11,8 @@ public class CorrelationInXYArray {
 	public String toString()
 	{
 		String correlationInXYArrayString="";
-		correlationInXYArrayString="{"+"x:"+Arrays.toString(x)+","+
-				                       "y:"+Arrays.toString(y)+"}";
+		correlationInXYArrayString="{"+"\"x\":"+Arrays.toString(x)+","+
+				                       "\"y\":"+Arrays.toString(y)+"}";
 		return correlationInXYArrayString;
 	}
 	public double[] getX() {

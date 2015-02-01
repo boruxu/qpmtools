@@ -5,10 +5,12 @@ import org.springframework.stereotype.Component;
 
 import cn.edu.buaa.g305.qpm.correlation.dao.CorrelationInRepository;
 import cn.edu.buaa.g305.qpm.correlation.domain.CorrelationIn;
+import cn.edu.buaa.g305.qpm.correlation.domain.CorrelationInLinks;
 import cn.edu.buaa.g305.qpm.correlation.domain.CorrelationInXYArray;
 import cn.edu.buaa.g305.qpm.correlation.domain.CorrelationOut;
 import cn.edu.buaa.g305.qpm.correlation.server.Correlation;
 import cn.edu.buaa.g305.qpm.correlation.server.CorrelationServer;
+import cn.edu.buaa.g305.qpm.system.domain.Link;
 import cn.edu.buaa.g305.qpm.system.server.SystemFind;
 
 @Component
@@ -50,16 +52,21 @@ public class CorrelationServerImp implements CorrelationServer{
 		    	
 	}
 
-	public CorrelationIn getCorrelationInByName(String name) {
+	public CorrelationInLinks getCorrelationInByName(String name) {
 		
-		if(correlationInRepository.findByName(name)==null)
+	    CorrelationIn correlationIn=correlationInRepository.findByName(name);
+		if(correlationIn==null)
 		{
 			System.out.println("为空");
 			return null;
 		}
 		else {
 			System.out.print(correlationInRepository.findByName(name));
-			return correlationInRepository.findByName(name);
+			CorrelationInLinks correlationInLinks=new CorrelationInLinks(correlationIn);
+			Link link=new Link("self","/correlation/"+name);
+			Link[] links=new Link[]{link};
+			correlationInLinks.setLinks(links);
+			return correlationInLinks;
 		}	
 	}
 	

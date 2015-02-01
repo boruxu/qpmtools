@@ -16,7 +16,5 @@ public class AbstractDocument {
 	public void setId(BigInteger id) {
 		this.id = id;
 	}
-	
-	
-	
+
 }

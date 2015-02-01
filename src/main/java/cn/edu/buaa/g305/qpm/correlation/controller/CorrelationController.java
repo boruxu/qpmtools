@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.fasterxml.jackson.core.sym.Name;
 
 import cn.edu.buaa.g305.qpm.correlation.domain.CorrelationIn;
+import cn.edu.buaa.g305.qpm.correlation.domain.CorrelationInLinks;
 import cn.edu.buaa.g305.qpm.correlation.domain.CorrelationInXYArray;
 import cn.edu.buaa.g305.qpm.correlation.domain.CorrelationOut;
 import cn.edu.buaa.g305.qpm.correlation.server.CorrelationServer;
@@ -75,7 +76,7 @@ public class CorrelationController {
 	}
 	@RequestMapping(value="/{name}",method=RequestMethod.GET)
 	@ResponseBody
-	public  CorrelationIn getInputProduct(@PathVariable String name)
+	public  CorrelationInLinks getInputProduct(@PathVariable String name)
 	{
 		return correlationServer.getCorrelationInByName(name);
 		
