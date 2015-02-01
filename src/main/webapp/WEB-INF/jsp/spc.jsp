@@ -3,7 +3,6 @@
 <%  String path = request.getContextPath();  
     String basePath = request.getScheme()+"://"+request.getServerName()
     		+":"+request.getServerPort()+path+"/";%>      
-     
 
 
 <!DOCTYPE html>
@@ -192,7 +191,7 @@
                 <div class="col-lg-12 col-md-12 ">
                         
                         <p class="center-block download-buttons" id="plot-button" >
-                        <a  class="btn btn-primary btn-lg"  onClick="compute()"><i
+                        <a  class="btn btn-primary btn-lg"  onClick=""><i
                                 class="glyphicon glyphicon-globe glyphicon-white"></i>提交计算</a>
                         </p>
                        
@@ -249,14 +248,14 @@
             
                  <div class="col-lg-12 col-md-12 "  style=" text-align:left">样本均值</div>
 
-                 <div class="col-lg-12 col-md-12 " id="spcSvg" style=" height:300px">
+                 <div class="col-lg-12 col-md-12 " id="spcSvg" >
                       
                       <svg id="svg_1">
                       </svg>
                 </div>
                 <div class="col-lg-12 col-md-12 "  style=" text-align:center">样本</div>
                 <div class="col-lg-12 col-md-12 "  style=" text-align:left">样本均值</div>
-                <div class="col-lg-12 col-md-12 "  style=" height:300px">
+                <div class="col-lg-12 col-md-12 "  >
                       
                       <svg id="svg_2">
                       </svg>
@@ -349,7 +348,7 @@
 <script type="text/javascript" src="js/d3.js"></script>
 
 
-<script type="text/javascript" src="js/spcD3.js"></script>
+<script type="text/javascript" src="spcD3.js"></script>
 <style>
 .dot {
   fill: #fff;
@@ -358,6 +357,11 @@
 path.line {
 fill: none;
 stroke: steelblue;
+stroke-width: 3;
+} 
+path.line_2 {
+fill: none;
+stroke: darkcyan;
 stroke-width: 3;
 }
 line._0 {
@@ -390,8 +394,11 @@ stroke-width: 3;
  rCL:0.058,
  rLCL:0.0};
  var width=$("#spcplot").width();
- spcD3.size(width,300,50).XR(spcOutData,svgX,svgR);
-
+ spcD3.size(width,400,50).XR(spcOutData,svgX,svgR);
+  
+ function empty(){
+	 spcD3.empty(svgX,svgR);
+	 }
 
 
 </script>
@@ -399,5 +406,4 @@ stroke-width: 3;
 
 </body>
 </html>
-
 

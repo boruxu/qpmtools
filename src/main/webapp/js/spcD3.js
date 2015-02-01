@@ -17,7 +17,8 @@
 		spcD3.margin=margin;
 		return spcD3;
 		}
-		
+	var svg_1;
+	var svg_2;	
 	var timemin=0;
 	var timemax=100;
 	var svg_1_xmin=0;
@@ -29,21 +30,52 @@
 	function computeXRMaxMin(spcOutData){
 		timemin=d3.min(spcOutData.time)-1;
 		timemax=d3.max(spcOutData.time)+1;
-		svg_1_xmin=d3.min(spcOutData.x);
-		svg_1_xmax=d3.max(spcOutData.x);
-	    svg_2_xmin=d3.min(spcOutData.r);
-		svg_2_xmax=d3.max(spcOutData.r);
+
+        var range=(d3.max(spcOutData.x)-d3.min(spcOutData.x))*0.2;
+		var temp=d3.min(spcOutData.x);				
+		if(spcOutData.xLCL<temp){
+			svg_1_xmin=spcOutData.xLCL-range;
+			}
+		else{
+			svg_1_xmin=temp-range;
+			}
+
+		var temp=d3.max(spcOutData.x);				
+		if(spcOutData.xUCL>temp){
+			svg_1_xmax=spcOutData.xUCL+range;
+			}
+		else{
+			svg_1_xmax=temp+range;
+			}
+		
+		var range=(d3.max(spcOutData.r)-d3.min(spcOutData.r))*0.2;	
+		var temp=d3.min(spcOutData.r);				
+		if(spcOutData.rLCL<temp){
+			svg_2_xmin=spcOutData.rLCL-range;
+			}
+		else{
+			svg_2_xmin=temp-range;
+			}
+			
+		var temp=d3.max(spcOutData.r);				
+		if(spcOutData.rUCL>temp){
+			svg_2_xmax=spcOutData.rUCL+range;
+			}
+		else{
+			svg_2_xmax=temp+range;
+			}
+
 		};
 	//画出spc中X-R图，输入x参数为X-R图数据，svg的JQuery选择器字符串，如"#svg1"
     spcD3.XR=function(spcOutData,svgX,svgR){
 		
-		var svg_1 = d3.select(svgX)     
+		 svg_1 = d3.select(svgX)     
         .attr("class", "axis")  
         .attr("width", spcD3.width)
         .attr("height", spcD3.height)
 		.attr("style","margin:0px 0px 0px 50px");
 		
-        var svg_2 = d3.select(svgR)     
+        svg_2 = d3.select(svgR)     
         .attr("class", "axis")  
         .attr("width", spcD3.width)
         .attr("height", spcD3.height)
@@ -190,14 +222,14 @@ var dataset_2=dataToPointArray(spcOutData.time,spcOutData.r);
             return "translate(" + margin + "," + margin + ")";
         });
 				
-	    svg_2.selectAll("path.line")
+	    svg_2.selectAll("path.line_2")
                     .data(lineDataset_2)
                 .enter() 
                 .append("path")                
-                .attr("class", "line")
+                .attr("class", "line_2")
 			    .attr("transform", function(){
             return "translate(" + margin + "," + margin + ")";
-        }).style("stroke", "rgb(255, 127, 14)");
+        });
 
 
         svg_1.selectAll("path.line")
@@ -205,15 +237,17 @@ var dataset_2=dataToPointArray(spcOutData.time,spcOutData.r);
                 .transition() 
                 .attr("d", function (d) {  return lines_1(d); });
 				
-        svg_2.selectAll("path.line")
+        svg_2.selectAll("path.line_2")
                 .data(lineDataset_2)
                 .transition() 
                 .attr("d", function (d) { return lines_2(d); });
-		var c_lineDataset=[10.970,10.950,10.935];
-		var styleColor=["orangered","yellowgreen","orangered"];
+				
+		var c_lineDataset_1=[spcOutData.xUCL,spcOutData.xCL,spcOutData.xLCL];
+		var c_lineDataset_2=[spcOutData.rUCL,spcOutData.rCL,spcOutData.rLCL];
+
 	   //画控制限
 		svg_1.selectAll("line.control_line")
-		     .data(c_lineDataset)
+		     .data(c_lineDataset_1)
              .enter() 
              .append("line")                
              .attr("class", "control_line")
@@ -221,12 +255,28 @@ var dataset_2=dataToPointArray(spcOutData.time,spcOutData.r);
 			 .attr("transform", function(){return "translate(" + margin + "," + margin + ")";});
 			 
 	    svg_1.selectAll("line.control_line")
-                .data(c_lineDataset)
+                .data(c_lineDataset_1)
                 .transition() 
 			 .attr("x1",0)
 			 .attr("y1",function(d){  return scaley_1(d);})
 			 .attr("x2",xAxisLength)
 			 .attr("y2",function(d){return scaley_1(d);});
+			 
+		svg_2.selectAll("line.control_line")
+		     .data(c_lineDataset_2)
+             .enter() 
+             .append("line")                
+             .attr("class", "control_line")
+			 .attr("class",function(d,i){ return "control_line "+"_"+i;})
+			 .attr("transform", function(){return "translate(" + margin + "," + margin + ")";});
+			 
+	    svg_2.selectAll("line.control_line")
+                .data(c_lineDataset_2)
+                .transition() 
+			 .attr("x1",0)
+			 .attr("y1",function(d){  return scaley_2(d);})
+			 .attr("x2",xAxisLength)
+			 .attr("y2",function(d){return scaley_2(d);});
 		
 	    
    
@@ -272,27 +322,18 @@ svg_2.selectAll("circle")
             return "translate(" + margin + "," + margin + ")";
         });	
 		
+		return spcD3;
+		
 	
 }
-    function renderLines() {
-       var  line = d3.svg.line() //<-4A
-                        .x(function (d) { return _x(d.x); })
-                        .y(function (d) { return _y(d.y); });
-                        
-        _bodyG.selectAll("path.line")
-                    .data(_data)
-                .enter() //<-4B
-                .append("path")                
-                .style("stroke", function (d, i) { 
-                    return _colors(i); //<-4C
-                })
-                .attr("class", "line");
+     spcD3.empty=function(svgX,svgR){
+		 $(svgX).empty();
+		 $(svgX).height(0);
+		 $(svgR).empty();
+		 $(svgR).height(0);
+		 return spcD3;
+		 }
 
-        _bodyG.selectAll("path.line")
-                .data(_data)
-                .transition() //<-4D
-                .attr("d", function (d) { return _line(d); });
-    }
     //数据转换函数
 function dataToPointArray(data_x,data_y){
 //输入数据为dataXY格式

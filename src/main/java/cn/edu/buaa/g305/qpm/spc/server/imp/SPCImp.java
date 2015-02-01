@@ -64,7 +64,7 @@ public class SPCImp implements SPCCompute {
 		
 		//计算R图的UCL和LCL，设置R图输出
         for (double rv : r) {
-			
+        	
 			rv=precision(rv, 4);
 			
 		}

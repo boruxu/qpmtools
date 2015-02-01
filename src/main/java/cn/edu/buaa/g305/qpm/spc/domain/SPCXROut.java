@@ -1,6 +1,7 @@
 package cn.edu.buaa.g305.qpm.spc.domain;
 
 import java.util.Arrays;
+import static cn.edu.buaa.g305.qpm.system.DoublePrecision.*;
 
 public class SPCXROut {
 	
@@ -76,6 +77,7 @@ public class SPCXROut {
 	
 	public String toString()
 	{
+		
 		String spcxrString="{"+"x:"+Arrays.toString(x)+","+
 	                           "time:"+Arrays.toString(time)+","+
 				               "r:"+Arrays.toString(r)+","+
