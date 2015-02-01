@@ -348,11 +348,21 @@
 <script type="text/javascript" src="js/d3.js"></script>
 
 
-<script type="text/javascript" src="spcD3.js"></script>
+<script type="text/javascript" src="js/spcD3.js"></script>
 <style>
 .dot {
   fill: #fff;
   stroke: steelblue;
+}
+text.dot {
+  fill: #fff;
+  stroke: black;
+  opacity:0;
+}
+g.dot:hover text.dot{
+  fill: #fff;
+  stroke: black;
+  opacity:1;
 }
 path.line {
 fill: none;

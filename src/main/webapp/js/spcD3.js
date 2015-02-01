@@ -242,54 +242,92 @@ var dataset_2=dataToPointArray(spcOutData.time,spcOutData.r);
                 .transition() 
                 .attr("d", function (d) { return lines_2(d); });
 				
-		var c_lineDataset_1=[spcOutData.xUCL,spcOutData.xCL,spcOutData.xLCL];
-		var c_lineDataset_2=[spcOutData.rUCL,spcOutData.rCL,spcOutData.rLCL];
+		var c_lineDataset_1=[["UCL",spcOutData.xUCL],["CL",spcOutData.xCL],["LCL",spcOutData.xLCL]];
+		var c_lineDataset_2=[["UCL",spcOutData.rUCL],["CL",spcOutData.rCL],["LCL",spcOutData.rLCL]];
 
 	   //画控制限
-		svg_1.selectAll("line.control_line")
+		var lineEnter_1=svg_1.selectAll("g.control")
 		     .data(c_lineDataset_1)
-             .enter() 
-             .append("line")                
-             .attr("class", "control_line")
-			 .attr("class",function(d,i){ return "control_line "+"_"+i;})
+             .enter()
+			 .append("g")
+			 .attr("class","control")
 			 .attr("transform", function(){return "translate(" + margin + "," + margin + ")";});
+			 
+			 lineEnter_1 .append("line")                
+             .attr("class", "control_line")
+			 .attr("class",function(d,i){ return "control_line "+"_"+i;});
+			 
+			 lineEnter_1 .append("text")                
+             .attr("class", "control_line")
+			 .attr("class",function(d,i){ return "control_line "+"_"+i;});
+			 
 			 
 	    svg_1.selectAll("line.control_line")
                 .data(c_lineDataset_1)
                 .transition() 
 			 .attr("x1",0)
-			 .attr("y1",function(d){  return scaley_1(d);})
+			 .attr("y1",function(d){  return scaley_1(d[1]);})
 			 .attr("x2",xAxisLength)
-			 .attr("y2",function(d){return scaley_1(d);});
+			 .attr("y2",function(d){return scaley_1(d[1]);});
 			 
-		svg_2.selectAll("line.control_line")
-		     .data(c_lineDataset_2)
-             .enter() 
-             .append("line")                
-             .attr("class", "control_line")
-			 .attr("class",function(d,i){ return "control_line "+"_"+i;})
+		  svg_1.selectAll("text.control_line")
+                .data(c_lineDataset_1)
+                .transition() 
+			 .attr("x",xAxisLength-margin)
+			 .attr("y",function(d){  return scaley_1(d[1])-2;})
+			 .text(function(d){  return d[0]+":"+d[1];});
+			 
+	    	var lineEnter_2=svg_2.selectAll("g.control")
+		     .data(c_lineDataset_1)
+             .enter()
+			 .append("g")
+			 .attr("class","control")
 			 .attr("transform", function(){return "translate(" + margin + "," + margin + ")";});
+			 
+			 lineEnter_2 .append("line")                
+             .attr("class", "control_line")
+			 .attr("class",function(d,i){ return "control_line "+"_"+i;});
+			 
+			 lineEnter_2 .append("text")                
+             .attr("class", "control_line")
+			 .attr("class",function(d,i){ return "control_line "+"_"+i;});
+			 
 			 
 	    svg_2.selectAll("line.control_line")
                 .data(c_lineDataset_2)
                 .transition() 
 			 .attr("x1",0)
-			 .attr("y1",function(d){  return scaley_2(d);})
+			 .attr("y1",function(d){  return scaley_2(d[1]);})
 			 .attr("x2",xAxisLength)
-			 .attr("y2",function(d){return scaley_2(d);});
+			 .attr("y2",function(d){return scaley_2(d[1]);});
+			 
+       svg_2.selectAll("text.control_line")
+                .data(c_lineDataset_2)
+                .transition() 
+			 .attr("x",xAxisLength-margin)
+			 .attr("y",function(d){  return scaley_2(d[1])-2;})
+			 .text(function(d){  return d[0]+":"+d[1];});
 		
 	    
    
 				
 		//画点
 
-svg_1.selectAll("circle")
+var dotEnter_1=svg_1.selectAll("g.dot")
 	   .data(dataset_1)
 	   .enter()
-	   .append("circle")
-	   .attr("class", "dot");;
+	   .append("g")
+	   .attr("class", "dot")
+	   .attr("transform", function(){
+            return "translate(" + margin + "," + margin + ")";
+        });
+		
+	   dotEnter_1.append("circle")
+	            .attr("class", "dot");	    
+	   dotEnter_1.append("text")
+	           .attr("class", "dot");
 	   
-svg_1.selectAll("circle")
+svg_1.selectAll("circle.dot")
 	   .data(dataset_1)
        .transition()
 	   .attr("cx", function(d) { 
@@ -297,19 +335,45 @@ svg_1.selectAll("circle")
 	   .attr("cy", function(d) {
 			   return scaley_1(d[1]);
 			   })
-	   .attr("r", 4)
-	   .attr("transform", function(){
-            return "translate(" + margin + "," + margin + ")";
-        });	
+	   .attr("r", 4);	
+//点上的数字		
+svg_1.selectAll("text.dot")
+	   .data(dataset_1)
+	   .enter()
+	   .append("text")
+	   .attr("class", "dot");
+	   
+svg_1.selectAll("text.dot")
+	   .data(dataset_1)
+       .transition()
+	   .attr("x", function(d) { 
+		   return scalex(d[0]);})
+	   .attr("y", function(d) {
+			   return scaley_1(d[1]);
+			   })
+	   .attr("dx",4)
+	   .attr("dy",-4)
+	   .text(function (d) {
+                    return d[1];
+                });	
 		
 
-svg_2.selectAll("circle")
+		
+var dotEnter_2=svg_2.selectAll("g.dot")
 	   .data(dataset_2)
 	   .enter()
-	   .append("circle")
-	   .attr("class", "dot");;
+	   .append("g")
+	   .attr("class", "dot")
+	   .attr("transform", function(){
+            return "translate(" + margin + "," + margin + ")";
+        });
+		
+	   dotEnter_2.append("circle")
+	            .attr("class", "dot");	    
+	   dotEnter_2.append("text")
+	           .attr("class", "dot");
 	   
-svg_2.selectAll("circle")
+svg_2.selectAll("circle.dot")
 	   .data(dataset_2)
        .transition()
 	   .attr("cx", function(d) {
@@ -317,10 +381,27 @@ svg_2.selectAll("circle")
 	   .attr("cy", function(d) {
 			   return scaley_2(d[1]);
 			   })
-	   .attr("r", 4)
-	   .attr("transform", function(){
-            return "translate(" + margin + "," + margin + ")";
-        });	
+	   .attr("r", 4);
+		
+	svg_2.selectAll("text.dot")
+	   .data(dataset_2)
+	   .enter()
+	   .append("text")
+	   .attr("class", "dot");
+	   
+    svg_2.selectAll("text.dot")
+	   .data(dataset_2)
+       .transition()
+	   .attr("x", function(d) { 
+		   return scalex(d[0]);})
+	   .attr("y", function(d) {
+			   return scaley_2(d[1]);
+			   })
+	   .attr("dx",4)
+	   .attr("dy",-4)
+	   .text(function (d) {
+                    return d[1];
+                });		
 		
 		return spcD3;
 		
