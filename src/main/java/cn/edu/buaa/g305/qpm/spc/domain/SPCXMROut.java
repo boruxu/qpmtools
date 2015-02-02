@@ -1,5 +1,7 @@
 package cn.edu.buaa.g305.qpm.spc.domain;
 
+import java.util.Arrays;
+
 public class SPCXMROut {
 	
 	private double[] x;
@@ -62,6 +64,23 @@ public class SPCXMROut {
 	}
 	public double getMrLCL() {
 		return mrLCL;
+	}
+	
+	@Override
+	
+	public String toString()
+	{
+		
+		String spcxrString="{"+"x:"+Arrays.toString(x)+","+
+	                           "time:"+Arrays.toString(time)+","+
+				               "mr:"+Arrays.toString(mr)+","+
+	                           "xUCL:"+xUCL+","+
+	                           "xCL:"+xCL+","+
+	                           "xLCL:"+xLCL+","+
+	                           "mrUCL:"+mrUCL+","+
+	                           "mrCL:"+mrCL+","+
+	                           "mrLCL:"+mrLCL+"}";
+		return spcxrString;
 	}
 
 

@@ -6,6 +6,8 @@
         dependency:"JQuery.js,D3.js",
 		size:"设置svg图大小函数",
         XR:"X-R图生成函数",
+        XS:"X-S图生成函数",
+		XMR:"XMR图生成函数",
 		width:600,
 		height:250,
 		margin:50
@@ -197,53 +199,10 @@ var scaley_2= d3.scale.linear()
                     .range([0, yAxisLength]);
 			
 			
-var dataset_1=dataToPointArray(spcOutData.time,spcOutData.x);
-var dataset_2=dataToPointArray(spcOutData.time,spcOutData.r);
-
-//画连接线
-		var lines_1= d3.svg.line() 
-                        .x(function (d) { return scalex(d[0]); })
-                        .y(function (d) { return scaley_1(d[1]); });
-        var lines_2= d3.svg.line() 
-                        .x(function (d) { return scalex(d[0]); })
-                        .y(function (d) { return scaley_2(d[1]); });
-						
-		var lineDataset_1=new Array;
-		lineDataset_1.push(dataset_1);
-		var lineDataset_2=new Array;
-		lineDataset_2.push(dataset_2);
-						
-		svg_1.selectAll("path.line")
-                    .data(lineDataset_1)
-                .enter() 
-                .append("path")                
-                .attr("class", "line")
-				.attr("transform", function(){
-            return "translate(" + margin + "," + margin + ")";
-        });
-				
-	    svg_2.selectAll("path.line_2")
-                    .data(lineDataset_2)
-                .enter() 
-                .append("path")                
-                .attr("class", "line_2")
-			    .attr("transform", function(){
-            return "translate(" + margin + "," + margin + ")";
-        });
-
-
-        svg_1.selectAll("path.line")
-                .data(lineDataset_1)
-                .transition() 
-                .attr("d", function (d) {  return lines_1(d); });
-				
-        svg_2.selectAll("path.line_2")
-                .data(lineDataset_2)
-                .transition() 
-                .attr("d", function (d) { return lines_2(d); });
 				
 		var c_lineDataset_1=[["UCL",spcOutData.xUCL],["CL",spcOutData.xCL],["LCL",spcOutData.xLCL]];
 		var c_lineDataset_2=[["UCL",spcOutData.rUCL],["CL",spcOutData.rCL],["LCL",spcOutData.rLCL]];
+	
 
 	   //画控制限
 		var lineEnter_1=svg_1.selectAll("g.control")
@@ -307,6 +266,52 @@ var dataset_2=dataToPointArray(spcOutData.time,spcOutData.r);
 			 .attr("x",xAxisLength-margin)
 			 .attr("y",function(d){  return scaley_2(d[1])-2;})
 			 .text(function(d){  return d[0]+":"+d[1];});
+			 
+			 
+var dataset_1=dataToPointArray(spcOutData.time,spcOutData.x);
+var dataset_2=dataToPointArray(spcOutData.time,spcOutData.r);
+
+//画连接线
+		var lines_1= d3.svg.line() 
+                        .x(function (d) { return scalex(d[0]); })
+                        .y(function (d) { return scaley_1(d[1]); });
+        var lines_2= d3.svg.line() 
+                        .x(function (d) { return scalex(d[0]); })
+                        .y(function (d) { return scaley_2(d[1]); });
+						
+		var lineDataset_1=new Array;
+		lineDataset_1.push(dataset_1);
+		var lineDataset_2=new Array;
+		lineDataset_2.push(dataset_2);
+						
+		svg_1.selectAll("path.line")
+                    .data(lineDataset_1)
+                .enter() 
+                .append("path")                
+                .attr("class", "line")
+				.attr("transform", function(){
+            return "translate(" + margin + "," + margin + ")";
+        });
+				
+	    svg_2.selectAll("path.line_2")
+                    .data(lineDataset_2)
+                .enter() 
+                .append("path")                
+                .attr("class", "line_2")
+			    .attr("transform", function(){
+            return "translate(" + margin + "," + margin + ")";
+        });
+
+
+        svg_1.selectAll("path.line")
+                .data(lineDataset_1)
+                .transition() 
+                .attr("d", function (d) {  return lines_1(d); });
+				
+        svg_2.selectAll("path.line_2")
+                .data(lineDataset_2)
+                .transition() 
+                .attr("d", function (d) { return lines_2(d); });
 		
 	    
    
@@ -407,6 +412,41 @@ svg_2.selectAll("circle.dot")
 		
 	
 }
+     spcD3.XS=function(spcOutData,svgX,svgR){
+		 
+		 //转换数据格式以复用XR
+		 var spcOutDataXR={};
+		 spcOutDataXR.x=spcOutData.x;
+		 spcOutDataXR.time=spcOutData.time;
+		 spcOutDataXR.r=spcOutData.s;
+		 spcOutDataXR.xUCL=spcOutData.xUCL;
+		 spcOutDataXR.xCL=spcOutData.xCL;
+		 spcOutDataXR.xLCL=spcOutData.xLCL;
+		 spcOutDataXR.rUCL=spcOutData.sUCL;
+		 spcOutDataXR.rCL=spcOutData.sCL;
+		 spcOutDataXR.rLCL=spcOutData.sLCL;
+
+		 spcD3.XR(spcOutDataXR,svgX,svgR);
+		 
+		 }
+		 
+		 spcD3.XMR=function(spcOutData,svgX,svgR){
+		 
+		 //转换数据格式以复用XR
+		 var spcOutDataXR={};
+		 spcOutDataXR.x=spcOutData.x;
+		 spcOutDataXR.time=spcOutData.time;
+		 spcOutDataXR.r=spcOutData.mr;
+		 spcOutDataXR.xUCL=spcOutData.xUCL;
+		 spcOutDataXR.xCL=spcOutData.xCL;
+		 spcOutDataXR.xLCL=spcOutData.xLCL;
+		 spcOutDataXR.rUCL=spcOutData.mrUCL;
+		 spcOutDataXR.rCL=spcOutData.mrCL;
+		 spcOutDataXR.rLCL=spcOutData.mrLCL;
+
+		 spcD3.XR(spcOutDataXR,svgX,svgR);
+		 
+		 }
      spcD3.empty=function(svgX,svgR){
 		 $(svgX).empty();
 		 $(svgX).height(0);

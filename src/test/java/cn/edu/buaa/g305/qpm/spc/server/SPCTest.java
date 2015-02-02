@@ -73,6 +73,7 @@ public class SPCTest {
 				                    };
 	    spcxsIn.setX(x);
 	    SPCXSOut spcxsOut=spc.computeXS(spcxsIn);
+	    System.out.println(spcxsOut);
 	    double[] expecteds=new double[]{72.94,50.29,27.65,45.15,28.72,12.29};
 	    double[] actuals=new double[]{spcxsOut.getxUCL(),spcxsOut.getxCL(),spcxsOut.getxLCL(),
 	    		                      spcxsOut.getsUCL(),spcxsOut.getsCL(),spcxsOut.getsLCL()};
@@ -99,6 +100,7 @@ public class SPCTest {
 				                };
 	    spcxmrIn.setX(x);
 	    SPCXMROut spcxmrOut=spc.computeXMR(spcxmrIn);
+	    System.out.println(spcxmrOut);
 	    double[] expecteds=new double[]{54.07,45.05,36.03,11.08,3.39,0};
 	    double[] actuals=new double[]{spcxmrOut.getxUCL(),spcxmrOut.getxCL(),spcxmrOut.getxLCL(),
 	    		                      spcxmrOut.getMrUCL(),spcxmrOut.getMrCL(),spcxmrOut.getMrLCL()};
