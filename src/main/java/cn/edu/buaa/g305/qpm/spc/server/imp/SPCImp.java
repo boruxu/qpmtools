@@ -3,13 +3,15 @@ package cn.edu.buaa.g305.qpm.spc.server.imp;
 import cn.edu.buaa.g305.qpm.spc.domain.*;
 import cn.edu.buaa.g305.qpm.spc.server.SPCCompute;
 import static cn.edu.buaa.g305.qpm.spc.system.VariableControlChartsFactor.*;
-import static cn.edu.buaa.g305.qpm.system.DoublePrecision.*;
+import static cn.edu.buaa.g305.qpm.system.StringArrayToDoubleArray.*;
+import static cn.edu.buaa.g305.qpm.system.DoublePrecisonArrayToStringArray.*;
 
 public class SPCImp implements SPCCompute {
 
 	public SPCXROut computeXR(SPCXRIn spcxrIn) {
 		
 		SPCXROut spcxrOut=new SPCXROut();
+		int precision=4;
 		//样本数
 		int n=spcxrIn.getX().length;
 		//样本内样品数
@@ -24,8 +26,8 @@ public class SPCImp implements SPCCompute {
 		double rAverage=0;
 		int i=0;
 		//计算X总平均值和R的平均值
-		for (double[] xSum : spcxrIn.getX()) {
-			
+		for (double[] xSum :toDouble(spcxrIn.getX())) {
+
 			double min=xSum[0];
 			double max=xSum[0];
 			
@@ -52,31 +54,23 @@ public class SPCImp implements SPCCompute {
 		xSumAverage=xSumAverage/n;
 		rAverage=rAverage/n;
 		//计算X图的UCL和LCL，设置X图输出
-		for (double x : xAverage) {
-			
-			x=precision(x, 4);
-			
-		}
-		spcxrOut.setX(xAverage);
-		spcxrOut.setxCL(precision(xSumAverage, 4));
-		spcxrOut.setxUCL(precision(xSumAverage+computeA2(group_n)*rAverage, 4));
-		spcxrOut.setxLCL(precision(xSumAverage-computeA2(group_n)*rAverage, 4));
+
+		spcxrOut.setX(toStringPrecision(xAverage, precision));
+		spcxrOut.setxCL(toStringPrecision(xSumAverage, precision));
+		spcxrOut.setxUCL(toStringPrecision(xSumAverage+computeA2(group_n)*rAverage,  precision));
+		spcxrOut.setxLCL(toStringPrecision(xSumAverage-computeA2(group_n)*rAverage,  precision));
 		
 		//计算R图的UCL和LCL，设置R图输出
-        for (double rv : r) {
-        	
-			rv=precision(rv, 4);
-			
-		}
-		spcxrOut.setR(r);
-		spcxrOut.setrCL(precision(rAverage, 4));
-		spcxrOut.setrUCL(precision(rAverage*computeD4(group_n), 4));
-		spcxrOut.setrLCL(precision(rAverage*computeD3(group_n), 4));
+
+		spcxrOut.setR(toStringPrecision(r,precision));
+		spcxrOut.setrCL(toStringPrecision(rAverage, 4));
+		spcxrOut.setrUCL(toStringPrecision(rAverage*computeD4(group_n), 4));
+		spcxrOut.setrLCL(toStringPrecision(rAverage*computeD3(group_n), 4));
 		
 		spcxrOut.setTime(spcxrIn.getTime());
 		return spcxrOut;
 	}
-
+/*
 	public SPCXSOut computeXS(SPCXSIn spcxsIn) {
 		SPCXSOut spcxsOut=new SPCXSOut();
 		//样本数
@@ -233,7 +227,7 @@ public class SPCImp implements SPCCompute {
 		}
 		
 		
-	}
+	}*/
 
 	public SPCCOut computeC(SPCCIn spccIn) {
 		double xAverage=0;
@@ -257,6 +251,16 @@ public class SPCImp implements SPCCompute {
 		
 		return spccOut;
 		
+	}
+
+	public SPCXSOut computeXS(SPCXSIn spcxsIn) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public SPCXMROut computeXMR(SPCXMRIn spcxmrIn) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 

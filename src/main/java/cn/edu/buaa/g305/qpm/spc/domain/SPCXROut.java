@@ -1,78 +1,129 @@
 package cn.edu.buaa.g305.qpm.spc.domain;
 
 import java.util.Arrays;
-import static cn.edu.buaa.g305.qpm.system.DoublePrecision.*;
 
 public class SPCXROut {
 	
-	private double[] x;
-	private double[] r;
+	private String[] x;
+	private String[] r;
 	private String[] time;
-	private double xUCL;
-	private double xCL;
-	private double xLCL;
-	private double rUCL;
-	private double rCL;
-	private double rLCL;
+	private String xUCL;
+	private String xCL;
+	private String xLCL;
+	private String rUCL;
+	private String rCL;
+	private String rLCL;
 	
-	public String[] getTime() {
-		return time;
-	}
-	public void setTime(String[] time) {
-		this.time = time;
-	}
-	public double getxCL() {
-		return xCL;
-	}
-	public void setxCL(double xCL) {
-		this.xCL = xCL;
-	}
-	public double getrCL() {
-		return rCL;
-	}
-	public void setrCL(double rCL) {
-		this.rCL = rCL;
-	}
-	public double[] getX() {
+	
+	
+	public String[] getX() {
 		return x;
 	}
-	public void setX(double[] x) {
+
+
+
+	public void setX(String[] x) {
 		this.x = x;
 	}
 
-	public double[] getR() {
+
+
+	public String[] getR() {
 		return r;
 	}
-	public void setR(double[] r) {
+
+
+
+	public void setR(String[] r) {
 		this.r = r;
 	}
-	public double getxUCL() {
+
+
+
+	public String[] getTime() {
+		return time;
+	}
+
+
+
+	public void setTime(String[] time) {
+		this.time = time;
+	}
+
+
+
+	public String getxUCL() {
 		return xUCL;
 	}
-	public void setxUCL(double xUCL) {
+
+
+
+	public void setxUCL(String xUCL) {
 		this.xUCL = xUCL;
 	}
 
-	public double getxLCL() {
+
+
+	public String getxCL() {
+		return xCL;
+	}
+
+
+
+	public void setxCL(String xCL) {
+		this.xCL = xCL;
+	}
+
+
+
+	public String getxLCL() {
 		return xLCL;
 	}
-	public void setxLCL(double xLCL) {
+
+
+
+	public void setxLCL(String xLCL) {
 		this.xLCL = xLCL;
 	}
-	public double getrUCL() {
+
+
+
+	public String getrUCL() {
 		return rUCL;
 	}
-	public void setrUCL(double rUCL) {
+
+
+
+	public void setrUCL(String rUCL) {
 		this.rUCL = rUCL;
 	}
 
-	public double getrLCL() {
+
+
+	public String getrCL() {
+		return rCL;
+	}
+
+
+
+	public void setrCL(String rCL) {
+		this.rCL = rCL;
+	}
+
+
+
+	public String getrLCL() {
 		return rLCL;
 	}
-	public void setrLCL(double rLCL) {
+
+
+
+	public void setrLCL(String rLCL) {
 		this.rLCL = rLCL;
 	}
-	
+
+
+
 	@Override
 	
 	public String toString()

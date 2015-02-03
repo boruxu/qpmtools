@@ -1,13 +1,16 @@
 package cn.edu.buaa.g305.qpm.spc.domain;
 
+import java.util.Arrays;
+
 public class SPCXRIn {
 	
-	private double[][] x;
+	private String[][] x;
 	private String[] time;
-	public double[][] getX() {
+	
+	public String[][] getX() {
 		return x;
 	}
-	public void setX(double[][] x) {
+	public void setX(String[][] x) {
 		this.x = x;
 	}
 	public String[] getTime() {
@@ -16,5 +19,22 @@ public class SPCXRIn {
 	public void setTime(String[] time) {
 		this.time = time;
 	}
+	
+	@Override
+	
+	public String toString()
+	{
+		String xString="[";
+		for (int i=0;i<x.length-1;i++) {
+			xString+=Arrays.toString(x[i])+",";
+		}
+		xString+=Arrays.toString(x[x.length-1])+"]";
+		String spcxrString="{"+"x:"+xString+","+
+	                           "time:"+Arrays.toString(time)+"}";
+		return spcxrString;
+	}
+	
+	
+	
 	
 }

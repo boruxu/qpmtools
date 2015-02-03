@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import cn.edu.buaa.g305.qpm.correlation.domain.CorrelationOut;
 import cn.edu.buaa.g305.qpm.correlation.server.Correlation;
-import cn.edu.buaa.g305.qpm.system.DoublePrecision;
+import static cn.edu.buaa.g305.qpm.system.DoublePrecisonArrayToStringArray.*;
 
 @Component
 public class CorrelationImp implements Correlation{
@@ -30,8 +30,8 @@ public class CorrelationImp implements Correlation{
 		correlationOut=new CorrelationOut();
 		double r=pearsonsCorrelation.correlation(xArray, yArray);
 		double p=rToTDistribution(r, xArray.length);
-		correlationOut.setR(DoublePrecision.precision(r, 4));
-		correlationOut.setP(DoublePrecision.precision(p, 4));
+		correlationOut.setR(Double.parseDouble(toStringPrecision(r, 4)));
+		correlationOut.setP(Double.parseDouble(toStringPrecision(p, 4)));
 		return correlationOut;
 	}
 	

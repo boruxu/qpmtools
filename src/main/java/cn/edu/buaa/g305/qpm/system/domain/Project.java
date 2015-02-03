@@ -11,6 +11,16 @@ public class Project extends AbstractDocument{
 
 	private String organization;
 	
+	private String descriptionString;
+	
+	public String getDescriptionString() {
+		return descriptionString;
+	}
+
+	public void setDescriptionString(String descriptionString) {
+		this.descriptionString = descriptionString;
+	}
+
 	public String getOrganization() {
 		return organization;
 	}
