@@ -1,11 +1,19 @@
 package cn.edu.buaa.g305.qpm.spc.server;
 
-import cn.edu.buaa.g305.qpm.spc.domain.SPCXRIn;
-import cn.edu.buaa.g305.qpm.spc.domain.SPCXROut;
+import java.math.BigInteger;
+import cn.edu.buaa.g305.qpm.spc.domain.SpcXR;
 
 
 public interface SPCIO {
 	
-	SPCXRIn getSpcxrInByName(String name);
+	SpcXR getSpcxrByName(String name);
+	
+	BigInteger save(SpcXR spcXR);
+	
+	void delete(BigInteger id);
+	
+	SpcXR getById(BigInteger id);
+	
+	
 
 }

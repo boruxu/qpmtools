@@ -1,12 +1,21 @@
 package cn.edu.buaa.g305.qpm.spc.server.imp;
 
+import java.math.BigInteger;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import cn.edu.buaa.g305.qpm.spc.dao.SPCXRRepository;
 import cn.edu.buaa.g305.qpm.spc.domain.*;
 import cn.edu.buaa.g305.qpm.spc.server.SPCCompute;
+import cn.edu.buaa.g305.qpm.spc.server.SPCIO;
 import static cn.edu.buaa.g305.qpm.spc.system.VariableControlChartsFactor.*;
 import static cn.edu.buaa.g305.qpm.system.StringArrayToDoubleArray.*;
 import static cn.edu.buaa.g305.qpm.system.DoublePrecisonArrayToStringArray.*;
 
-public class SPCImp implements SPCCompute {
+public class SPCImp implements SPCCompute ,SPCIO{
+	
+	@Autowired
+	private SPCXRRepository spcxrRepository;
 
 	public SPCXROut computeXR(SPCXRIn spcxrIn) {
 		
@@ -262,6 +271,30 @@ public class SPCImp implements SPCCompute {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	
+	public SpcXR getSpcxrByName(String name) {
+		
+		return spcxrRepository.findByName(name);
+	}
+
+	public SpcXR getById(BigInteger id) {
+		
+		return spcxrRepository.findOne(id);
+		
+	}
+	public BigInteger save(SpcXR spcXR) {
+
+	    return spcxrRepository.save(spcXR).getId();
+	    
+	}
+	public void delete(BigInteger id) {
+		
+		spcxrRepository.delete(id);
+		
+	}
+
+
 	
 
 }

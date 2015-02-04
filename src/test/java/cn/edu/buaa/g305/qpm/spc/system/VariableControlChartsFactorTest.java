@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import cn.edu.buaa.g305.qpm.system.DoublePrecision;
+import cn.edu.buaa.g305.qpm.system.ValuePrecision;
 
 public class VariableControlChartsFactorTest  {
 
@@ -16,7 +16,7 @@ public class VariableControlChartsFactorTest  {
 		double[] actuals=new double[expecteds.length];
 		for(int i=0;i<expecteds.length;i++)
 		{
-            actuals[i]=DoublePrecision.precision(VariableControlChartsFactor.computeA(i+2), 3);			
+            actuals[i]=ValuePrecision.precision(VariableControlChartsFactor.computeA(i+2), 3);			
 		}
 	    assertArrayEquals(expecteds, actuals, 0);
 	}
@@ -26,7 +26,7 @@ public class VariableControlChartsFactorTest  {
 		double[] actuals=new double[expecteds.length];
 		for(int i=0;i<expecteds.length;i++)
 		{
-            actuals[i]=DoublePrecision.precision(VariableControlChartsFactor.computeA2(i+1), 3);			
+            actuals[i]=ValuePrecision.precision(VariableControlChartsFactor.computeA2(i+1), 3);			
 		}
 	    assertArrayEquals(expecteds, actuals, 0);
 	}
@@ -36,7 +36,7 @@ public class VariableControlChartsFactorTest  {
 		double[] actuals=new double[expecteds.length];
 		for(int i=0;i<expecteds.length;i++)
 		{
-            actuals[i]=DoublePrecision.precision(VariableControlChartsFactor.computeD3(i+1), 3);			
+            actuals[i]=ValuePrecision.precision(VariableControlChartsFactor.computeD3(i+1), 3);			
 		}
 	    assertArrayEquals(expecteds, actuals, 0);
 	}
@@ -46,7 +46,7 @@ public class VariableControlChartsFactorTest  {
 		double[] actuals=new double[expecteds.length];
 		for(int i=0;i<expecteds.length;i++)
 		{
-            actuals[i]=DoublePrecision.precision(VariableControlChartsFactor.computeD4(i+1), 3);			
+            actuals[i]=ValuePrecision.precision(VariableControlChartsFactor.computeD4(i+1), 3);			
 		}
 	    assertArrayEquals(expecteds, actuals, 0);
 	}
@@ -73,7 +73,7 @@ public class VariableControlChartsFactorTest  {
 	
 		for(int i=0;i<expecteds.length;i++)
 		{
-            actuals[i]=DoublePrecision.precision(VariableControlChartsFactor.computeC4(i+2), 4);			
+            actuals[i]=ValuePrecision.precision(VariableControlChartsFactor.computeC4(i+2), 4);			
 		}
 	    assertArrayEquals(expecteds, actuals, 0);
 	}
@@ -86,7 +86,7 @@ public class VariableControlChartsFactorTest  {
 		double[] actuals=new double[expecteds.length];
 		for(int i=0;i<expecteds.length;i++)
 		{
-            actuals[i]=DoublePrecision.precision(VariableControlChartsFactor.computeA3(i+2), 3);			
+            actuals[i]=ValuePrecision.precision(VariableControlChartsFactor.computeA3(i+2), 3);			
 		}
 	    assertArrayEquals(expecteds, actuals, 0);
 	}
@@ -99,7 +99,7 @@ public class VariableControlChartsFactorTest  {
 		double[] actuals=new double[expecteds.length];
 		for(int i=0;i<expecteds.length;i++)
 		{
-            actuals[i]=DoublePrecision.precision(VariableControlChartsFactor.computeB3(i+2), 3);
+            actuals[i]=ValuePrecision.precision(VariableControlChartsFactor.computeB3(i+2), 3);
 		}
 		assertArrayEquals(expecteds, actuals,0);
 		
@@ -113,7 +113,7 @@ public class VariableControlChartsFactorTest  {
 		double[] actuals=new double[expecteds.length];
 		for(int i=0;i<expecteds.length;i++)
 		{
-            actuals[i]=DoublePrecision.precision(
+            actuals[i]=ValuePrecision.precision(
             		VariableControlChartsFactor.computeB3(i+6)+
             		VariableControlChartsFactor.computeB4(i+6), 3);
 		}
@@ -122,7 +122,7 @@ public class VariableControlChartsFactorTest  {
 		double[] actualsOther=new double[expectedsOther.length];
 		for(int i=0;i<expectedsOther.length;i++)
 		{
-            actualsOther[i]=DoublePrecision.precision(
+            actualsOther[i]=ValuePrecision.precision(
             		VariableControlChartsFactor.computeB4(i+2), 3);
 		}
 		assertArrayEquals(expectedsOther, actualsOther, 0);
@@ -136,7 +136,7 @@ public class VariableControlChartsFactorTest  {
 		double[] actuals=new double[expecteds.length];
 		for(int i=0;i<expecteds.length;i++)
 		{
-            actuals[i]=DoublePrecision.precision(VariableControlChartsFactor.computeB5(i+2), 3);
+            actuals[i]=ValuePrecision.precision(VariableControlChartsFactor.computeB5(i+2), 3);
 		}
 	
 		assertArrayEquals(expecteds, actuals, 0);
@@ -149,7 +149,7 @@ public class VariableControlChartsFactorTest  {
 		double[] actuals=new double[expecteds.length];
 		for(int i=0;i<expecteds.length;i++)
 		{
-            actuals[i]=DoublePrecision.precision(VariableControlChartsFactor.computeB6(i+2), 3);
+            actuals[i]=ValuePrecision.precision(VariableControlChartsFactor.computeB6(i+2), 3);
 		}
 	
 		assertArrayEquals(expecteds, actuals, 0);

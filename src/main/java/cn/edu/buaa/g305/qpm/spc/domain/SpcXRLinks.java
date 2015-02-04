@@ -14,7 +14,7 @@ public class SpcXRLinks extends AbstractDocument{
 	protected String stauts="computeFinished";
 	protected SPCXRIn in;
 	protected SPCXROut out;
-	
+	//存储的实体类不继承此field
 	private Link[] links;
 
 	public String getOrganization() {
