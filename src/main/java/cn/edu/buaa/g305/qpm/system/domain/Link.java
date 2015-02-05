@@ -30,6 +30,14 @@ public class Link {
 		this.href = href;
 	}
 	
+	@Override
+	public String toString(){
+		
+		String string="{rel:"+rel+","+
+						"href:"+href+"}";
+		return string;
+	}
+	
 	
 
 }

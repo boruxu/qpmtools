@@ -3,6 +3,8 @@ package cn.edu.buaa.g305.qpm.spc.server.imp;
 import static cn.edu.buaa.g305.qpm.system.DoublePrecisonArrayToStringArray.toStringPrecision;
 import static org.junit.Assert.*;
 
+import java.math.BigInteger;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import cn.edu.buaa.g305.qpm.spc.dao.SPCXRRepository;
 import cn.edu.buaa.g305.qpm.spc.domain.SPCXRIn;
 import cn.edu.buaa.g305.qpm.spc.domain.SpcXR;
+import cn.edu.buaa.g305.qpm.system.server.SystemFind;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("classpath:spring.xml")
@@ -20,7 +23,9 @@ import cn.edu.buaa.g305.qpm.spc.domain.SpcXR;
 public class SPCImpTest {
 
 	@Autowired
-	private SPCXRRepository spcxrr;
+	private SPCXRRepository spcxrRepository;
+	@Autowired
+	private SystemFind systemFind;
 	@Test
 	public void testDBCreate() {
 		
@@ -71,7 +76,15 @@ public class SPCImpTest {
 		
 		System.out.println(spcXR);
 		
-		System.out.println(spcxrr.save(spcXR));
+		spcXR.setOrganization(systemFind.findProductAffiliation(spcXR.getOrganization()));
+		spcXR.setProject(systemFind.findProductAffiliation(spcXR.getProject()));
+		spcXR.setError(null);
+		spcXR.setLinks(null);
+	    spcxrRepository.save(spcXR);
+		
+		SpcXR spcXR2=spcxrRepository.save(spcXR);
+		System.out.println(spcXR2.getId());
+	
 	}
 
 }

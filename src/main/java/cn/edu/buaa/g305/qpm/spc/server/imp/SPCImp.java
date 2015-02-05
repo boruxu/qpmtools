@@ -1,21 +1,22 @@
 package cn.edu.buaa.g305.qpm.spc.server.imp;
 
-import java.math.BigInteger;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import cn.edu.buaa.g305.qpm.spc.dao.SPCXRRepository;
 import cn.edu.buaa.g305.qpm.spc.domain.*;
-import cn.edu.buaa.g305.qpm.spc.server.SPCCompute;
-import cn.edu.buaa.g305.qpm.spc.server.SPCIO;
+import cn.edu.buaa.g305.qpm.spc.server.SPCService;
+import cn.edu.buaa.g305.qpm.system.server.SystemFind;
 import static cn.edu.buaa.g305.qpm.spc.system.VariableControlChartsFactor.*;
 import static cn.edu.buaa.g305.qpm.system.StringArrayToDoubleArray.*;
 import static cn.edu.buaa.g305.qpm.system.DoublePrecisonArrayToStringArray.*;
-
-public class SPCImp implements SPCCompute ,SPCIO{
+@Component
+public class SPCImp implements SPCService{
 	
 	@Autowired
 	private SPCXRRepository spcxrRepository;
+	@Autowired
+	private SystemFind systemFind;
 
 	public SPCXROut computeXR(SPCXRIn spcxrIn) {
 		
@@ -77,6 +78,8 @@ public class SPCImp implements SPCCompute ,SPCIO{
 		spcxrOut.setrLCL(toStringPrecision(rAverage*computeD3(group_n), 4));
 		
 		spcxrOut.setTime(spcxrIn.getTime());
+		
+	
 		return spcxrOut;
 	}
 /*
@@ -278,17 +281,22 @@ public class SPCImp implements SPCCompute ,SPCIO{
 		return spcxrRepository.findByName(name);
 	}
 
-	public SpcXR getById(BigInteger id) {
+	public SpcXR getById(String id) {
 		
 		return spcxrRepository.findOne(id);
 		
 	}
-	public BigInteger save(SpcXR spcXR) {
-
-	    return spcxrRepository.save(spcXR).getId();
+	public SpcXR save(SpcXR spcXR) {
+		
+		spcXR.setOut(computeXR(spcXR.getIn()));
+		spcXR.setOrganization(systemFind.findProductAffiliation(spcXR.getOrganization()));
+		spcXR.setProject(systemFind.findProductAffiliation(spcXR.getProject()));
+		spcXR.setError(null);
+		spcXR.setLinks(null);
+	    return spcxrRepository.save(spcXR);
 	    
 	}
-	public void delete(BigInteger id) {
+	public void delete(String id) {
 		
 		spcxrRepository.delete(id);
 		

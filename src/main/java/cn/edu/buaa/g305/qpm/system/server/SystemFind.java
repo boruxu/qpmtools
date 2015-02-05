@@ -6,5 +6,10 @@ public interface SystemFind {
 	String findProductAffiliation(String name);
 	//确定项目所属的组织，有返回原名称(原名不为空)，数据库无此组织(或原名为空)，则返回默认名“无归属组织”
 	String findProjectAffiliation(String name);
+	public boolean exsitOrganization(String organization,String error);
 
+	public boolean exsitProject(String project,String error);
+	
+
+	
 }

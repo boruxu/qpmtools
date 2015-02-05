@@ -7,14 +7,16 @@ import org.springframework.data.annotation.Id;
 public class AbstractDocument {
 	
 	@Id
-	protected BigInteger id;
+	protected String id;
 
-	public BigInteger getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(BigInteger id) {
+	public void setId(String id) {
 		this.id = id;
 	}
+
+	
 
 }

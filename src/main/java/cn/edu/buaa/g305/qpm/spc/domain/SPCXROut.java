@@ -2,6 +2,8 @@ package cn.edu.buaa.g305.qpm.spc.domain;
 
 import java.util.Arrays;
 
+import cn.edu.buaa.g305.qpm.system.domain.Link;
+
 public class SPCXROut {
 	
 	private String[] x;
@@ -14,8 +16,34 @@ public class SPCXROut {
 	private String rCL;
 	private String rLCL;
 	
+	private Link[] links;
+	private String error; 
 	
 	
+	public String getError() {
+		return error;
+	}
+
+
+
+	public void setError(String error) {
+		this.error = error;
+	}
+
+
+
+	public Link[] getLinks() {
+		return links;
+	}
+
+
+
+	public void setLinks(Link[] links) {
+		this.links = links;
+	}
+
+
+
 	public String[] getX() {
 		return x;
 	}
@@ -137,7 +165,8 @@ public class SPCXROut {
 	                           "xLCL:"+xLCL+","+
 	                           "rUCL:"+rUCL+","+
 	                           "rCL:"+rCL+","+
-	                           "rLCL:"+rLCL+"}";
+	                           "rLCL:"+rLCL+
+	                           "links:"+Arrays.toString(links)+"}";
 		return spcxrString;
 	}
 	
