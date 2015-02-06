@@ -1,7 +1,5 @@
 package cn.edu.buaa.g305.qpm.system.domain;
 
-import java.math.BigInteger;
-
 import org.springframework.data.annotation.Id;
 
 public class AbstractDocument {

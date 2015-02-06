@@ -278,12 +278,30 @@ public class SPCImp implements SPCService{
 	
 	public SpcXR getSpcxrByName(String name) {
 		
-		return spcxrRepository.findByName(name);
+		SpcXR spcXR=spcxrRepository.findByName(name);
+		if(spcXR==null)
+		{
+			spcXR=new SpcXR();
+			spcXR.setStauts(null);
+			spcXR.setError("名为"+name+"的X-R图资源不存在");
+			return spcXR;
+		}
+		
+		return spcXR;
 	}
 
 	public SpcXR getById(String id) {
 		
-		return spcxrRepository.findOne(id);
+		SpcXR spcXR=spcxrRepository.findOne(id);
+		if(spcXR==null)
+		{
+			spcXR=new SpcXR();
+			spcXR.setStauts(null);
+			spcXR.setError("id为"+id+"的X-R图资源不存在");
+			return spcXR;
+		}
+		
+		return spcXR;
 		
 	}
 	public SpcXR save(SpcXR spcXR) {

@@ -1,9 +1,6 @@
 package cn.edu.buaa.g305.qpm.spc.server.imp;
 
 import static cn.edu.buaa.g305.qpm.system.DoublePrecisonArrayToStringArray.toStringPrecision;
-import static org.junit.Assert.*;
-
-import java.math.BigInteger;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,8 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import cn.edu.buaa.g305.qpm.spc.dao.SPCXRRepository;
-import cn.edu.buaa.g305.qpm.spc.domain.SPCXRIn;
-import cn.edu.buaa.g305.qpm.spc.domain.SpcXR;
+import cn.edu.buaa.g305.qpm.spc.domain.*;
 import cn.edu.buaa.g305.qpm.system.server.SystemFind;
 
 @RunWith(SpringJUnit4ClassRunner.class)

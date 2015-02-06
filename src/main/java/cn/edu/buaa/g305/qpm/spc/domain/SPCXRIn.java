@@ -2,8 +2,6 @@ package cn.edu.buaa.g305.qpm.spc.domain;
 
 import java.util.Arrays;
 
-import cn.edu.buaa.g305.qpm.system.domain.Link;
-
 
 public class SPCXRIn {
 	

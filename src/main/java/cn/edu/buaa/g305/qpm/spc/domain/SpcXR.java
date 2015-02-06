@@ -3,11 +3,14 @@ package cn.edu.buaa.g305.qpm.spc.domain;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
 import cn.edu.buaa.g305.qpm.system.domain.AbstractDocument;
 import cn.edu.buaa.g305.qpm.system.domain.Link;
 
 
 @Document
+@JsonSerialize(include=Inclusion.NON_NULL)
 public class SpcXR extends AbstractDocument{
 	
 	private String organization;
