@@ -17,10 +17,10 @@ public class SpcXR extends AbstractDocument{
 
 	@Indexed(unique=true)
 	private String name;
-	private final String type="spcXR";
+	private String type="spcXR";
 	private String stauts="computeFinished";
-	private SPCXRIn in;
-	private SPCXROut out;
+	private SPCXRIn input;
+	private SPCXROut output;
 	//存储的实体类不继承此field,存储时置空
 	private Link[] links;
 	private String error;
@@ -73,23 +73,30 @@ public class SpcXR extends AbstractDocument{
 	}
 
 
-	public SPCXRIn getIn() {
-		return in;
+	
+
+	public SPCXRIn getInput() {
+		return input;
 	}
 
 
-	public void setIn(SPCXRIn in) {
-		this.in = in;
+	public void setInput(SPCXRIn input) {
+		this.input = input;
 	}
 
 
-	public SPCXROut getOut() {
-		return out;
+	public SPCXROut getOutput() {
+		return output;
 	}
 
 
-	public void setOut(SPCXROut out) {
-		this.out = out;
+	public void setOutput(SPCXROut output) {
+		this.output = output;
+	}
+
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 
@@ -116,8 +123,8 @@ public class SpcXR extends AbstractDocument{
 				       "name:"+ name+","+
 				       "type:"+ type+"spcXR"+","+
 				       "stauts:"+       stauts+","+
-				       "in:" +   in+","+
-				       "out:" +   out+","+
+				       "in:" +   input+","+
+				       "out:" +   output+","+
 				       "links:"+links+"}";
 		return string;
 		

@@ -65,9 +65,9 @@ public class SPCImpTest {
 				                    {10.94,10.92,10.96,10.93,10.96}
 				                    };
 	    spcxrIn.setX(toStringPrecision(x,2));
-		spcXR.setIn(spcxrIn);
+		spcXR.setInput(spcxrIn);
 		
-		spcXR.setOut(spcImp.computeXR(spcxrIn));
+		spcXR.setOutput(spcImp.computeXR(spcxrIn));
 		
 		spcXR.setName("Test1");
 		spcXR.setOrganization("TEST1");

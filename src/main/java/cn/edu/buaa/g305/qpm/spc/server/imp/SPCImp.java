@@ -288,7 +288,7 @@ public class SPCImp implements SPCService{
 	}
 	public SpcXR save(SpcXR spcXR) {
 		
-		spcXR.setOut(computeXR(spcXR.getIn()));
+		spcXR.setOutput(computeXR(spcXR.getInput()));
 		spcXR.setOrganization(systemFind.findProductAffiliation(spcXR.getOrganization()));
 		spcXR.setProject(systemFind.findProductAffiliation(spcXR.getProject()));
 		spcXR.setError(null);
