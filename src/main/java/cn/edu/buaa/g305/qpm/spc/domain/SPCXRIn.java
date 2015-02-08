@@ -42,6 +42,12 @@ public class SPCXRIn {
 				              // "links:"+Arrays.toString(links)+"}";
 		return spcxrString;
 	}
+
+	public static String format() {
+		String format="{x:"+"[[],[],[]...],"+
+				        "time:"+"[]}";
+		return null;
+	}
 	
 	
 	

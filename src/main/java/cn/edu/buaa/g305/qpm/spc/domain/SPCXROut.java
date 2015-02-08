@@ -2,8 +2,12 @@ package cn.edu.buaa.g305.qpm.spc.domain;
 
 import java.util.Arrays;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
+
 import cn.edu.buaa.g305.qpm.system.domain.Link;
 
+@JsonSerialize(include=Inclusion.NON_NULL)
 public class SPCXROut {
 	
 	private String[] x;

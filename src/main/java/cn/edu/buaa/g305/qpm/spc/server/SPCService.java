@@ -13,8 +13,10 @@ public interface SPCService {
 	
 	SpcXR save(SpcXR spcXR);
 	
-	void delete(String id);
+	SpcXR delete(String id);
 	
 	SpcXR getById(String id);
+	
+	SpcXR update(SpcXR spcXR,String id);
 
 }

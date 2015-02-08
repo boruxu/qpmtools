@@ -75,11 +75,10 @@ public class SPCImpTest {
 		spcXR.setOrganization(systemFind.findProductAffiliation(spcXR.getOrganization()));
 		spcXR.setProject(systemFind.findProductAffiliation(spcXR.getProject()));
 		spcXR.setError(null);
-		spcXR.setLinks(null);
 	    spcxrRepository.save(spcXR);
 		
 		SpcXR spcXR2=spcxrRepository.save(spcXR);
-		System.out.println(spcXR2.getId());
+		System.out.println(spcXR2);
 	
 	}
 

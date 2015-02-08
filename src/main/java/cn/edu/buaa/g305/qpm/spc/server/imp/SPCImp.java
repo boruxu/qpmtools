@@ -310,13 +310,28 @@ public class SPCImp implements SPCService{
 		spcXR.setOrganization(systemFind.findProductAffiliation(spcXR.getOrganization()));
 		spcXR.setProject(systemFind.findProductAffiliation(spcXR.getProject()));
 		spcXR.setError(null);
-		spcXR.setLinks(null);
 	    return spcxrRepository.save(spcXR);
 	    
 	}
-	public void delete(String id) {
+	public SpcXR update(SpcXR spcXR,String id){
 		
+		SpcXR spcXRt=spcxrRepository.findOne(id);
+		if(spcXRt==null)
+		{
+			spcXRt=new SpcXR();
+			spcXRt.setStauts(null);
+			spcXRt.setError("id为"+id+"的X-R图资源不存在");
+			return spcXRt;
+		}
+		else {
+			return save(spcXR);
+		}
+	}
+	public SpcXR delete(String id) {
+		
+		SpcXR spcXR=getById(id);
 		spcxrRepository.delete(id);
+		return spcXR;
 		
 	}
 
