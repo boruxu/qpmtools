@@ -2,9 +2,12 @@ package cn.edu.buaa.g305.qpm.spc.server.imp;
 
 import static cn.edu.buaa.g305.qpm.system.DoublePrecisonArrayToStringArray.toStringPrecision;
 
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.Link;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -66,17 +69,17 @@ public class SPCImpTest {
 		spcXR.setOutput(spcImp.computeXR(spcxrIn));
 		
 		spcXR.setName("Test1");
-		spcXR.setOrganization("TEST1");
-		spcXR.setProject("TEST1");
 		
 		
 		System.out.println(spcXR);
 		
-		spcXR.setOrganization(systemFind.findProductAffiliation(spcXR.getOrganization()));
-		spcXR.setProject(systemFind.findProductAffiliation(spcXR.getProject()));
-		spcXR.setError(null);
-	    spcxrRepository.save(spcXR);
+		spcXR.setError("111");
 		
+		@SuppressWarnings("unused")
+		List<Link> links=spcXR.getLinks();
+		links=null;
+		
+	    spcxrRepository.save(spcXR);	
 		SpcXR spcXR2=spcxrRepository.save(spcXR);
 		System.out.println(spcXR2);
 	

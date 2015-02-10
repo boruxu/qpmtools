@@ -329,8 +329,7 @@ var dotEnter_1=svg_1.selectAll("g.dot")
 		
 	   dotEnter_1.append("circle")
 	            .attr("class", "dot");	    
-	   dotEnter_1.append("text")
-	           .attr("class", "dot");
+
 	   
 svg_1.selectAll("circle.dot")
 	   .data(dataset_1)
@@ -341,7 +340,10 @@ svg_1.selectAll("circle.dot")
 			   return scaley_1(d[1]);
 			   })
 	   .attr("r", 4);	
-//点上的数字		
+//点上的数字
+dotEnter_1.append("text")
+.attr("class", "dot");
+
 svg_1.selectAll("text.dot")
 	   .data(dataset_1)
 	   .enter()
@@ -375,8 +377,7 @@ var dotEnter_2=svg_2.selectAll("g.dot")
 		
 	   dotEnter_2.append("circle")
 	            .attr("class", "dot");	    
-	   dotEnter_2.append("text")
-	           .attr("class", "dot");
+	 
 	   
 svg_2.selectAll("circle.dot")
 	   .data(dataset_2)
@@ -387,6 +388,9 @@ svg_2.selectAll("circle.dot")
 			   return scaley_2(d[1]);
 			   })
 	   .attr("r", 4);
+
+dotEnter_2.append("text")
+.attr("class", "dot");
 		
 	svg_2.selectAll("text.dot")
 	   .data(dataset_2)

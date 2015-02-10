@@ -44,9 +44,8 @@ public class SPCXRIn {
 	}
 
 	public static String format() {
-		String format="{x:"+"[[],[],[]...],"+
-				        "time:"+"[]}";
-		return null;
+		String format="{x:[[],[],[]...],time:[]}";
+		return format;
 	}
 	
 	

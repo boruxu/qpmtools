@@ -9,7 +9,7 @@ public interface SPCService {
 	SPCXMROut computeXMR(SPCXMRIn spcxmrIn);
 	SPCCOut computeC(SPCCIn spccIn);
 	
-    SpcXR getSpcxrByName(String name);
+	SpcXR getSpcxrByName(String name);
 	
 	SpcXR save(SpcXR spcXR);
 	

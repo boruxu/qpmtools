@@ -5,8 +5,6 @@ import java.util.Arrays;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
 
-import cn.edu.buaa.g305.qpm.system.domain.Link;
-
 @JsonSerialize(include=Inclusion.NON_NULL)
 public class SPCXROut {
 	
@@ -20,7 +18,6 @@ public class SPCXROut {
 	private String rCL;
 	private String rLCL;
 	
-	private Link[] links;
 	private String error; 
 	
 	
@@ -32,18 +29,6 @@ public class SPCXROut {
 
 	public void setError(String error) {
 		this.error = error;
-	}
-
-
-
-	public Link[] getLinks() {
-		return links;
-	}
-
-
-
-	public void setLinks(Link[] links) {
-		this.links = links;
 	}
 
 
@@ -169,8 +154,7 @@ public class SPCXROut {
 	                           "xLCL:"+xLCL+","+
 	                           "rUCL:"+rUCL+","+
 	                           "rCL:"+rCL+","+
-	                           "rLCL:"+rLCL+
-	                           "links:"+Arrays.toString(links)+"}";
+	                           "rLCL:"+rLCL+"}";
 		return spcxrString;
 	}
 	

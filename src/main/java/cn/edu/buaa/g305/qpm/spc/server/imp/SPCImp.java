@@ -1,8 +1,11 @@
 package cn.edu.buaa.g305.qpm.spc.server.imp;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import cn.edu.buaa.g305.qpm.spc.controller.SPCController;
 import cn.edu.buaa.g305.qpm.spc.dao.SPCXRRepository;
 import cn.edu.buaa.g305.qpm.spc.domain.*;
 import cn.edu.buaa.g305.qpm.spc.server.SPCService;
@@ -10,6 +13,8 @@ import cn.edu.buaa.g305.qpm.system.server.SystemFind;
 import static cn.edu.buaa.g305.qpm.spc.system.VariableControlChartsFactor.*;
 import static cn.edu.buaa.g305.qpm.system.StringArrayToDoubleArray.*;
 import static cn.edu.buaa.g305.qpm.system.DoublePrecisonArrayToStringArray.*;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @Component
 public class SPCImp implements SPCService{
 	
@@ -282,12 +287,16 @@ public class SPCImp implements SPCService{
 		if(spcXR==null)
 		{
 			spcXR=new SpcXR();
-			spcXR.setStauts(null);
-			spcXR.setError("名为"+name+"的X-R图资源不存在");
+			//找不到资源，设置错误信息和状态码
+			spcXR.setErrorOutput("名为"+name+"的X-R图资源不存在",HttpStatus.NOT_FOUND);
+			return spcXR;
+		}
+		else{
+			spcXR.setHttpStatus(HttpStatus.OK);
 			return spcXR;
 		}
 		
-		return spcXR;
+		
 	}
 
 	public SpcXR getById(String id) {
@@ -296,19 +305,19 @@ public class SPCImp implements SPCService{
 		if(spcXR==null)
 		{
 			spcXR=new SpcXR();
-			spcXR.setStauts(null);
-			spcXR.setError("id为"+id+"的X-R图资源不存在");
+			spcXR.setErrorOutput("id为"+id+"的X-R图资源不存在",HttpStatus.NOT_FOUND);
 			return spcXR;
 		}
-		
-		return spcXR;
+		else {
+			spcXR.setHttpStatus(HttpStatus.OK);
+			return spcXR;
+		}
 		
 	}
 	public SpcXR save(SpcXR spcXR) {
 		
 		spcXR.setOutput(computeXR(spcXR.getInput()));
-		spcXR.setOrganization(systemFind.findProductAffiliation(spcXR.getOrganization()));
-		spcXR.setProject(systemFind.findProductAffiliation(spcXR.getProject()));
+
 		spcXR.setError(null);
 	    return spcxrRepository.save(spcXR);
 	    
