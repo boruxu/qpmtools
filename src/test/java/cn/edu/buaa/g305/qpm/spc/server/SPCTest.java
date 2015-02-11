@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import cn.edu.buaa.g305.qpm.spc.domain.*;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXRIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXROut;
 import cn.edu.buaa.g305.qpm.spc.server.imp.SPCImp;
 import cn.edu.buaa.g305.qpm.system.DoublePrecisonArrayToStringArray;
 import static cn.edu.buaa.g305.qpm.system.DoublePrecisonArrayToStringArray.*;
@@ -14,7 +16,7 @@ public class SPCTest {
 	@Test
 	public void testXR() {
 		SPCImp spc=new SPCImp();
-		SPCXRIn spcxrIn=new SPCXRIn();
+		SpcXRIn spcxrIn=new SpcXRIn();
 		String[] time=new String[25];
 		for (int i = 0; i < time.length; i++) {
 			time[i]=i+1+"";
@@ -48,7 +50,7 @@ public class SPCTest {
 				                    };
 	    spcxrIn.setX(toStringPrecision(x,2));
 	    System.out.println(spcxrIn);
-	    SPCXROut spcxrOut=spc.computeXR(spcxrIn);
+	    SpcXROut spcxrOut=spc.computeXR(spcxrIn);
 	    System.out.println(spcxrOut);
 	    String[] expecteds=new String[]{"10.9837","10.9502","10.9168","0.1226","0.0580","0.0000"};
 	    String[] actuals=new String[]{spcxrOut.getxUCL(),spcxrOut.getxCL(),spcxrOut.getxLCL(),

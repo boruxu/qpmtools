@@ -14,6 +14,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import cn.edu.buaa.g305.qpm.spc.dao.SPCXRRepository;
 import cn.edu.buaa.g305.qpm.spc.domain.*;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXRIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXR;
 import cn.edu.buaa.g305.qpm.system.server.SystemFind;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -30,7 +32,7 @@ public class SPCImpTest {
 		
 		SPCImp  spcImp=new SPCImp();
 		SpcXR spcXR=new SpcXR();
-		SPCXRIn spcxrIn=new SPCXRIn();
+		SpcXRIn spcxrIn=new SpcXRIn();
 		
 		String[] time=new String[25];
 		for (int i = 0; i < time.length; i++) {

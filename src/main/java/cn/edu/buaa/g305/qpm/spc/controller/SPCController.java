@@ -1,8 +1,5 @@
 package cn.edu.buaa.g305.qpm.spc.controller;
 
-import java.awt.List;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 import cn.edu.buaa.g305.qpm.spc.domain.PlotList;
 import cn.edu.buaa.g305.qpm.spc.domain.Spc;
-import cn.edu.buaa.g305.qpm.spc.domain.SpcXR;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXR;
 import cn.edu.buaa.g305.qpm.spc.server.SPCService;
 
 @Controller
@@ -39,60 +36,169 @@ public class SPCController {
 	}
 	@RequestMapping(value="/{plotType}",method=RequestMethod.POST)
 	@ResponseBody
-	public  HttpEntity<? extends Spc> create(@PathVariable String plotType,@RequestBody Spc spc)
+	public  HttpEntity<Spc> create(@PathVariable String plotType,@RequestBody SpcVO spcVO)
 	{
-		SpcXR spcXRt=null;//spcService.save(spc);
-		if(spcXRt.getError()==null)
+		Spc spc=new Spc();
+		String id=null;
+		String name=null;
+		switch(plotType)
 		{
-			//spcXRt.add(linkTo(methodOn(SPCController.class).getXRByID(spcXRt.getName())).withSelfRel());
-			return new ResponseEntity<SpcXR>(spcXRt,HttpStatus.CREATED);
+		    
+			case("xrplot"):
+				{
+					SpcXR spcXR=new SpcXR();
+					spcXR.setName(spcVO.getName());
+					spcXR.setInput(spcVO.getInputXR());
+					spcXR=spcService.save(spcXR);
+					id=spcXR.getId();
+					name=spcXR.getName();
+					spc=spcXR;
+			        break;       				
+				}
+			default:
+			{
+				spc.setError("无"+plotType+"类型SPC控制图");
+				spc.setHttpStatus(HttpStatus.NOT_FOUND);
+				spc.add(linkTo(methodOn(SPCController.class).getPlotList())
+					.withRel("plotList"));
+				return new ResponseEntity<Spc>(spc,spc.getHttpStatus());
+			}
+		}
+		
+		if(spc.getError()==null)
+		{
+			spc.add(linkTo(methodOn(SPCController.class).getByID(plotType,id)).withSelfRel());
+			spc.add(linkTo(methodOn(SPCController.class).getByName(plotType,name)).withRel("getByName"));
+			spc.add(linkTo(methodOn(SPCController.class).delete(plotType, id)).withRel("delete"));
+			spc.add(linkTo(methodOn(SPCController.class).deleteByName(plotType, name)).withRel("deleteByName"));
+			spc.add(linkTo(methodOn(SPCController.class).updateXR(plotType, id, null)).withRel("update.patch"));
+			return new ResponseEntity<Spc>(spc,spc.getHttpStatus());
 		}	
 		else {
-			
-			return new ResponseEntity<SpcXR>(spcXRt,HttpStatus.BAD_REQUEST);
+			spc.add(linkTo(methodOn(SPCController.class).create(plotType, spcVO)
+					).withRel(plotType+"/create.post"));
+			spc.add(linkTo(methodOn(SPCController.class).getPlotList()
+					).withRel("plotList"));
+			spc.add(linkTo(methodOn(SPCController.class).getDataFormat(plotType)
+					).withRel(plotType+"/dataformat"));
+			return new ResponseEntity<Spc>(spc,spc.getHttpStatus());
 		}	
 		 
 	}
-	/*
-	@RequestMapping(value="/xrplot/{id}",method=RequestMethod.PATCH)
+	
+	@RequestMapping(value="/{plotType}/{id}",method=RequestMethod.POST)
 	@ResponseBody
-	public  HttpEntity<SpcXR> updateXR(@RequestBody SpcXR spcXR,@PathVariable String id)
+	public  HttpEntity<Spc> updateXR(@PathVariable String plotType,
+			@PathVariable String id,@RequestBody SpcVO spcVO)
 	{
-		SpcXR spcXRt=spcService.update(spcXR, id);
-		if(spcXRt.getError()==null)
+		Spc spc=new Spc();
+		String name=null;
+		switch(plotType)
 		{
-			spcXRt.add(linkTo(methodOn(SPCController.class).updateXR(spcXRt, id)).withRel("update"));
-			spcXRt.add(linkTo(methodOn(SPCController.class).getXRByID(id)).withSelfRel());
-			return new ResponseEntity<SpcXR>(spcXRt,HttpStatus.OK);			
+		    
+			case("xrplot"):
+				{
+					SpcXR spcXR=new SpcXR();
+					spcXR.setName(spcVO.getName());
+					spcXR.setInput(spcVO.getInputXR());
+					spcXR=spcService.update(spcXR, id);
+					name=spcXR.getName();
+					spc=spcXR;
+			        break;       				
+				}
+			default:
+			{
+				spc.setError("无"+plotType+"类型SPC控制图");
+				spc.setHttpStatus(HttpStatus.NOT_FOUND);
+				spc.add(linkTo(methodOn(SPCController.class).getPlotList())
+					.withRel("plotList"));
+				return new ResponseEntity<Spc>(spc,spc.getHttpStatus());
+			}
 		}
+		
+		if(spc.getError()==null)
+		{
+			spc.add(linkTo(methodOn(SPCController.class).getByID(plotType,id)).withSelfRel());
+			spc.add(linkTo(methodOn(SPCController.class).getByName(plotType,name)).withRel("getByName"));
+			spc.add(linkTo(methodOn(SPCController.class).delete(plotType, id)).withRel("delete"));
+			spc.add(linkTo(methodOn(SPCController.class).deleteByName(plotType, name)).withRel("deleteByName"));
+			spc.add(linkTo(methodOn(SPCController.class).updateXR(plotType, id, null)).withRel("update.patch"));
+			return new ResponseEntity<Spc>(spc,spc.getHttpStatus());
+		}	
 		else {
-			spcXRt.add(linkTo(methodOn(SPCController.class).createXR(null))
-					.withRel("xrplot/create.post"));
-			//找不到资源，设置错误信息和状态码
-			return new ResponseEntity<SpcXR>(spcXRt,HttpStatus.NOT_FOUND);	
-		}
+			spc.add(linkTo(methodOn(SPCController.class).create(plotType, spcVO)
+					).withRel(plotType+"/create.post"));
+			spc.add(linkTo(methodOn(SPCController.class).getPlotList()
+					).withRel("plotList"));
+			spc.add(linkTo(methodOn(SPCController.class).getDataFormat(plotType)
+					).withRel(plotType+"/dataformat"));
+			return new ResponseEntity<Spc>(spc,spc.getHttpStatus());
+		}	
 	}
 	
-	@RequestMapping(value="/xrplot/{id}",method=RequestMethod.DELETE)
+	@RequestMapping(value="/{plotType}/{id}",method=RequestMethod.DELETE)
 	@ResponseBody
-	public  HttpEntity<SpcXR> deleteXR(@PathVariable String id)
-	{ 
-		SpcXR spcXR=spcService.delete(id);
-		if(spcXR.getError()==null)
+	public  HttpEntity<Spc> delete(@PathVariable(value="plotType") String plotType,
+			@PathVariable(value="id") String id)
+	{
+		Spc spc=new Spc();
+		switch(plotType)
 		{
-			spcXR.add(linkTo(methodOn(SPCController.class).getXRByID(id)).withSelfRel());
-			spcXR=null;
-			return new ResponseEntity<SpcXR>(spcXR,HttpStatus.OK);			
+		    
+			case("xrplot"):
+				{
+					spc=spcService.deleteXR(id);
+			        break;       				
+				}
+			default:
+			{
+				spc.setError("无"+plotType+"类型SPC控制图");
+				spc.setHttpStatus(HttpStatus.NOT_FOUND);
+				spc.add(linkTo(methodOn(SPCController.class).getPlotList())
+					.withRel("plotList"));
+				return new ResponseEntity<Spc>(spc,spc.getHttpStatus());
+			}
 		}
-		else {
-			spcXR.add(linkTo(methodOn(SPCController.class).createXR(null))
-					.withRel("xrplot/create.post"));
-			//找不到资源，设置错误信息和状态码
-			return new ResponseEntity<SpcXR>(spcXR,HttpStatus.NOT_FOUND);	
-		}
+		spc.add(linkTo(methodOn(SPCController.class).create(plotType, null))
+					.withRel(plotType+"/create.post"));
+		spc.add(linkTo(methodOn(SPCController.class).getDataFormat(plotType))
+				.withRel(plotType+"/dataformat"));
+		return new ResponseEntity<Spc>(spc,spc.getHttpStatus());			
+
 	}
-	*/
-	@RequestMapping(value="/{plotType}/byId/{id}",method=RequestMethod.GET)
+	
+	@RequestMapping(value="/{plotType}/byName/{name}",method=RequestMethod.DELETE)
+	@ResponseBody
+	public  HttpEntity<Spc> deleteByName(@PathVariable(value="plotType") String plotType,
+			@PathVariable(value="name") String name)
+	{ 
+		Spc spc=new Spc();
+		switch(plotType)
+		{
+		    
+			case("xrplot"):
+				{
+					spc=spcService.deleteXRByName(name);
+			        break;       				
+				}
+			default:
+			{
+				spc.setError("无"+plotType+"类型SPC控制图");
+				spc.setHttpStatus(HttpStatus.NOT_FOUND);
+				spc.add(linkTo(methodOn(SPCController.class).getPlotList())
+					.withRel("plotList"));
+				return new ResponseEntity<Spc>(spc,spc.getHttpStatus());
+			}
+		}
+		spc.add(linkTo(methodOn(SPCController.class).create(plotType, null))
+					.withRel(plotType+"/create.post"));
+		spc.add(linkTo(methodOn(SPCController.class).getDataFormat(plotType))
+				.withRel(plotType+"/dataformat"));
+		return new ResponseEntity<Spc>(spc,spc.getHttpStatus());			
+
+	}
+	
+	@RequestMapping(value="/{plotType}/{id}",method=RequestMethod.GET)
 	@ResponseBody
 	public HttpEntity<Spc> getByID(@PathVariable(value="plotType") String plotType,
 			@PathVariable(value="id") String id)
@@ -103,7 +209,7 @@ public class SPCController {
 		    
 			case("xrplot"):
 				{
-					spc=spcService.getById(id);
+					spc=spcService.getXRById(id);
 			        break;       				
 				}
 			default:
@@ -115,7 +221,7 @@ public class SPCController {
 				return new ResponseEntity<Spc>(spc,spc.getHttpStatus());
 			}			
 		}
-		spc.add(linkTo(methodOn(SPCController.class).create(plotType, spc))
+		spc.add(linkTo(methodOn(SPCController.class).create(plotType, null))
 		.withRel(plotType+"/create.post"));
 		spc.add(linkTo(methodOn(SPCController.class).getDataFormat(plotType))
 					.withRel(plotType+"/dataformat"));
@@ -134,7 +240,7 @@ public class SPCController {
 	//spc所有类型byName查询
 	@RequestMapping(value="/{plotType}/byName/{name}",method=RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<Spc> getByName(@PathVariable(value="plotType") 
+	public HttpEntity<Spc> getByName(@PathVariable(value="plotType") 
 	String plotType,@PathVariable(value="name") String name) 
 	{
 		Spc spc=new Spc();
@@ -143,7 +249,7 @@ public class SPCController {
 		    
 			case("xrplot"):
 				{
-					spc=spcService.getSpcxrByName(name);
+					spc=spcService.getXRByName(name);
 			        break;       				
 				}
 			default:
@@ -155,7 +261,7 @@ public class SPCController {
 				return new ResponseEntity<Spc>(spc,spc.getHttpStatus());
 			}			
 		}
-		spc.add(linkTo(methodOn(SPCController.class).create(plotType, spc))
+		spc.add(linkTo(methodOn(SPCController.class).create(plotType, null))
 		.withRel(plotType+"/create.post"));
 		spc.add(linkTo(methodOn(SPCController.class).getDataFormat(plotType))
 					.withRel(plotType+"/dataFormat"));
@@ -171,9 +277,9 @@ public class SPCController {
 	}
 	
 	//以下为帮助信息，不使用超媒体
-	@RequestMapping(value="/{plotType}/dataFormat",method=RequestMethod.GET)
+	@RequestMapping(value="/help/{plotType}/dataFormat",method=RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<Map<String,String>> getDataFormat(@PathVariable(value="plotType") 
+	public HttpEntity<Map<String,String>> getDataFormat(@PathVariable(value="plotType") 
 	 					String plotType) 
 	{
 		Map<String, String> map=new HashMap<String, String>();
@@ -197,9 +303,9 @@ public class SPCController {
 	}
 	
 	//支持spc视图数组列表
-	@RequestMapping(value="/plotList",method=RequestMethod.GET)
+	@RequestMapping(value="/help/plotList",method=RequestMethod.GET)
 	@ResponseBody
-	public ResponseEntity<PlotList[]> getPlotList()
+	public HttpEntity<PlotList[]> getPlotList()
 	{
 		PlotList[] lists=PlotList.values();
 		return new ResponseEntity<PlotList[]>(lists,HttpStatus.NOT_FOUND);	

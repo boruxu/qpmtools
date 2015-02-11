@@ -1,13 +1,19 @@
 package cn.edu.buaa.g305.qpm.spc.server.imp;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
+import com.mongodb.MongoException;
+
 import cn.edu.buaa.g305.qpm.spc.controller.SPCController;
 import cn.edu.buaa.g305.qpm.spc.dao.SPCXRRepository;
 import cn.edu.buaa.g305.qpm.spc.domain.*;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXRIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXROut;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXR;
 import cn.edu.buaa.g305.qpm.spc.server.SPCService;
 import cn.edu.buaa.g305.qpm.system.server.SystemFind;
 import static cn.edu.buaa.g305.qpm.spc.system.VariableControlChartsFactor.*;
@@ -23,9 +29,9 @@ public class SPCImp implements SPCService{
 	@Autowired
 	private SystemFind systemFind;
 
-	public SPCXROut computeXR(SPCXRIn spcxrIn) {
+	public SpcXROut computeXR(SpcXRIn spcxrIn) {
 		
-		SPCXROut spcxrOut=new SPCXROut();
+		SpcXROut spcxrOut=new SpcXROut();
 		int precision=4;
 		//样本数
 		int n=spcxrIn.getX().length;
@@ -281,7 +287,7 @@ public class SPCImp implements SPCService{
 	}
 	
 	
-	public SpcXR getSpcxrByName(String name) {
+	public SpcXR getXRByName(String name) {
 		
 		SpcXR spcXR=spcxrRepository.findByName(name);
 		if(spcXR==null)
@@ -299,7 +305,7 @@ public class SPCImp implements SPCService{
 		
 	}
 
-	public SpcXR getById(String id) {
+	public SpcXR getXRById(String id) {
 		
 		SpcXR spcXR=spcxrRepository.findOne(id);
 		if(spcXR==null)
@@ -314,37 +320,75 @@ public class SPCImp implements SPCService{
 		}
 		
 	}
-	public SpcXR save(SpcXR spcXR) {
+	public SpcXR deleteXR(String id) {
 		
-		spcXR.setOutput(computeXR(spcXR.getInput()));
-
-		spcXR.setError(null);
-	    return spcxrRepository.save(spcXR);
-	    
-	}
-	public SpcXR update(SpcXR spcXR,String id){
-		
-		SpcXR spcXRt=spcxrRepository.findOne(id);
-		if(spcXRt==null)
+		SpcXR spcXR=getXRById(id);
+		if(spcXR.getError()==null)
 		{
-			spcXRt=new SpcXR();
-			spcXRt.setStauts(null);
-			spcXRt.setError("id为"+id+"的X-R图资源不存在");
-			return spcXRt;
+			spcXR.setStauts("deleted");
 		}
-		else {
-			return save(spcXR);
-		}
-	}
-	public SpcXR delete(String id) {
-		
-		SpcXR spcXR=getById(id);
 		spcxrRepository.delete(id);
 		return spcXR;
 		
 	}
-
-
+	public SpcXR deleteXRByName(String name) {
+		
+		SpcXR spcXR=getXRByName(name);
+		if(spcXR.getError()==null)
+		{
+			spcXR.setStauts("deleted");
+		}
+		if(spcXR.getId()!=null)
+		{
+			spcxrRepository.delete(spcXR.getId());
+		}	
+		return spcXR;
+		
+	}
 	
+	
+	public SpcXR save(SpcXR spcXR) {
+
+		try {
+			spcXR.setOutput(computeXR(spcXR.getInput()));
+		} catch (Exception e) {
+			spcXR.setErrorOutput("输入参数错误", HttpStatus.BAD_REQUEST);
+			return spcXR;
+		}
+
+		try {
+			spcXR=spcxrRepository.save(spcXR);
+		} catch (DuplicateKeyException e) {
+			spcXR.setErrorOutput("名字重复，请重新命名", HttpStatus.BAD_REQUEST);
+			return spcXR;
+		}
+		
+		spcXR.setHttpStatus(HttpStatus.CREATED);
+		return spcXR;
+	    
+	}
+	public SpcXR update(SpcXR spcXR,String id){
+		
+		SpcXR spcXRt=getXRById(id);
+		if(spcXRt.getError()==null)
+		{
+			spcXR.setId(id);
+			spcXR=save(spcXR);
+			if(spcXR.getError()==null)
+			{
+				spcXR.setHttpStatus(HttpStatus.OK);
+				return spcXR;
+			}
+			else {
+				return spcXR;
+			}
+			 
+		}
+		else {
+			return spcXRt;
+		}
+	}
+
+
 
 }

@@ -1,4 +1,4 @@
-package cn.edu.buaa.g305.qpm.spc.domain;
+package cn.edu.buaa.g305.qpm.spc.domain.spcxr;
 
 import java.util.Arrays;
 
@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
 
 @JsonSerialize(include=Inclusion.NON_NULL)
-public class SPCXROut {
+public class SpcXROut {
 	
 	private String[] x;
 	private String[] r;

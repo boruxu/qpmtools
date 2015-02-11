@@ -1,9 +1,9 @@
-package cn.edu.buaa.g305.qpm.spc.domain;
+package cn.edu.buaa.g305.qpm.spc.domain.spcxr;
 
 import java.util.Arrays;
 
 
-public class SPCXRIn {
+public class SpcXRIn {
 	
 	private String[][] x;
 	private String[] time;

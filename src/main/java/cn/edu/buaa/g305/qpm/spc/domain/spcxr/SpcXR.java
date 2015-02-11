@@ -1,10 +1,12 @@
-﻿package cn.edu.buaa.g305.qpm.spc.domain;
+﻿package cn.edu.buaa.g305.qpm.spc.domain.spcxr;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.http.HttpStatus;
+
+import cn.edu.buaa.g305.qpm.spc.domain.Spc;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
@@ -22,8 +24,8 @@ public class SpcXR extends Spc{
 	private String name;
 	private static String type="spcXR";
 	private String stauts="computeFinished";
-	private SPCXRIn input;
-	private SPCXROut output;
+	private SpcXRIn input;
+	private SpcXROut output;
 
 	public void setId(String id) {
 		this.id = id;
@@ -54,19 +56,19 @@ public class SpcXR extends Spc{
 		this.stauts = stauts;
 	}
 
-	public SPCXRIn getInput() {
+	public SpcXRIn getInput() {
 		return input;
 	}
 
-	public void setInput(SPCXRIn input) {
+	public void setInput(SpcXRIn input) {
 		this.input = input;
 	}
 
-	public SPCXROut getOutput() {
+	public SpcXROut getOutput() {
 		return output;
 	}
 
-	public void setOutput(SPCXROut output) {
+	public void setOutput(SpcXROut output) {
 		this.output = output;
 	}
 	//设置出错输出格式，不输出的设为空，jackson不输出
@@ -97,9 +99,12 @@ public class SpcXR extends Spc{
 	
 	public static String format()
 	{
-		String format="{"+
+		String format="{"+"createFormat:{"+
 			       "name:organizationName.projectName."+type+".name,"+
-			       "input:{" + SPCXRIn.format()+"}}";
+			       "inputXR:{" + SpcXRIn.format()+"}},"+
+			       	"updateFormat:{"	+ 
+			       	"name:organizationName.projectName."+type+".name,"+
+				    "inputXR:{" + SpcXRIn.format()+"}}}";
 		return format;
 	}
 
