@@ -7,6 +7,8 @@ import org.junit.Test;
 import cn.edu.buaa.g305.qpm.spc.domain.*;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXRIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXROut;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXSIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXSOut;
 import cn.edu.buaa.g305.qpm.spc.server.imp.SPCImp;
 import cn.edu.buaa.g305.qpm.system.DoublePrecisonArrayToStringArray;
 import static cn.edu.buaa.g305.qpm.system.DoublePrecisonArrayToStringArray.*;
@@ -58,10 +60,10 @@ public class SPCTest {
 	    assertArrayEquals(expecteds, actuals);
 	   
 	}
-	/*@Test
+	@Test
 	public void testXS() {
 		SPCImp spc=new SPCImp();
-		SPCXSIn spcxsIn=new SPCXSIn();
+		SpcXSIn spcxsIn=new SpcXSIn();
 		String[] time=new String[4];
 		for (int i = 0; i < time.length; i++) {
 			time[i]=i+1+"";
@@ -76,15 +78,16 @@ public class SPCTest {
 			                        {18.1,27.1,65.4,27.5,26.5,26.9,76,14.3,15.2,
 			                         72.2,9.2,33.1,20.5,33.5,25.3}
 				                    };
-	    spcxsIn.setX(x);
-	    SPCXSOut spcxsOut=spc.computeXS(spcxsIn);
-	    System.out.println(spcxsOut);
-	    double[] expecteds=new double[]{72.94,50.29,27.65,45.15,28.72,12.29};
-	    double[] actuals=new double[]{spcxsOut.getxUCL(),spcxsOut.getxCL(),spcxsOut.getxLCL(),
+	    spcxsIn.setX(toStringPrecision(x,1));
+	    SpcXSOut spcxsOut=spc.computeXS(spcxsIn);
+	    System.out.println("spcxsOut:"+spcxsOut);
+	    String[] expecteds=new String[]{"72.94","50.29","27.65","45.14","28.72","12.29"};
+	    String[] actuals=new String[]{spcxsOut.getxUCL(),spcxsOut.getxCL(),spcxsOut.getxLCL(),
 	    		                      spcxsOut.getsUCL(),spcxsOut.getsCL(),spcxsOut.getsLCL()};
-	    assertArrayEquals(expecteds, actuals, 0.007);
+	    assertArrayEquals(expecteds, actuals);
 	   
 	}
+	/*
 	@Test
 	public void testXMR() {
 		SPCImp spc=new SPCImp();

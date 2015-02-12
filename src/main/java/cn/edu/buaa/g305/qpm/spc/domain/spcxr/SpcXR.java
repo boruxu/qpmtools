@@ -89,7 +89,7 @@ public class SpcXR extends Spc{
 	{
 		String string="{id:"+id+","+
 				       "name:"+ name+","+
-				       "type:"+ type+"spcXR"+","+
+				       "type:"+ type+","+
 				       "stauts:"+       stauts+","+
 				       "input:" +   input+","+
 				       "output:" +   output+"}";

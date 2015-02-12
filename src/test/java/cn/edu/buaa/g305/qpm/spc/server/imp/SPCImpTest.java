@@ -12,7 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import cn.edu.buaa.g305.qpm.spc.dao.SPCXRRepository;
+import cn.edu.buaa.g305.qpm.spc.dao.SpcXRRepository;
 import cn.edu.buaa.g305.qpm.spc.domain.*;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXRIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXR;
@@ -24,7 +24,7 @@ import cn.edu.buaa.g305.qpm.system.server.SystemFind;
 public class SPCImpTest {
 
 	@Autowired
-	private SPCXRRepository spcxrRepository;
+	private SpcXRRepository spcxrRepository;
 	@Autowired
 	private SystemFind systemFind;
 	@Test

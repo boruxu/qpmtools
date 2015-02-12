@@ -1,5 +1,6 @@
 package cn.edu.buaa.g305.qpm.spc.server.imp;
 
+import org.apache.commons.math3.util.Precision;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
@@ -9,11 +10,15 @@ import org.springframework.stereotype.Component;
 import com.mongodb.MongoException;
 
 import cn.edu.buaa.g305.qpm.spc.controller.SPCController;
-import cn.edu.buaa.g305.qpm.spc.dao.SPCXRRepository;
+import cn.edu.buaa.g305.qpm.spc.dao.SpcXRRepository;
+import cn.edu.buaa.g305.qpm.spc.dao.SpcXSRepository;
 import cn.edu.buaa.g305.qpm.spc.domain.*;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXRIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXROut;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXR;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXS;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXSIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXSOut;
 import cn.edu.buaa.g305.qpm.spc.server.SPCService;
 import cn.edu.buaa.g305.qpm.system.server.SystemFind;
 import static cn.edu.buaa.g305.qpm.spc.system.VariableControlChartsFactor.*;
@@ -25,7 +30,9 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 public class SPCImp implements SPCService{
 	
 	@Autowired
-	private SPCXRRepository spcxrRepository;
+	private SpcXRRepository spcxrRepository;
+	@Autowired
+	private SpcXSRepository spcxsRepository;
 	@Autowired
 	private SystemFind systemFind;
 
@@ -93,9 +100,9 @@ public class SPCImp implements SPCService{
 	
 		return spcxrOut;
 	}
-/*
-	public SPCXSOut computeXS(SPCXSIn spcxsIn) {
-		SPCXSOut spcxsOut=new SPCXSOut();
+
+	public SpcXSOut computeXS(SpcXSIn spcxsIn) {
+		SpcXSOut spcxsOut=new SpcXSOut();
 		//样本数
 		int n=spcxsIn.getX().length;
 		//样本内样品数
@@ -108,12 +115,15 @@ public class SPCImp implements SPCService{
 		double xSumAverage=0;
 		//样本间S的均值
 		double sAverage=0;
-		int i=0;
+		//精度
+		int precision=3;
+		double[][] x=toDouble(spcxsIn.getX());
 		//各个X平均值
-		for (double[] xSum : spcxsIn.getX()) {
+		int i=0;
+		for (double[] xSum : x) {
 
-			for (double x : xSum) {				
-				xAverage[i]+=x;								
+			for (double xSingal : xSum) {				
+				xAverage[i]+=xSingal;								
 			}
 			xAverage[i]=xAverage[i]/group_n;
 			xSumAverage+=xAverage[i];
@@ -126,7 +136,7 @@ public class SPCImp implements SPCService{
 		{
 			for(int k=0;k<group_n;k++)
 			{
-				s[m]+=Math.pow(spcxsIn.getX()[m][k]-xAverage[m],2);
+				s[m]+=Math.pow(x[m][k]-xAverage[m],2);
 			}
 			s[m]=Math.sqrt(s[m]/(group_n-1));
 			sAverage+=s[m];
@@ -134,52 +144,46 @@ public class SPCImp implements SPCService{
 		//计算s的平均值
 		sAverage=sAverage/n;
 		//计算X图的UCL和LCL，设置X图输出
-		for (double x : xAverage) {
-			
-			x=precision(x, 4);
-			
-		}
-		for (double sv : s) {
-				
-				sv=precision(sv, 4);
-				
-	    }
-		if(spcxsIn.getSigma()<0)
+
+		if(spcxsIn.getSigma()==null)
 		{
-			spcxsOut.setX(xAverage);
-			spcxsOut.setxCL(precision(xSumAverage, 4));
-			spcxsOut.setxUCL(precision(xSumAverage+computeA3(group_n)*sAverage, 4));
-			spcxsOut.setxLCL(precision(xSumAverage-computeA3(group_n)*sAverage, 4));
+			spcxsOut.setX(toStringPrecision(xAverage,precision));
+			spcxsOut.setxCL(toStringPrecision(xSumAverage, precision));
+			spcxsOut.setxUCL(toStringPrecision(xSumAverage+computeA3(group_n)*sAverage, precision));
+			spcxsOut.setxLCL(toStringPrecision(xSumAverage-computeA3(group_n)*sAverage, precision));
 			//计算S图的UCL和LCL，设置S图输出
 	      
-			spcxsOut.setS(s);
-			spcxsOut.setsCL(precision(sAverage, 4));
-			spcxsOut.setsUCL(precision(sAverage*computeB4(group_n), 4));
-			spcxsOut.setsLCL(precision(sAverage*computeB3(group_n), 4));
+			spcxsOut.setS(toStringPrecision(s,precision));
+			spcxsOut.setsCL(toStringPrecision(sAverage, precision));
+			spcxsOut.setsUCL(toStringPrecision(sAverage*computeB4(group_n), precision));
+			spcxsOut.setsLCL(toStringPrecision(sAverage*computeB3(group_n), precision));
 			
 			spcxsOut.setTime(spcxsIn.getTime());
 			return spcxsOut;
 		}
 		else
 		{
-			spcxsOut.setX(xAverage);
-			spcxsOut.setxCL(precision(xSumAverage, 4));
-			spcxsOut.setxUCL(precision(xSumAverage+3*spcxsIn.getSigma(), 4));
-			spcxsOut.setxLCL(precision(xSumAverage-3*spcxsIn.getSigma(), 4));
+			double sigma=toDouble(spcxsIn.getSigma());
+			spcxsOut.setX(toStringPrecision(xAverage,precision));
+			spcxsOut.setxCL(toStringPrecision(xSumAverage, precision));
+			spcxsOut.setxUCL(toStringPrecision(xSumAverage+sigma*3, precision));
+			spcxsOut.setxLCL(toStringPrecision(xSumAverage-sigma*3, precision));
 			//计算S图的UCL和LCL，设置S图输出
 	      
-			spcxsOut.setS(s);
-			spcxsOut.setsCL(precision(computeC4(group_n)*spcxsIn.getSigma(), 4));
-			spcxsOut.setsUCL(precision(spcxsIn.getSigma()*computeB6(group_n), 4));
-			spcxsOut.setsLCL(precision(spcxsIn.getSigma()*computeB5(group_n), 4));
+			spcxsOut.setS(toStringPrecision(s,precision));
+			spcxsOut.setsCL(toStringPrecision(computeC4(group_n)*sigma, precision));
+			spcxsOut.setsUCL(toStringPrecision(sigma*computeB6(group_n), precision));
+			spcxsOut.setsLCL(toStringPrecision(sigma*computeB5(group_n), precision));
 			
 			spcxsOut.setTime(spcxsIn.getTime());
+			
 			return spcxsOut;
 			
 		}
 		
 		
 	}
+	/*
 	public SPCXMROut computeXMR(SPCXMRIn spcxmrIn) {
 		SPCXMROut spcxmrOut=new SPCXMROut();
 		
@@ -276,10 +280,6 @@ public class SPCImp implements SPCService{
 		
 	}
 
-	public SPCXSOut computeXS(SPCXSIn spcxsIn) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	public SPCXMROut computeXMR(SPCXMRIn spcxmrIn) {
 		// TODO Auto-generated method stub
@@ -352,7 +352,7 @@ public class SPCImp implements SPCService{
 		try {
 			spcXR.setOutput(computeXR(spcXR.getInput()));
 		} catch (Exception e) {
-			spcXR.setErrorOutput("输入参数错误", HttpStatus.BAD_REQUEST);
+			spcXR.setErrorOutput(e.getMessage(), HttpStatus.BAD_REQUEST);
 			return spcXR;
 		}
 
@@ -386,6 +386,109 @@ public class SPCImp implements SPCService{
 		}
 		else {
 			return spcXRt;
+		}
+	}
+	
+	public SpcXS getXSByName(String name) {
+		
+		SpcXS spcXS=spcxsRepository.findByName(name);
+		if(spcXS==null)
+		{
+			spcXS=new SpcXS();
+			//找不到资源，设置错误信息和状态码
+			spcXS.setErrorOutput("名为"+name+"的X-R图资源不存在",HttpStatus.NOT_FOUND);
+			return spcXS;
+		}
+		else{
+			spcXS.setHttpStatus(HttpStatus.OK);
+			return spcXS;
+		}
+		
+		
+	}
+
+	public SpcXS getXSById(String id) {
+		
+		SpcXS spcXS=spcxsRepository.findOne(id);
+		if(spcXS==null)
+		{
+			spcXS=new SpcXS();
+			spcXS.setErrorOutput("id为"+id+"的X-R图资源不存在",HttpStatus.NOT_FOUND);
+			return spcXS;
+		}
+		else {
+			spcXS.setHttpStatus(HttpStatus.OK);
+			return spcXS;
+		}
+		
+	}
+	public SpcXS deleteXS(String id) {
+		
+		SpcXS spcXS=getXSById(id);
+		if(spcXS.getError()==null)
+		{
+			spcXS.setStauts("deleted");
+		}
+		spcxsRepository.delete(id);
+		return spcXS;
+		
+	}
+	public SpcXS deleteXSByName(String name) {
+		
+		SpcXS spcXS=getXSByName(name);
+		if(spcXS.getError()==null)
+		{
+			spcXS.setStauts("deleted");
+		}
+		if(spcXS.getId()!=null)
+		{
+			spcxsRepository.delete(spcXS.getId());
+		}	
+		return spcXS;
+		
+	}
+	
+	
+	public SpcXS save(SpcXS spcXS) {
+
+		try {
+			spcXS.setOutput(computeXS(spcXS.getInput()));
+		} catch (Exception e) {
+			spcXS.setErrorOutput(e.getMessage(), HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+			return spcXS;
+		}
+
+		try {
+			spcXS=spcxsRepository.save(spcXS);
+		} catch (DuplicateKeyException e) {
+			spcXS.setErrorOutput("名字重复，请重新命名", HttpStatus.BAD_REQUEST);
+			return spcXS;
+		}
+		
+		spcXS.setHttpStatus(HttpStatus.CREATED);
+		return spcXS;
+	    
+	}
+	public SpcXS update(SpcXS spcXS,String id){
+		
+		SpcXS spcXSt=getXSById(id);
+		if(spcXSt.getError()==null)
+		{
+			spcXS.setId(id);
+			spcXS=save(spcXS);
+			if(spcXS.getError()==null)
+			{
+				spcXS.setHttpStatus(HttpStatus.OK);
+				return spcXS;
+			}
+			else {
+				return spcXS;
+			}
+			 
+		}
+		else {
+			return spcXSt;
 		}
 	}
 

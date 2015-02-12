@@ -1,73 +1,109 @@
-package cn.edu.buaa.g305.qpm.spc.domain;
+package cn.edu.buaa.g305.qpm.spc.domain.spcxs;
 
 import java.util.Arrays;
 
-public class SPCXSOut {
+public class SpcXSOut {
 	
-	private double[] x;
-	private double[] s;
+	private String[] x;
+	private String[] s;
 	private String[] time;
-	private double xUCL;
-	private double xCL;
-	private double xLCL;
-	private double sUCL;
-	private double sCL;
-	private double sLCL;
-	public double[] getX() {
+	private String xUCL;
+	private String xCL;
+	private String xLCL;
+	private String sUCL;
+	private String sCL;
+	private String sLCL;
+	
+	public String[] getX() {
 		return x;
 	}
-	public void setX(double[] x) {
+
+
+	public void setX(String[] x) {
 		this.x = x;
 	}
-	public double[] getS() {
+
+
+	public String[] getS() {
 		return s;
 	}
-	public void setS(double[] s) {
+
+
+	public void setS(String[] s) {
 		this.s = s;
 	}
+
+
 	public String[] getTime() {
 		return time;
 	}
+
+
 	public void setTime(String[] time) {
 		this.time = time;
 	}
-	public double getxUCL() {
+
+
+	public String getxUCL() {
 		return xUCL;
 	}
-	public void setxUCL(double xUCL) {
+
+
+	public void setxUCL(String xUCL) {
 		this.xUCL = xUCL;
 	}
-	public double getxCL() {
+
+
+	public String getxCL() {
 		return xCL;
 	}
-	public void setxCL(double xCL) {
+
+
+	public void setxCL(String xCL) {
 		this.xCL = xCL;
 	}
-	public double getxLCL() {
+
+
+	public String getxLCL() {
 		return xLCL;
 	}
-	public void setxLCL(double xLCL) {
+
+
+	public void setxLCL(String xLCL) {
 		this.xLCL = xLCL;
 	}
-	public double getsUCL() {
+
+
+	public String getsUCL() {
 		return sUCL;
 	}
-	public void setsUCL(double sUCL) {
+
+
+	public void setsUCL(String sUCL) {
 		this.sUCL = sUCL;
 	}
-	public double getsCL() {
+
+
+	public String getsCL() {
 		return sCL;
 	}
-	public void setsCL(double sCL) {
+
+
+	public void setsCL(String sCL) {
 		this.sCL = sCL;
 	}
-	public double getsLCL() {
+
+
+	public String getsLCL() {
 		return sLCL;
 	}
-	public void setsLCL(double sLCL) {
+
+
+	public void setsLCL(String sLCL) {
 		this.sLCL = sLCL;
 	}
-	
+
+
 	@Override
 	
 	public String toString()
@@ -84,7 +120,5 @@ public class SPCXSOut {
 	                           "sLCL:"+sLCL+"}";
 		return spcxrString;
 	}
-	
-	
-
+		
 }

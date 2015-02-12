@@ -19,6 +19,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 import cn.edu.buaa.g305.qpm.spc.domain.PlotList;
 import cn.edu.buaa.g305.qpm.spc.domain.Spc;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXR;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXS;
 import cn.edu.buaa.g305.qpm.spc.server.SPCService;
 
 @Controller
@@ -55,6 +56,18 @@ public class SPCController {
 					spc=spcXR;
 			        break;       				
 				}
+			case("xsplot"):
+			{
+				SpcXS spcXS=new SpcXS();
+				spcXS.setName(spcVO.getName());
+				spcXS.setInput(spcVO.getInputXS());
+				spcXS=spcService.save(spcXS);
+				id=spcXS.getId();
+				name=spcXS.getName();
+				spc=spcXS;
+		        break;       				
+			}
+			
 			default:
 			{
 				spc.setError("无"+plotType+"类型SPC控制图");
@@ -106,6 +119,16 @@ public class SPCController {
 					spc=spcXR;
 			        break;       				
 				}
+			case("xsplot"):
+			{
+				SpcXS spcXS=new SpcXS();
+				spcXS.setName(spcVO.getName());
+				spcXS.setInput(spcVO.getInputXS());
+				spcXS=spcService.update(spcXS, id);
+				name=spcXS.getName();
+				spc=spcXS;
+		        break;       				
+			}
 			default:
 			{
 				spc.setError("无"+plotType+"类型SPC控制图");
@@ -150,6 +173,11 @@ public class SPCController {
 					spc=spcService.deleteXR(id);
 			        break;       				
 				}
+			case("xsplot"):
+			{
+				spc=spcService.deleteXS(id);
+		        break;       				
+			}
 			default:
 			{
 				spc.setError("无"+plotType+"类型SPC控制图");
@@ -181,6 +209,11 @@ public class SPCController {
 					spc=spcService.deleteXRByName(name);
 			        break;       				
 				}
+			case("xsplot"):
+			{
+				spc=spcService.deleteXSByName(name);
+		        break;       				
+			}
 			default:
 			{
 				spc.setError("无"+plotType+"类型SPC控制图");
@@ -212,6 +245,11 @@ public class SPCController {
 					spc=spcService.getXRById(id);
 			        break;       				
 				}
+			case("xsplot"):
+			{
+				spc=spcService.getXSById(id);
+		        break;       				
+			}
 			default:
 			{
 				spc.setError("无"+plotType+"类型SPC控制图");
@@ -252,6 +290,11 @@ public class SPCController {
 					spc=spcService.getXRByName(name);
 			        break;       				
 				}
+			case("xsplot"):
+			{
+				spc=spcService.getXSByName(name);
+		        break;       				
+			}
 			default:
 			{
 				spc.setError("无"+plotType+"类型SPC控制图");
@@ -288,6 +331,12 @@ public class SPCController {
 			case("xrplot"):
 			{	
 				map.put("format",SpcXR.format());
+				return new ResponseEntity<Map<String,String>>
+				(map,HttpStatus.OK); 
+			}
+			case("xsplot"):
+			{	
+				map.put("format",SpcXS.format());
 				return new ResponseEntity<Map<String,String>>
 				(map,HttpStatus.OK); 
 			}

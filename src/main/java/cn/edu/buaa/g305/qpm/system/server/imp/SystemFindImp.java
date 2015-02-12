@@ -3,7 +3,7 @@ package cn.edu.buaa.g305.qpm.system.server.imp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cn.edu.buaa.g305.qpm.spc.dao.SPCXRRepository;
+import cn.edu.buaa.g305.qpm.spc.dao.SpcXRRepository;
 import cn.edu.buaa.g305.qpm.system.dao.OrganizationRepository;
 import cn.edu.buaa.g305.qpm.system.dao.ProjectRepository;
 import cn.edu.buaa.g305.qpm.system.server.SystemFind;
@@ -15,7 +15,7 @@ public class SystemFindImp implements SystemFind {
 	@Autowired
 	private OrganizationRepository organizationRepository;
 	@Autowired
-	private SPCXRRepository spcxrRepository;
+	private SpcXRRepository spcxrRepository;
 
 	public String findProductAffiliation(String name) {
 		

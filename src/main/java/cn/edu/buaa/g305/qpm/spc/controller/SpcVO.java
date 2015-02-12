@@ -1,6 +1,7 @@
 package cn.edu.buaa.g305.qpm.spc.controller;
 
 import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXRIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXSIn;
 
 /**
  * 用于接受前端传来的数据，使用spring MVC-jackson进行数据绑定
@@ -15,7 +16,10 @@ public class SpcVO {
 	private String name;
 	
 	//不同输入有不同的input输入，具体参见具体spc类的format
+	//X-R图
 	private SpcXRIn inputXR;
+	//X-S图
+	private SpcXSIn inputXS;
 
 	public String getId() {
 		return id;
@@ -40,5 +44,14 @@ public class SpcVO {
 	public void setInputXR(SpcXRIn inputXR) {
 		this.inputXR = inputXR;
 	}
+
+	public SpcXSIn getInputXS() {
+		return inputXS;
+	}
+
+	public void setInputXS(SpcXSIn inputXS) {
+		this.inputXS = inputXS;
+	}
+	
 	
 }
