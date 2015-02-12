@@ -1,31 +1,39 @@
 package cn.edu.buaa.g305.qpm.system.domain;
 
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
+
 @Document
+@JsonSerialize(include=Inclusion.NON_NULL)
 public class Project extends AbstractDocument{
 	
 	@Indexed(unique=true)
 	private String name;
 
-	private String organization;
+	@DBRef
+	private Organization organization;
 	
-	private String descriptionString;
+	private String description;
 	
-	public String getDescriptionString() {
-		return descriptionString;
+
+
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDescriptionString(String descriptionString) {
-		this.descriptionString = descriptionString;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public String getOrganization() {
+	public Organization getOrganization() {
 		return organization;
 	}
 
-	public void setOrganization(String organization) {
+	public void setOrganization(Organization organization) {
 		this.organization = organization;
 	}
 
@@ -37,5 +45,12 @@ public class Project extends AbstractDocument{
 		this.name = name;
 	}
 	
-
+	@Override
+	public String toString()
+	{
+		return "{id:"+id+","+
+	           "name:"+name+","+
+			   "organization:"+organization+","+
+	           "description:"+description+"}";
+	}
 }

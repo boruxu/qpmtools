@@ -15,6 +15,8 @@ public class SpcVO {
 	
 	private String name;
 	
+	private String project;
+	
 	//不同输入有不同的input输入，具体参见具体spc类的format
 	//X-R图
 	private SpcXRIn inputXR;
@@ -52,6 +54,16 @@ public class SpcVO {
 	public void setInputXS(SpcXSIn inputXS) {
 		this.inputXS = inputXS;
 	}
+
+	public String getProject() {
+		return project;
+	}
+
+	public void setProject(String project) {
+		this.project = project;
+	}
+	
+	
 	
 	
 }

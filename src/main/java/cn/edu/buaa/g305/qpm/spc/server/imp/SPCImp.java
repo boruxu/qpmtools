@@ -1,15 +1,11 @@
 package cn.edu.buaa.g305.qpm.spc.server.imp;
 
-import org.apache.commons.math3.util.Precision;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
-import com.mongodb.MongoException;
-
-import cn.edu.buaa.g305.qpm.spc.controller.SPCController;
 import cn.edu.buaa.g305.qpm.spc.dao.SpcXRRepository;
 import cn.edu.buaa.g305.qpm.spc.dao.SpcXSRepository;
 import cn.edu.buaa.g305.qpm.spc.domain.*;
@@ -20,12 +16,12 @@ import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXS;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXSIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXSOut;
 import cn.edu.buaa.g305.qpm.spc.server.SPCService;
+import cn.edu.buaa.g305.qpm.system.domain.Project;
 import cn.edu.buaa.g305.qpm.system.server.SystemFind;
 import static cn.edu.buaa.g305.qpm.spc.system.VariableControlChartsFactor.*;
 import static cn.edu.buaa.g305.qpm.system.StringArrayToDoubleArray.*;
 import static cn.edu.buaa.g305.qpm.system.DoublePrecisonArrayToStringArray.*;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
 @Component
 public class SPCImp implements SPCService{
 	
@@ -347,8 +343,10 @@ public class SPCImp implements SPCService{
 	}
 	
 	
-	public SpcXR save(SpcXR spcXR) {
+	public SpcXR save(SpcXR spcXR,String project) {
 
+		Project projectO=systemFind.findProductAffiliation(project);
+		spcXR.setProject(projectO);
 		try {
 			spcXR.setOutput(computeXR(spcXR.getInput()));
 		} catch (Exception e) {
@@ -367,13 +365,13 @@ public class SPCImp implements SPCService{
 		return spcXR;
 	    
 	}
-	public SpcXR update(SpcXR spcXR,String id){
+	public SpcXR update(SpcXR spcXR,String id,String project){
 		
 		SpcXR spcXRt=getXRById(id);
 		if(spcXRt.getError()==null)
 		{
 			spcXR.setId(id);
-			spcXR=save(spcXR);
+			spcXR=save(spcXR,project);
 			if(spcXR.getError()==null)
 			{
 				spcXR.setHttpStatus(HttpStatus.OK);
@@ -449,7 +447,9 @@ public class SPCImp implements SPCService{
 	}
 	
 	
-	public SpcXS save(SpcXS spcXS) {
+	public SpcXS save(SpcXS spcXS,String project) {
+		Project projectO=systemFind.findProductAffiliation(project);
+		spcXS.setProject(projectO);
 
 		try {
 			spcXS.setOutput(computeXS(spcXS.getInput()));
@@ -470,13 +470,13 @@ public class SPCImp implements SPCService{
 		return spcXS;
 	    
 	}
-	public SpcXS update(SpcXS spcXS,String id){
+	public SpcXS update(SpcXS spcXS,String id,String project){
 		
 		SpcXS spcXSt=getXSById(id);
 		if(spcXSt.getError()==null)
 		{
 			spcXS.setId(id);
-			spcXS=save(spcXS);
+			spcXS=save(spcXS,project);
 			if(spcXS.getError()==null)
 			{
 				spcXS.setHttpStatus(HttpStatus.OK);

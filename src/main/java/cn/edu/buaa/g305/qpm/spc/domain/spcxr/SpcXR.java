@@ -3,10 +3,12 @@
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.http.HttpStatus;
 
 import cn.edu.buaa.g305.qpm.spc.domain.Spc;
+import cn.edu.buaa.g305.qpm.system.domain.Project;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
@@ -22,6 +24,9 @@ public class SpcXR extends Spc{
 	
 	@Indexed(unique=true)
 	private String name;
+	@DBRef
+	private Project project;
+	
 	private static String type="spcXR";
 	private String stauts="computeFinished";
 	private SpcXRIn input;
@@ -71,6 +76,16 @@ public class SpcXR extends Spc{
 	public void setOutput(SpcXROut output) {
 		this.output = output;
 	}
+	
+	public Project getProject() {
+		return project;
+	}
+
+	public void setProject(Project project) {
+		this.project = project;
+	}
+
+
 	//设置出错输出格式，不输出的设为空，jackson不输出
 	public void setErrorOutput(String error,HttpStatus httpStatus) {
 		
@@ -79,6 +94,7 @@ public class SpcXR extends Spc{
 		stauts=null;
 		input=null;
 		output=null;
+		project=null;
 		this.error=error;
 		this.httpStatus=httpStatus;
 	}
@@ -92,7 +108,8 @@ public class SpcXR extends Spc{
 				       "type:"+ type+","+
 				       "stauts:"+       stauts+","+
 				       "input:" +   input+","+
-				       "output:" +   output+"}";
+				       "output:" +   output+","+
+				       "project"+project+"}";
 		return string;
 		
 	}

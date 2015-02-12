@@ -50,7 +50,7 @@ public class SPCController {
 					SpcXR spcXR=new SpcXR();
 					spcXR.setName(spcVO.getName());
 					spcXR.setInput(spcVO.getInputXR());
-					spcXR=spcService.save(spcXR);
+					spcXR=spcService.save(spcXR,spcVO.getProject());
 					id=spcXR.getId();
 					name=spcXR.getName();
 					spc=spcXR;
@@ -61,7 +61,7 @@ public class SPCController {
 				SpcXS spcXS=new SpcXS();
 				spcXS.setName(spcVO.getName());
 				spcXS.setInput(spcVO.getInputXS());
-				spcXS=spcService.save(spcXS);
+				spcXS=spcService.save(spcXS,spcVO.getProject());
 				id=spcXS.getId();
 				name=spcXS.getName();
 				spc=spcXS;
@@ -114,7 +114,7 @@ public class SPCController {
 					SpcXR spcXR=new SpcXR();
 					spcXR.setName(spcVO.getName());
 					spcXR.setInput(spcVO.getInputXR());
-					spcXR=spcService.update(spcXR, id);
+					spcXR=spcService.update(spcXR, id,spcVO.getProject());
 					name=spcXR.getName();
 					spc=spcXR;
 			        break;       				
@@ -124,7 +124,7 @@ public class SPCController {
 				SpcXS spcXS=new SpcXS();
 				spcXS.setName(spcVO.getName());
 				spcXS.setInput(spcVO.getInputXS());
-				spcXS=spcService.update(spcXS, id);
+				spcXS=spcService.update(spcXS, id,spcVO.getProject());
 				name=spcXS.getName();
 				spc=spcXS;
 		        break;       				

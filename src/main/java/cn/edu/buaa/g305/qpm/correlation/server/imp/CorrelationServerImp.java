@@ -37,8 +37,8 @@ public class CorrelationServerImp implements CorrelationServer{
 
 	public void saveCorrelationIn(CorrelationIn correlationIn) {
 	   
-		correlationIn.setProject(
-				systemFind.findProductAffiliation(correlationIn.getProject()));
+		/*correlationIn.setProject(
+				systemFind.findProductAffiliation(correlationIn.getProject()));*/
 		if(correlationInRepository.findByName(correlationIn.getName())==null)
 		{
 			correlationInRepository.save(correlationIn);

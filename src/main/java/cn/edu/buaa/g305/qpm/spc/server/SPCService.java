@@ -23,8 +23,8 @@ public interface SPCService {
 	
 	SpcXR deleteXRByName(String name);
 	
-	SpcXR update(SpcXR spcXR,String id);
-	SpcXR save(SpcXR spcXR);
+	SpcXR update(SpcXR spcXR,String id,String project);
+	SpcXR save(SpcXR spcXR,String project);
 	
     SpcXS getXSByName(String name);
 	
@@ -34,7 +34,7 @@ public interface SPCService {
 	
 	SpcXS deleteXSByName(String name);
 	
-	SpcXS update(SpcXS spcXS,String id);
-	SpcXS save(SpcXS spcXS);
+	SpcXS update(SpcXS spcXS,String id,String project);
+	SpcXS save(SpcXS spcXS,String project);
 
 }
