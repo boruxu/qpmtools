@@ -1,5 +1,7 @@
 package cn.edu.buaa.g305.qpm.spc.server;
 
+import java.util.List;
+
 import cn.edu.buaa.g305.qpm.spc.domain.*;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXRIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXROut;
@@ -15,6 +17,7 @@ public interface SPCService {
 	SPCXMROut computeXMR(SPCXMRIn spcxmrIn);
 	SPCCOut computeC(SPCCIn spccIn);
 	
+	//X-R图数据库操作
 	SpcXR getXRByName(String name);
 	
 	SpcXR getXRById(String id);
@@ -26,6 +29,11 @@ public interface SPCService {
 	SpcXR update(SpcXR spcXR,String id,String project);
 	SpcXR save(SpcXR spcXR,String project);
 	
+	SpcList getSpcXRList();
+	SpcList getSpcXRListByProjectName(String name);
+	
+	
+	//X-S图数据库操作
     SpcXS getXSByName(String name);
 	
 	SpcXS getXSById(String id);
@@ -36,5 +44,8 @@ public interface SPCService {
 	
 	SpcXS update(SpcXS spcXS,String id,String project);
 	SpcXS save(SpcXS spcXS,String project);
+	
+	SpcList getSpcXSList();
+	SpcList getSpcXSListByProjectName(String name);
 
 }

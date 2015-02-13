@@ -3,7 +3,6 @@ package cn.edu.buaa.g305.qpm.system.server.imp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import cn.edu.buaa.g305.qpm.spc.dao.SpcXRRepository;
 import cn.edu.buaa.g305.qpm.system.dao.OrganizationRepository;
 import cn.edu.buaa.g305.qpm.system.dao.ProjectRepository;
 import cn.edu.buaa.g305.qpm.system.domain.Organization;
@@ -65,4 +64,10 @@ public class SystemFindImp implements SystemFind {
 		}
 
 	}
+
+	public Project findProjectByName(String name) {
+		
+		return projectRepository.findByName(name);
+	}
+	
 }

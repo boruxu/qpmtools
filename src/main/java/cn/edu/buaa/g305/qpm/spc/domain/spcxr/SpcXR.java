@@ -1,7 +1,5 @@
 ﻿package cn.edu.buaa.g305.qpm.spc.domain.spcxr;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -19,8 +17,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
 @JsonSerialize(include=Inclusion.NON_NULL)
 public class SpcXR extends Spc{
 	
-	@Id
-	private String id;
+	
 	
 	@Indexed(unique=true)
 	private String name;
@@ -31,14 +28,6 @@ public class SpcXR extends Spc{
 	private String stauts="computeFinished";
 	private SpcXRIn input;
 	private SpcXROut output;
-
-	public void setId(String id) {
-		this.id = id;
-	}
-	
-	public String getId() {
-		return id;
-	}
 
 	public String getName() {
 		return name;

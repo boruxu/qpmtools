@@ -1,6 +1,9 @@
 package cn.edu.buaa.g305.qpm.spc.server.imp;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
@@ -16,6 +19,7 @@ import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXS;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXSIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXSOut;
 import cn.edu.buaa.g305.qpm.spc.server.SPCService;
+import cn.edu.buaa.g305.qpm.system.dao.ProjectRepository;
 import cn.edu.buaa.g305.qpm.system.domain.Project;
 import cn.edu.buaa.g305.qpm.system.server.SystemFind;
 import static cn.edu.buaa.g305.qpm.spc.system.VariableControlChartsFactor.*;
@@ -31,6 +35,8 @@ public class SPCImp implements SPCService{
 	private SpcXSRepository spcxsRepository;
 	@Autowired
 	private SystemFind systemFind;
+	@Autowired
+	private ProjectRepository projectRepository;
 
 	public SpcXROut computeXR(SpcXRIn spcxrIn) {
 		
@@ -386,7 +392,33 @@ public class SPCImp implements SPCService{
 			return spcXRt;
 		}
 	}
+	public SpcList getSpcXRList() {
+		List<SpcXR> spcXRList= (List<SpcXR>) spcxrRepository.findAll();
+		SpcList spcList=new SpcList();
+		spcList.setLists(spcXRList);
+		spcList.setHttpStatus(HttpStatus.OK);
+		return spcList;
+	}
 	
+	@Override
+	public SpcList getSpcXRListByProjectName(String name) {
+		SpcList spcList=new SpcList();
+		Project project=projectRepository.findByName(name);
+		if(project==null)
+		{
+			spcList.setError("名为"+name+"项目不存在");
+			spcList.setHttpStatus(HttpStatus.NOT_FOUND);
+			spcList.setLists(new ArrayList<Spc>());
+			return spcList;
+		}
+		else {
+			spcList.setLists(spcxrRepository.findByProject(project));
+			spcList.setHttpStatus(HttpStatus.OK);
+			return spcList;
+		}
+	}
+	
+	//X-S图
 	public SpcXS getXSByName(String name) {
 		
 		SpcXS spcXS=spcxsRepository.findByName(name);
@@ -491,6 +523,35 @@ public class SPCImp implements SPCService{
 			return spcXSt;
 		}
 	}
+
+	public SpcList getSpcXSList() {
+		List<SpcXS> spcXSList= (List<SpcXS>) spcxsRepository.findAll();
+		SpcList spcList=new SpcList();
+		spcList.setLists(spcXSList);
+		spcList.setHttpStatus(HttpStatus.OK);
+		return spcList;
+	}
+
+	public SpcList getSpcXSListByProjectName(String name) {
+		SpcList spcList=new SpcList();
+		Project project=projectRepository.findByName(name);
+		if(project==null)
+		{
+			spcList.setError("名为"+name+"项目不存在");
+			spcList.setHttpStatus(HttpStatus.NOT_FOUND);
+			spcList.setLists(new ArrayList<Spc>());
+			return spcList;
+		}
+		else {
+			spcList.setLists(spcxsRepository.findByProject(project));
+			spcList.setHttpStatus(HttpStatus.OK);
+			return spcList;
+		}
+		
+
+	}
+
+
 
 
 
