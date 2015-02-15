@@ -1,5 +1,6 @@
 package cn.edu.buaa.g305.qpm.spc.controller;
 
+import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMRIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXRIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXSIn;
 
@@ -22,6 +23,16 @@ public class SpcVO {
 	private SpcXRIn inputXR;
 	//X-S图
 	private SpcXSIn inputXS;
+	//XMR图
+	private SpcXMRIn inputXMR;
+
+	public SpcXMRIn getInputXMR() {
+		return inputXMR;
+	}
+
+	public void setInputXMR(SpcXMRIn inputXMR) {
+		this.inputXMR = inputXMR;
+	}
 
 	public String getId() {
 		return id;

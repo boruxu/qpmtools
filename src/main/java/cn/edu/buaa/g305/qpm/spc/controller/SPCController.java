@@ -3,11 +3,13 @@ package cn.edu.buaa.g305.qpm.spc.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 import cn.edu.buaa.g305.qpm.spc.domain.PlotList;
 import cn.edu.buaa.g305.qpm.spc.domain.Spc;
 import cn.edu.buaa.g305.qpm.spc.domain.SpcList;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMR;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXR;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXS;
 import cn.edu.buaa.g305.qpm.spc.server.SPCService;
@@ -32,6 +35,7 @@ public class SPCController {
 	//spc主页
 	@RequestMapping()
 	public String spcHome()
+
 	{
 		return "spc.jsp";
 	}
@@ -65,6 +69,17 @@ public class SPCController {
 				id=spcXS.getId();
 				name=spcXS.getName();
 				spc=spcXS;
+		        break;       				
+			}
+			case("xmrplot"):
+			{
+				SpcXMR spcXMR=new SpcXMR();
+				spcXMR.setName(spcVO.getName());
+				spcXMR.setInput(spcVO.getInputXMR());
+				spcXMR=spcService.save(spcXMR,spcVO.getProject());
+				id=spcXMR.getId();
+				name=spcXMR.getName();
+				spc=spcXMR;
 		        break;       				
 			}
 			
@@ -117,6 +132,16 @@ public class SPCController {
 				spc=spcXS;
 		        break;       				
 			}
+			case("xmrplot"):
+			{
+				SpcXMR spcXMR=new SpcXMR();
+				spcXMR.setName(spcVO.getName());
+				spcXMR.setInput(spcVO.getInputXMR());
+				spcXMR=spcService.update(spcXMR, id,spcVO.getProject());
+				name=spcXMR.getName();
+				spc=spcXMR;
+		        break;       				
+			}
 			default:
 			{
 				addNoPlotType(spc, plotType);
@@ -154,6 +179,11 @@ public class SPCController {
 				spc=spcService.deleteXS(id);
 		        break;       				
 			}
+			case("xmrplot"):
+			{
+				spc=spcService.deleteXMR(id);
+		        break;       				
+			}
 			default:
 			{
 				addNoPlotType(spc, plotType);
@@ -184,6 +214,11 @@ public class SPCController {
 				spc=spcService.deleteXSByName(name);
 		        break;       				
 			}
+			case("xmrplot"):
+			{
+				spc=spcService.deleteXMRByName(name);
+		        break;       				
+			}
 			default:
 			{
 				addNoPlotType(spc, plotType);
@@ -212,6 +247,11 @@ public class SPCController {
 			case("xsplot"):
 			{
 				spc=spcService.getXSById(id);
+		        break;       				
+			}
+			case("xmrplot"):
+			{
+				spc=spcService.getXMRById(id);
 		        break;       				
 			}
 			default:
@@ -253,6 +293,12 @@ public class SPCController {
 				spc=spcService.getXSByName(name);
 		        break;       				
 			}
+			case("xmrplot"):
+			{
+				spc=spcService.getXMRByName(name);
+		        break;       				
+			}
+			
 			default:
 			{
 				addNoPlotType(spc, plotType);
@@ -290,6 +336,12 @@ public class SPCController {
 			case("xsplot"):
 			{
 				spcList=spcService.getSpcXSList();
+				   setSpcListLink(spcList, plotType);
+			       break;       				
+			}
+			case("xmrplot"):
+			{
+				spcList=spcService.getSpcXMRList();
 				   setSpcListLink(spcList, plotType);
 			       break;       				
 			}
@@ -332,6 +384,12 @@ public class SPCController {
 				   setSpcListLink(spcList, plotType);
 			       break;       				
 			}
+			case("xmrplot"):
+			{
+				spcList=spcService.getSpcXMRListByProjectName(name);
+				   setSpcListLink(spcList, plotType);
+			       break;       				
+			}
 			default:
 			{
 				spcList.setError("无"+plotType+"类型SPC控制图");
@@ -359,9 +417,9 @@ public class SPCController {
 	private void addCreateLandDataFormatL(Spc spc,String plotType)
 	{
 		spc.add(linkTo(methodOn(SPCController.class).create(plotType, null))
-					.withRel(plotType+"/create.post"));
+					.withRel("create"));
 		spc.add(linkTo(methodOn(SPCController.class).getDataFormat(plotType))
-					.withRel(plotType+"/dataFormat"));
+					.withRel("dataFormat"));
 	}
 		
 	private void addAllLinkExcludeHelp(Spc spc,String id,String name,String plotType)
@@ -370,7 +428,7 @@ public class SPCController {
 		spc.add(linkTo(methodOn(SPCController.class).getByName(plotType,name)).withRel("getByName"));
 		spc.add(linkTo(methodOn(SPCController.class).delete(plotType, id)).withRel("delete"));
 		spc.add(linkTo(methodOn(SPCController.class).deleteByName(plotType, name)).withRel("deleteByName"));
-		spc.add(linkTo(methodOn(SPCController.class).updateXR(plotType, id, null)).withRel("update.patch"));
+		spc.add(linkTo(methodOn(SPCController.class).updateXR(plotType, id, null)).withRel("update"));
 			
 	}
 		
@@ -387,6 +445,8 @@ public class SPCController {
 	{
 		for (Spc spc :spcList.getLists()) {
 			spc.add(linkTo(methodOn(SPCController.class).getByID(plotType,spc.getId())).withSelfRel());
+			spc.add(linkTo(methodOn(SPCController.class).updateXR(plotType, spc.getId(), null)).withRel("update"));
+			spc.add(linkTo(methodOn(SPCController.class).delete(plotType, spc.getId())).withRel("delete"));			
 		}
 		spcList.setPlotType(plotType);	
 	}

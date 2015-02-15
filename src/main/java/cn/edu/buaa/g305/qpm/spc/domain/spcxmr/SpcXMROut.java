@@ -1,71 +1,87 @@
-package cn.edu.buaa.g305.qpm.spc.domain;
+package cn.edu.buaa.g305.qpm.spc.domain.spcxmr;
 
 import java.util.Arrays;
 
-public class SPCXMROut {
+public class SpcXMROut {
 	
-	private double[] x;
-	private double[] mr;
+	private String[] x;
+	private String[] mr;
 	private String[] time;
-	private double xUCL;
-	private double xCL;
-	private double xLCL;
-	private double mrUCL;
-	private double mrCL;
-	private final double mrLCL=0;
+	private String xUCL;
+	private String xCL;
+	private String xLCL;
+	private String mrUCL;
+	private String mrCL;
+	private final String mrLCL="0";
 	
-	public double[] getX() {
+	public String[] getX() {
 		return x;
 	}
-	public void setX(double[] x) {
+
+	public void setX(String[] x) {
 		this.x = x;
 	}
-	public double[] getMr() {
+
+	public String[] getMr() {
 		return mr;
 	}
-	public void setMr(double[] mr) {
+
+	public void setMr(String[] mr) {
 		this.mr = mr;
 	}
+
 	public String[] getTime() {
 		return time;
 	}
+
 	public void setTime(String[] time) {
 		this.time = time;
 	}
-	public double getxUCL() {
+
+	public String getxUCL() {
 		return xUCL;
 	}
-	public void setxUCL(double xUCL) {
+
+	public void setxUCL(String xUCL) {
 		this.xUCL = xUCL;
 	}
-	public double getxCL() {
+
+	public String getxCL() {
 		return xCL;
 	}
-	public void setxCL(double xCL) {
+
+	public void setxCL(String xCL) {
 		this.xCL = xCL;
 	}
-	public double getxLCL() {
+
+	public String getxLCL() {
 		return xLCL;
 	}
-	public void setxLCL(double xLCL) {
+
+	public void setxLCL(String xLCL) {
 		this.xLCL = xLCL;
 	}
-	public double getMrUCL() {
+
+	public String getMrUCL() {
 		return mrUCL;
 	}
-	public void setMrUCL(double mrUCL) {
+
+	public void setMrUCL(String mrUCL) {
 		this.mrUCL = mrUCL;
 	}
-	public double getMrCL() {
+
+	public String getMrCL() {
 		return mrCL;
 	}
-	public void setMrCL(double mrCL) {
+
+	public void setMrCL(String mrCL) {
 		this.mrCL = mrCL;
 	}
-	public double getMrLCL() {
+
+	public String getMrLCL() {
 		return mrLCL;
 	}
-	
+
 	@Override
 	
 	public String toString()

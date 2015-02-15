@@ -9,9 +9,13 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
+import cn.edu.buaa.g305.qpm.spc.dao.SpcXMRRepository;
 import cn.edu.buaa.g305.qpm.spc.dao.SpcXRRepository;
 import cn.edu.buaa.g305.qpm.spc.dao.SpcXSRepository;
 import cn.edu.buaa.g305.qpm.spc.domain.*;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMR;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMRIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMROut;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXRIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXROut;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXR;
@@ -33,6 +37,8 @@ public class SPCImp implements SPCService{
 	private SpcXRRepository spcxrRepository;
 	@Autowired
 	private SpcXSRepository spcxsRepository;
+	@Autowired
+	private SpcXMRRepository spcxmrRepository;
 	@Autowired
 	private SystemFind systemFind;
 	@Autowired
@@ -118,7 +124,7 @@ public class SPCImp implements SPCService{
 		//样本间S的均值
 		double sAverage=0;
 		//精度
-		int precision=3;
+		int precision=2;
 		double[][] x=toDouble(spcxsIn.getX());
 		//各个X平均值
 		int i=0;
@@ -185,11 +191,11 @@ public class SPCImp implements SPCService{
 		
 		
 	}
-	/*
-	public SPCXMROut computeXMR(SPCXMRIn spcxmrIn) {
-		SPCXMROut spcxmrOut=new SPCXMROut();
+	
+	public SpcXMROut computeXMR(SpcXMRIn spcxmrIn) {
+		SpcXMROut spcxmrOut=new SpcXMROut();
 		
-		double[] x= spcxmrIn.getX();
+		double[] x= toDouble(spcxmrIn.getX());
 		//样本数
 		int n=spcxmrIn.getX().length;
 		//样本X平均值
@@ -198,6 +204,8 @@ public class SPCImp implements SPCService{
 		double[] mR=new double[n-1];
 		//移动极差均值
 		double mRAverage=0;
+		
+		int precision=2;
 	
 		//计算X平均值,移动极差,移动极差平均值
 		for (int i=0;i<n;i++) {
@@ -211,27 +219,17 @@ public class SPCImp implements SPCService{
 		xAverage=xAverage/n;
 		mRAverage=mRAverage/(n-1);
 
-		for (double xv : x) {
-			
-			xv=precision(xv, 4);
-			
-		}
-		for (double mrv : mR) {
-				
-				mrv=precision(mrv, 4);
-				
-	    }
-		if(spcxmrIn.getSigma()<0)
+		if(spcxmrIn.getSigma()==null)
 		{
-			spcxmrOut.setX(x);
-			spcxmrOut.setxCL(precision(xAverage, 4));
-			spcxmrOut.setxUCL(precision(xAverage+2.66*mRAverage,4));
-			spcxmrOut.setxLCL(precision(xAverage-2.66*mRAverage,4));
+			spcxmrOut.setX(toStringPrecision(x,precision));
+			spcxmrOut.setxCL(toStringPrecision(xAverage, precision));
+			spcxmrOut.setxUCL(toStringPrecision(xAverage+2.66*mRAverage,precision));
+			spcxmrOut.setxLCL(toStringPrecision(xAverage-2.66*mRAverage,precision));
 			//计算MR图的UCL，设置S图输出
 	      
-			spcxmrOut.setMr(mR);
-			spcxmrOut.setMrCL(precision(mRAverage, 4));
-			spcxmrOut.setMrUCL(precision(mRAverage*computeD4(2), 4));
+			spcxmrOut.setMr(toStringPrecision(mR,precision));
+			spcxmrOut.setMrCL(toStringPrecision(mRAverage, precision));
+			spcxmrOut.setMrUCL(toStringPrecision(mRAverage*computeD4(2), precision));
 			
 			
 			spcxmrOut.setTime(spcxmrIn.getTime());
@@ -239,15 +237,16 @@ public class SPCImp implements SPCService{
 		}
 		else
 		{
-			spcxmrOut.setX(x);
-			spcxmrOut.setxCL(precision(xAverage, 4));
-			spcxmrOut.setxUCL(precision(xAverage+3*spcxmrIn.getSigma(),4));
-			spcxmrOut.setxLCL(precision(xAverage-3*spcxmrIn.getSigma(),4));
+			double sigma=toDouble(spcxmrIn.getSigma());
+			spcxmrOut.setX(toStringPrecision(x,precision));
+			spcxmrOut.setxCL(toStringPrecision(xAverage, precision));
+			spcxmrOut.setxUCL(toStringPrecision(xAverage+3*sigma,precision));
+			spcxmrOut.setxLCL(toStringPrecision(xAverage-3*sigma,precision));
 			//计算MR图的UCL，设置S图输出
 	      
-			spcxmrOut.setMr(mR);
-			spcxmrOut.setMrCL(precision(1.13*spcxmrIn.getSigma(), 4));
-			spcxmrOut.setMrUCL(precision(3.69*spcxmrIn.getSigma(), 4));
+			spcxmrOut.setMr(toStringPrecision(mR,precision));
+			spcxmrOut.setMrCL(toStringPrecision(1.13*sigma, precision));
+			spcxmrOut.setMrUCL(toStringPrecision(3.69*sigma, precision));
 			
 			
 			spcxmrOut.setTime(spcxmrIn.getTime());
@@ -256,7 +255,7 @@ public class SPCImp implements SPCService{
 		}
 		
 		
-	}*/
+	}
 
 	public SPCCOut computeC(SPCCIn spccIn) {
 		double xAverage=0;
@@ -282,11 +281,6 @@ public class SPCImp implements SPCService{
 		
 	}
 
-
-	public SPCXMROut computeXMR(SPCXMRIn spcxmrIn) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	
 	public SpcXR getXRByName(String name) {
@@ -328,8 +322,9 @@ public class SPCImp implements SPCService{
 		if(spcXR.getError()==null)
 		{
 			spcXR.setStauts("deleted");
+			spcxrRepository.delete(id);
 		}
-		spcxrRepository.delete(id);
+		
 		return spcXR;
 		
 	}
@@ -458,8 +453,9 @@ public class SPCImp implements SPCService{
 		if(spcXS.getError()==null)
 		{
 			spcXS.setStauts("deleted");
+			spcxsRepository.delete(id);
 		}
-		spcxsRepository.delete(id);
+		
 		return spcXS;
 		
 	}
@@ -550,9 +546,140 @@ public class SPCImp implements SPCService{
 		
 
 	}
+	
+	//XMR图数据库操作
 
+	@Override
+	public SpcXMR getXMRByName(String name) {
+		
+		SpcXMR spcXMR=spcxmrRepository.findByName(name);
+		if(spcXMR==null)
+		{
+			spcXMR=new SpcXMR();
+			//找不到资源，设置错误信息和状态码
+			spcXMR.setErrorOutput("名为"+name+"的XMR图资源不存在",HttpStatus.NOT_FOUND);
+			return spcXMR;
+		}
+		else{
+			spcXMR.setHttpStatus(HttpStatus.OK);
+			return spcXMR;
+		}
+	}
 
+	@Override
+	public SpcXMR getXMRById(String id) {
+		
+		SpcXMR spcXMR=spcxmrRepository.findOne(id);
+		if(spcXMR==null)
+		{
+			spcXMR=new SpcXMR();
+			spcXMR.setErrorOutput("id为"+id+"的XMR图资源不存在",HttpStatus.NOT_FOUND);
+			return spcXMR;
+		}
+		else {
+			spcXMR.setHttpStatus(HttpStatus.OK);
+			return spcXMR;
+		}
+		
+	}
 
+	@Override
+	public SpcXMR deleteXMR(String id) {
+		SpcXMR spcXMR=getXMRById(id);
+		if(spcXMR.getError()==null)
+		{
+			spcXMR.setStauts("deleted");
+			spcxmrRepository.delete(id);
+		}	
+		return spcXMR;
+	}
 
+	@Override
+	public SpcXMR deleteXMRByName(String name) {
+		SpcXMR spcXMR=getXMRByName(name);
+		if(spcXMR.getError()==null)
+		{
+			spcXMR.setStauts("deleted");
+		}
+		if(spcXMR.getId()!=null)
+		{
+			spcxmrRepository.delete(spcXMR.getId());
+		}	
+		return spcXMR;
+	}
+
+	@Override
+	public SpcXMR update(SpcXMR spcXMR, String id, String project) {
+		SpcXMR spcXMRdb=getXMRById(id);
+		if(spcXMRdb.getError()==null)
+		{
+			spcXMR.setId(id);
+			spcXMR=save(spcXMR,project);
+			if(spcXMR.getError()==null)
+			{
+				spcXMR.setHttpStatus(HttpStatus.OK);
+				return spcXMR;
+			}
+			else {
+				return spcXMR;
+			}
+			 
+		}
+		else {
+			return spcXMRdb;
+		}
+	}
+
+	@Override
+	public SpcXMR save(SpcXMR spcXMR, String project) {
+		Project projectO=systemFind.findProductAffiliation(project);
+		spcXMR.setProject(projectO);
+
+		try {
+			spcXMR.setOutput(computeXMR(spcXMR.getInput()));
+		} catch (Exception e) {
+			spcXMR.setErrorOutput(e.getMessage(), HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+			return spcXMR;
+		}
+
+		try {
+			spcXMR=spcxmrRepository.save(spcXMR);
+		} catch (DuplicateKeyException e) {
+			spcXMR.setErrorOutput("名字重复，请重新命名", HttpStatus.BAD_REQUEST);
+			return spcXMR;
+		}
+		
+		spcXMR.setHttpStatus(HttpStatus.CREATED);
+		return spcXMR;
+	    
+	}
+
+	@Override
+	public SpcList getSpcXMRList() {
+		List<SpcXMR> spcXMRList= (List<SpcXMR>) spcxmrRepository.findAll();
+		SpcList spcList=new SpcList();
+		spcList.setLists(spcXMRList);
+		spcList.setHttpStatus(HttpStatus.OK);
+		return spcList;
+	}
+
+	@Override
+	public SpcList getSpcXMRListByProjectName(String name) {
+		SpcList spcList=new SpcList();
+		Project project=projectRepository.findByName(name);
+		if(project==null)
+		{
+			spcList.setError("名为"+name+"项目不存在");
+			spcList.setHttpStatus(HttpStatus.NOT_FOUND);
+			spcList.setLists(new ArrayList<Spc>());
+			return spcList;
+		}
+		else {
+			spcList.setLists(spcxmrRepository.findByProject(project));
+			spcList.setHttpStatus(HttpStatus.OK);
+			return spcList;
+		}
+	}
 
 }

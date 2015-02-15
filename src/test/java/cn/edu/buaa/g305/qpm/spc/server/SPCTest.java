@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import cn.edu.buaa.g305.qpm.spc.domain.*;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMRIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMROut;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXRIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXROut;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXSIn;
@@ -81,17 +83,17 @@ public class SPCTest {
 	    spcxsIn.setX(toStringPrecision(x,1));
 	    SpcXSOut spcxsOut=spc.computeXS(spcxsIn);
 	    System.out.println("spcxsOut:"+spcxsOut);
-	    String[] expecteds=new String[]{"72.94","50.29","27.65","45.14","28.72","12.29"};
+	    String[] expecteds=new String[]{"72.94","50.30","27.65","45.14","28.72","12.29"};
 	    String[] actuals=new String[]{spcxsOut.getxUCL(),spcxsOut.getxCL(),spcxsOut.getxLCL(),
 	    		                      spcxsOut.getsUCL(),spcxsOut.getsCL(),spcxsOut.getsLCL()};
 	    assertArrayEquals(expecteds, actuals);
 	   
 	}
-	/*
+	
 	@Test
 	public void testXMR() {
 		SPCImp spc=new SPCImp();
-		SPCXMRIn spcxmrIn=new SPCXMRIn();
+		SpcXMRIn spcxmrIn=new SpcXMRIn();
 		String[] time=new String[80];
 		for (int i = 0; i < time.length; i++) {
 			time[i]=i+1+"";
@@ -106,16 +108,17 @@ public class SPCTest {
 				                50,43.4,48.3,46.4,43.4,52.3,45.2,42.2,44.8,42.2,
 				                50,46.2,47.4,42.2,47,47.3,49.7,48,42,41
 				                };
-	    spcxmrIn.setX(x);
-	    SPCXMROut spcxmrOut=spc.computeXMR(spcxmrIn);
+	    spcxmrIn.setX(toStringPrecision(x, 1));
+	    SpcXMROut spcxmrOut=spc.computeXMR(spcxmrIn);
+	    System.out.println("spcxmr:"+spcxmrIn);
 	    System.out.println(spcxmrOut);
-	    double[] expecteds=new double[]{54.07,45.05,36.03,11.08,3.39,0};
-	    double[] actuals=new double[]{spcxmrOut.getxUCL(),spcxmrOut.getxCL(),spcxmrOut.getxLCL(),
+	    String[] expecteds=new String[]{"54.07","45.05","36.03","11.08","3.39","0"};
+	    String[] actuals=new String[]{spcxmrOut.getxUCL(),spcxmrOut.getxCL(),spcxmrOut.getxLCL(),
 	    		                      spcxmrOut.getMrUCL(),spcxmrOut.getMrCL(),spcxmrOut.getMrLCL()};
 	    
-	    assertArrayEquals(expecteds, actuals, 0.01);
-	   
-	}*/
+	    assertArrayEquals(expecteds, actuals);
+	  
+	}
 	@Test
 	public void testC() {
 		SPCImp spc=new SPCImp();
