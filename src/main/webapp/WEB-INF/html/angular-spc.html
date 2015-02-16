@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html ng-app="spcRest">
+<head>
+<meta charset="UTF-8">
+<title>Angular-SPC Restful API 测试</title>
+<script src="../js/angular.js"></script>
+<script src="../js/lodash.compat.min.js"></script>
+<script src="../js/restangular.js"></script>
+</head>
+<body>
+   <input ng-model="person.name" type="text" placeholder="输入测试字符串">
+   <h1>Hello ,{{ person.name }}</h1>
+   <div ng-controller="GetXSList">
+       <input ng-model="spc.search" type="text" placeholder="输入api地址"/>
+       <button ng-click="search()">GET</button>
+       <pre>{{spc.data | json}}</pre>
+   </div>
+</body>
+<script type="text/javascript">
+var app=angular.module('spcRest', ['restangular']);
+app.factory('MessageService', ['Restangular', function(Restangular) {
+var restAngular = Restangular.withConfig(function(Configurer) {
+Configurer.setBaseUrl('/qpmtools/spc');
+});
+var _messageService = restAngular.all("");
+return {
+getMessages: function(resource) {
+return _messageService.get(resource);
+}
+};
+}]);
+
+app.controller("GetXSList",['$scope','MessageService',function($scope,MessageService)
+                           {
+	                            $scope.spc={"search":"xsplot/list"
+	                            		};
+	                            $scope.search=function()
+	                            {
+	                            	$scope.spc.data=MessageService.getMessages($scope.spc.search).$object;
+	                            };
+								
+                           }]);
+
+</script>
+</html>

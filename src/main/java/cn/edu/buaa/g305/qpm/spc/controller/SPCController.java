@@ -37,7 +37,7 @@ public class SPCController {
 	public String spcHome()
 
 	{
-		return "spc.jsp";
+		return "jsp/spc.jsp";
 	}
 	@RequestMapping(value="/{plotType}",method=RequestMethod.POST)
 	@ResponseBody

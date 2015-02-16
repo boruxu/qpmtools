@@ -25,7 +25,7 @@ public class CorrelationController {
 	@RequestMapping()
 	public String correlationHome()
 	{
-		return "correlation.jsp";
+		return "jsp/correlation.jsp";
 	}
 	//计算相关分析
 	//@ExceptionHandler

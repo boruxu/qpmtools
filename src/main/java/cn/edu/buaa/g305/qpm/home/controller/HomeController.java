@@ -9,15 +9,21 @@ public class HomeController {
 	@RequestMapping("/")
 	public String loginPage()
 	{
-		return "login.jsp";
+		return "jsp/login.jsp";
 	}
 	//主页
 	@RequestMapping("/home")
 	public String homePage()
 	{
-		return "home.jsp";
+		return "jsp/home.jsp";
 	}
 	
+	//主页
+	@RequestMapping("/test/angular-spc")
+	public String testSpc()
+	{
+		return "html/angular-spc.html";
+	}
 
 
 }
