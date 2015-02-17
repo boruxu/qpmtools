@@ -3,6 +3,9 @@ package cn.edu.buaa.g305.qpm.spc.server;
 import java.util.List;
 
 import cn.edu.buaa.g305.qpm.spc.domain.*;
+import cn.edu.buaa.g305.qpm.spc.domain.spcc.SpcC;
+import cn.edu.buaa.g305.qpm.spc.domain.spcc.SpcCIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcc.SpcCOut;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMR;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMRIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMROut;
@@ -18,7 +21,7 @@ public interface SPCService {
 	SpcXROut computeXR(SpcXRIn spcxr);
 	SpcXSOut computeXS(SpcXSIn spcxsIn);
 	SpcXMROut computeXMR(SpcXMRIn spcxmrIn);
-	SPCCOut computeC(SPCCIn spccIn);
+	SpcCOut computeC(SpcCIn spccIn);
 	
 	//X-R图数据库操作
 	SpcXR getXRByName(String name);
@@ -60,10 +63,25 @@ public interface SPCService {
 	
 	SpcXMR deleteXMRByName(String name);
 	
-	SpcXMR update(SpcXMR spcXS,String id,String project);
-	SpcXMR save(SpcXMR spcXS,String project);
+	SpcXMR update(SpcXMR spcXMR,String id,String project);
+	SpcXMR save(SpcXMR spcXMR,String project);
 	
 	SpcList getSpcXMRList();
 	SpcList getSpcXMRListByProjectName(String name);
+	
+	//C图数据库操作
+    SpcC getCByName(String name);
+	
+	SpcC getCById(String id);
+	
+	SpcC deleteC(String id);
+	
+	SpcC deleteCByName(String name);
+	
+	SpcC update(SpcC spcC,String id,String project);
+	SpcC save(SpcC spcC,String project);
+	
+	SpcList getSpcCList();
+	SpcList getSpcCListByProjectName(String name);
 
 }

@@ -20,6 +20,7 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
 import cn.edu.buaa.g305.qpm.spc.domain.PlotList;
 import cn.edu.buaa.g305.qpm.spc.domain.Spc;
 import cn.edu.buaa.g305.qpm.spc.domain.SpcList;
+import cn.edu.buaa.g305.qpm.spc.domain.spcc.SpcC;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMR;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXR;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXS;
@@ -82,6 +83,17 @@ public class SPCController {
 				spc=spcXMR;
 		        break;       				
 			}
+			case("cplot"):
+			{
+				SpcC spcC=new SpcC();
+				spcC.setName(spcVO.getName());
+				spcC.setInput(spcVO.getInputC());
+				spcC=spcService.save(spcC,spcVO.getProject());
+				id=spcC.getId();
+				name=spcC.getName();
+				spc=spcC;
+		        break;       				
+			}
 			
 			default:
 			{
@@ -142,6 +154,16 @@ public class SPCController {
 				spc=spcXMR;
 		        break;       				
 			}
+			case("cplot"):
+			{
+				SpcC spcC=new SpcC();
+				spcC.setName(spcVO.getName());
+				spcC.setInput(spcVO.getInputC());
+				spcC=spcService.update(spcC, id,spcVO.getProject());
+				name=spcC.getName();
+				spc=spcC;
+		        break;       				
+			}
 			default:
 			{
 				addNoPlotType(spc, plotType);
@@ -184,6 +206,11 @@ public class SPCController {
 				spc=spcService.deleteXMR(id);
 		        break;       				
 			}
+			case("cplot"):
+			{
+				spc=spcService.deleteC(id);
+		        break;       				
+			}
 			default:
 			{
 				addNoPlotType(spc, plotType);
@@ -219,6 +246,11 @@ public class SPCController {
 				spc=spcService.deleteXMRByName(name);
 		        break;       				
 			}
+			case("cplot"):
+			{
+				spc=spcService.deleteCByName(name);
+		        break;       				
+			}
 			default:
 			{
 				addNoPlotType(spc, plotType);
@@ -252,6 +284,11 @@ public class SPCController {
 			case("xmrplot"):
 			{
 				spc=spcService.getXMRById(id);
+		        break;       				
+			}
+			case("cplot"):
+			{
+				spc=spcService.getCById(id);
 		        break;       				
 			}
 			default:
@@ -296,6 +333,11 @@ public class SPCController {
 			case("xmrplot"):
 			{
 				spc=spcService.getXMRByName(name);
+		        break;       				
+			}
+			case("cplot"):
+			{
+				spc=spcService.getCByName(name);
 		        break;       				
 			}
 			
@@ -345,6 +387,12 @@ public class SPCController {
 				   setSpcListLink(spcList, plotType);
 			       break;       				
 			}
+			case("cplot"):
+			{
+				spcList=spcService.getSpcCList();
+				   setSpcListLink(spcList, plotType);
+			       break;       				
+			}
 			default:
 			{
 				spcList.setError("无"+plotType+"类型SPC控制图");
@@ -387,6 +435,12 @@ public class SPCController {
 			case("xmrplot"):
 			{
 				spcList=spcService.getSpcXMRListByProjectName(name);
+				   setSpcListLink(spcList, plotType);
+			       break;       				
+			}
+			case("cplot"):
+			{
+				spcList=spcService.getSpcCListByProjectName(name);
 				   setSpcListLink(spcList, plotType);
 			       break;       				
 			}

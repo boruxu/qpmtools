@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import cn.edu.buaa.g305.qpm.spc.domain.*;
+import cn.edu.buaa.g305.qpm.spc.domain.spcc.SpcCIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcc.SpcCOut;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMRIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMROut;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXRIn;
@@ -122,7 +124,7 @@ public class SPCTest {
 	@Test
 	public void testC() {
 		SPCImp spc=new SPCImp();
-		SPCCIn spccIn=new SPCCIn();
+		SpcCIn spccIn=new SpcCIn();
 		String[] time=new String[21];
 		for (int i = 0; i < time.length; i++) {
 			time[i]=i+1+"";
@@ -134,12 +136,12 @@ public class SPCTest {
 				                0,2,0,1,0,
 				                0
 				                };
-	    spccIn.setX(x);
-	    SPCCOut spccOut=spc.computeC(spccIn);
-	    double[] expecteds=new double[]{0.62,2.98,0};
-	    double[] actuals=new double[]{spccOut.getC(),spccOut.getcUCL(),spccOut.getcLCL()};
+	    spccIn.setX(toStringPrecision(x, 0));
+	    SpcCOut spccOut=spc.computeC(spccIn);
+	    String[] expecteds=new String[]{"0.62","2.98","0.00"};
+	    String[] actuals=new String[]{spccOut.getcCL(),spccOut.getcUCL(),spccOut.getcLCL()};
 	    
-	    assertArrayEquals(expecteds, actuals, 0.01);
+	    assertArrayEquals(expecteds, actuals);
 	   
 	}
 

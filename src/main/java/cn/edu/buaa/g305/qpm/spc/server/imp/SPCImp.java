@@ -9,10 +9,11 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
-import cn.edu.buaa.g305.qpm.spc.dao.SpcXMRRepository;
-import cn.edu.buaa.g305.qpm.spc.dao.SpcXRRepository;
-import cn.edu.buaa.g305.qpm.spc.dao.SpcXSRepository;
+import cn.edu.buaa.g305.qpm.spc.dao.*;
 import cn.edu.buaa.g305.qpm.spc.domain.*;
+import cn.edu.buaa.g305.qpm.spc.domain.spcc.SpcC;
+import cn.edu.buaa.g305.qpm.spc.domain.spcc.SpcCIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcc.SpcCOut;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMR;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMRIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMROut;
@@ -39,6 +40,8 @@ public class SPCImp implements SPCService{
 	private SpcXSRepository spcxsRepository;
 	@Autowired
 	private SpcXMRRepository spcxmrRepository;
+	@Autowired
+	private SpcCRepository spccRepository;
 	@Autowired
 	private SystemFind systemFind;
 	@Autowired
@@ -257,22 +260,25 @@ public class SPCImp implements SPCService{
 		
 	}
 
-	public SPCCOut computeC(SPCCIn spccIn) {
+	public SpcCOut computeC(SpcCIn spccIn) {
+		
+		int precision=2;
+		
 		double xAverage=0;
-		SPCCOut spccOut=new SPCCOut();
-		for (double x : spccIn.getX()) {
+		SpcCOut spccOut=new SpcCOut();
+		for (double x : toDouble(spccIn.getX())) {
 			xAverage+=x;
 		}
 		xAverage=xAverage/spccIn.getX().length;
 		double sigma3=3*Math.sqrt(xAverage);
-		spccOut.setC(xAverage);
-		spccOut.setcUCL(xAverage+sigma3);
+		spccOut.setcCL(toStringPrecision(xAverage, precision));
+		spccOut.setcUCL(toStringPrecision(xAverage+sigma3,precision));
 		if((xAverage-sigma3)<0)
 		{
-			spccOut.setcLCL(0);
+			spccOut.setcLCL(toStringPrecision(0,precision));
 		}
 		else {
-			spccOut.setcLCL(xAverage-sigma3);
+			spccOut.setcLCL(toStringPrecision(xAverage-sigma3,precision));
 		}
 		spccOut.setX(spccIn.getX());
 		spccOut.setTime(spccIn.getTime());
@@ -682,4 +688,139 @@ public class SPCImp implements SPCService{
 		}
 	}
 
+	
+	//C图数据库操作
+	@Override
+	public SpcC getCByName(String name) {
+		
+		SpcC spcC=spccRepository.findByName(name);
+		if(spcC==null)
+		{
+			spcC=new SpcC();
+			//找不到资源，设置错误信息和状态码
+			spcC.setErrorOutput("名为"+name+"的C图资源不存在",HttpStatus.NOT_FOUND);
+			return spcC;
+		}
+		else{
+			spcC.setHttpStatus(HttpStatus.OK);
+			return spcC;
+		}
+	}
+
+	@Override
+	public SpcC getCById(String id) {
+		SpcC spcC=spccRepository.findOne(id);
+		if(spcC==null)
+		{
+			spcC=new SpcC();
+			spcC.setErrorOutput("id为"+id+"的C图资源不存在",HttpStatus.NOT_FOUND);
+			return spcC;
+		}
+		else {
+			spcC.setHttpStatus(HttpStatus.OK);
+			return spcC;
+		}
+	}
+
+	@Override
+	public SpcC deleteC(String id) {
+		
+		SpcC spcC=getCById(id);
+		if(spcC.getError()==null)
+		{
+			spcC.setStauts("deleted");
+			spccRepository.delete(id);
+		}	
+		return spcC;
+	}
+
+	@Override
+	public SpcC deleteCByName(String name) {
+		SpcC spcC=getCByName(name);
+		if(spcC.getError()==null)
+		{
+			spcC.setStauts("deleted");
+		}
+		if(spcC.getId()!=null)
+		{
+			spccRepository.delete(spcC.getId());
+		}	
+		return spcC;
+	}
+
+	@Override
+	public SpcC update(SpcC spcC, String id, String project) {
+		SpcC spcCdb=getCById(id);
+		if(spcCdb.getError()==null)
+		{
+			spcC.setId(id);
+			spcC=save(spcC,project);
+			if(spcC.getError()==null)
+			{
+				spcC.setHttpStatus(HttpStatus.OK);
+				return spcC;
+			}
+			else {
+				return spcC;
+			}
+			 
+		}
+		else {
+			return spcCdb;
+		}
+	}
+
+	@Override
+	public SpcC save(SpcC spcC, String project) {
+		Project projectO=systemFind.findProductAffiliation(project);
+		spcC.setProject(projectO);
+
+		try {
+			spcC.setOutput(computeC(spcC.getInput()));
+		} catch (Exception e) {
+			spcC.setErrorOutput(e.getMessage(), HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+			return spcC;
+		}
+
+		try {
+			spcC=spccRepository.save(spcC);
+		} catch (DuplicateKeyException e) {
+			spcC.setErrorOutput("名字重复，请重新命名", HttpStatus.BAD_REQUEST);
+			return spcC;
+		}
+		
+		spcC.setHttpStatus(HttpStatus.CREATED);
+		return spcC;
+	}
+
+	@Override
+	public SpcList getSpcCList() {
+		List<SpcC> spcXMRList= (List<SpcC>) spccRepository.findAll();
+		SpcList spcList=new SpcList();
+		spcList.setLists(spcXMRList);
+		spcList.setHttpStatus(HttpStatus.OK);
+		return spcList;
+	}
+
+	@Override
+	public SpcList getSpcCListByProjectName(String name) {
+		SpcList spcList=new SpcList();
+		Project project=projectRepository.findByName(name);
+		if(project==null)
+		{
+			spcList.setError("名为"+name+"项目不存在");
+			spcList.setHttpStatus(HttpStatus.NOT_FOUND);
+			spcList.setLists(new ArrayList<Spc>());
+			return spcList;
+		}
+		else {
+			spcList.setLists(spccRepository.findByProject(project));
+			spcList.setHttpStatus(HttpStatus.OK);
+			return spcList;
+		}
+	}
+
+	
+	
 }
