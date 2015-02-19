@@ -1,12 +1,13 @@
-package cn.edu.buaa.g305.qpm.spc.domain.spcc;
+package cn.edu.buaa.g305.qpm.spc.domain.spcu;
 
 import java.util.Arrays;
 
-public class SpcCIn {
+public class SpcUIn {
 	
-	private String[]x;
+	private String[] x;
 	private String[] time;
-	
+	//机会域
+	private String[] a;
 	
 	public String[] getX() {
 		return x;
@@ -20,20 +21,26 @@ public class SpcCIn {
 	public void setTime(String[] time) {
 		this.time = time;
 	}
-	
+	public String[] getA() {
+		return a;
+	}
+	public void setA(String[] a) {
+		this.a = a;
+	}
 	@Override
 	
 	public String toString()
 	{
 	
 		String spcuString="{"+"x:"+Arrays.toString(x)+","+
+								"a:"+Arrays.toString(a)+","+
 	                           "time:"+Arrays.toString(time)+","+
 	                           "}";
 		return spcuString;
 	}
 
 	public static String format() {
-		String format="{x:[],time:[]}";
+		String format="{x:[],a:[],time:[]}";
 		return format;
 	}
 	

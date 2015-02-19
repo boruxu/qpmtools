@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
 
 import cn.edu.buaa.g305.qpm.spc.domain.Spc;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXRIn;
 import cn.edu.buaa.g305.qpm.system.domain.Project;
 
 @Document
@@ -109,10 +108,10 @@ public class SpcXS extends Spc{
 	{
 		String format="{"+"createFormat:{"+
 			       "name:organizationName.projectName."+type+".name,"+
-			       "inputXS:{" + SpcXRIn.format()+"}},"+
+			       "inputXS:{" + SpcXSIn.format()+"}},"+
 			       	"updateFormat:{"	+ 
 			       	"name:organizationName.projectName."+type+".name,"+
-				    "inputXS:{" + SpcXRIn.format()+"}}}";
+				    "inputXS:{" + SpcXSIn.format()+"}}}";
 		return format;
 	}
 

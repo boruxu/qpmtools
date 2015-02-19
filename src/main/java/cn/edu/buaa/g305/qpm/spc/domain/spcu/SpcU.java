@@ -1,4 +1,4 @@
-package cn.edu.buaa.g305.qpm.spc.domain.spcc;
+package cn.edu.buaa.g305.qpm.spc.domain.spcu;
 
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -15,17 +15,17 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
 
 @Document
 @JsonSerialize(include=Inclusion.NON_NULL)
-public class SpcC extends Spc{
+public class SpcU extends Spc{
 	
 	@Indexed(unique=true)
 	private String name;
 	@DBRef
 	private Project project;
 	
-	private static String type="spcC";
+	private static String type="spcU";
 	private String stauts="computeFinished";
-	private SpcCIn input;
-	private SpcCOut output;
+	private SpcUIn input;
+	private SpcUOut output;
 
 	public String getName() {
 		return name;
@@ -50,24 +50,24 @@ public class SpcC extends Spc{
 
 	
 
-	public SpcCIn getInput() {
+	public SpcUIn getInput() {
 		return input;
 	}
 
-	public void setInput(SpcCIn input) {
+	public void setInput(SpcUIn input) {
 		this.input = input;
 	}
 
-	public SpcCOut getOutput() {
+	public SpcUOut getOutput() {
 		return output;
 	}
 
-	public void setOutput(SpcCOut output) {
+	public void setOutput(SpcUOut output) {
 		this.output = output;
 	}
 
 	public static void setType(String type) {
-		SpcC.type = type;
+		SpcU.type = type;
 	}
 
 	public Project getProject() {
@@ -111,10 +111,10 @@ public class SpcC extends Spc{
 	{
 		String format="{"+"createFormat:{"+
 			       "name:organizationName.projectName."+type+".name,"+
-			       "inputXR:{" + SpcC.format()+"}},"+
+			       "inputXR:{" + SpcUIn.format()+"}},"+
 			       	"updateFormat:{"	+ 
 			       	"name:organizationName.projectName."+type+".name,"+
-				    "inputXR:{" + SpcC.format()+"}}}";
+				    "inputXR:{" + SpcUIn.format()+"}}}";
 		return format;
 	}
 

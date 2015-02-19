@@ -7,6 +7,8 @@ import org.junit.Test;
 import cn.edu.buaa.g305.qpm.spc.domain.*;
 import cn.edu.buaa.g305.qpm.spc.domain.spcc.SpcCIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcc.SpcCOut;
+import cn.edu.buaa.g305.qpm.spc.domain.spcu.SpcUIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcu.SpcUOut;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMRIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMROut;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXRIn;
@@ -140,6 +142,36 @@ public class SPCTest {
 	    SpcCOut spccOut=spc.computeC(spccIn);
 	    String[] expecteds=new String[]{"0.62","2.98","0.00"};
 	    String[] actuals=new String[]{spccOut.getcCL(),spccOut.getcUCL(),spccOut.getcLCL()};
+	    
+	    assertArrayEquals(expecteds, actuals);
+	   
+	}
+	@Test
+	public void testU() {
+		SPCImp spc=new SPCImp();
+		SpcUIn spcuIn=new SpcUIn();
+		String[] time=new String[26];
+		for (int i = 0; i < time.length; i++) {
+			time[i]=i+1+"";
+		}
+		spcuIn.setTime(time);
+		double[] x=new double[]{19,8,3,6,9,4,
+								2,4,12,8,6,6,
+								2,8,8,3,12,6,
+								3,6,11,2,8,2,
+								5,1
+				                };
+		double[] a=new double[]{0.430,0.380,0.134,0.369,0.436,0.165,
+								0.112,0.329,0.500,0.324,0.391,0.346,
+								0.125,0.503,0.250,0.312,0.419,0.403,
+								0.150,0.344,0.396,0.204,0.478,0.132,
+								0.249,0.435
+                };
+	    spcuIn.setX(toStringPrecision(x, 0));
+	    spcuIn.setA(toStringPrecision(a, 3));
+	    SpcUOut spcuOut=spc.computeU(spcuIn);
+	    String[] expecteds=new String[]{"20.8"};
+	    String[] actuals=new String[]{spcuOut.getuCL()};
 	    
 	    assertArrayEquals(expecteds, actuals);
 	   

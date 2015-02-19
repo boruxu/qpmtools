@@ -77,12 +77,12 @@ public class SpcCOut {
 	public String toString()
 	{
 		
-		String spcxrString="{"+"x:"+Arrays.toString(x)+","+
+		String spcuString="{"+"x:"+Arrays.toString(x)+","+
 	                           "time:"+Arrays.toString(time)+","+
 	                           "cUCL:"+cUCL+","+
 	                           "cCL:"+cCL+","+
 	                           "cLCL:"+cLCL+"}";
-		return spcxrString;
+		return spcuString;
 	}
 
 

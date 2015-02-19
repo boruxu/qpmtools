@@ -1,7 +1,6 @@
 package cn.edu.buaa.g305.qpm.spc.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,7 @@ import cn.edu.buaa.g305.qpm.spc.domain.PlotList;
 import cn.edu.buaa.g305.qpm.spc.domain.Spc;
 import cn.edu.buaa.g305.qpm.spc.domain.SpcList;
 import cn.edu.buaa.g305.qpm.spc.domain.spcc.SpcC;
+import cn.edu.buaa.g305.qpm.spc.domain.spcu.SpcU;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMR;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXR;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXS;
@@ -40,6 +40,7 @@ public class SPCController {
 	{
 		return "jsp/spc.jsp";
 	}
+
 	@RequestMapping(value="/{plotType}",method=RequestMethod.POST)
 	@ResponseBody
 	public  HttpEntity<Spc> create(@PathVariable String plotType,@RequestBody SpcVO spcVO)
@@ -92,6 +93,17 @@ public class SPCController {
 				id=spcC.getId();
 				name=spcC.getName();
 				spc=spcC;
+		        break;       				
+			}
+			case("uplot"):
+			{
+				SpcU spcU=new SpcU();
+				spcU.setName(spcVO.getName());
+				spcU.setInput(spcVO.getInputU());
+				spcU=spcService.save(spcU,spcVO.getProject());
+				id=spcU.getId();
+				name=spcU.getName();
+				spc=spcU;
 		        break;       				
 			}
 			
@@ -164,6 +176,16 @@ public class SPCController {
 				spc=spcC;
 		        break;       				
 			}
+			case("uplot"):
+			{
+				SpcU spcU=new SpcU();
+				spcU.setName(spcVO.getName());
+				spcU.setInput(spcVO.getInputU());
+				spcU=spcService.update(spcU, id,spcVO.getProject());
+				name=spcU.getName();
+				spc=spcU;
+		        break;       				
+			}
 			default:
 			{
 				addNoPlotType(spc, plotType);
@@ -211,6 +233,11 @@ public class SPCController {
 				spc=spcService.deleteC(id);
 		        break;       				
 			}
+			case("uplot"):
+			{
+				spc=spcService.deleteU(id);
+		        break;       				
+			}
 			default:
 			{
 				addNoPlotType(spc, plotType);
@@ -251,6 +278,11 @@ public class SPCController {
 				spc=spcService.deleteCByName(name);
 		        break;       				
 			}
+			case("uplot"):
+			{
+				spc=spcService.deleteUByName(name);
+		        break;       				
+			}
 			default:
 			{
 				addNoPlotType(spc, plotType);
@@ -289,6 +321,11 @@ public class SPCController {
 			case("cplot"):
 			{
 				spc=spcService.getCById(id);
+		        break;       				
+			}
+			case("uplot"):
+			{
+				spc=spcService.getUById(id);
 		        break;       				
 			}
 			default:
@@ -338,6 +375,11 @@ public class SPCController {
 			case("cplot"):
 			{
 				spc=spcService.getCByName(name);
+		        break;       				
+			}
+			case("uplot"):
+			{
+				spc=spcService.getUByName(name);
 		        break;       				
 			}
 			
@@ -393,6 +435,12 @@ public class SPCController {
 				   setSpcListLink(spcList, plotType);
 			       break;       				
 			}
+			case("uplot"):
+			{
+				spcList=spcService.getSpcUList();
+				   setSpcListLink(spcList, plotType);
+			       break;       				
+			}
 			default:
 			{
 				spcList.setError("无"+plotType+"类型SPC控制图");
@@ -441,6 +489,12 @@ public class SPCController {
 			case("cplot"):
 			{
 				spcList=spcService.getSpcCListByProjectName(name);
+				   setSpcListLink(spcList, plotType);
+			       break;       				
+			}
+			case("uplot"):
+			{
+				spcList=spcService.getSpcUListByProjectName(name);
 				   setSpcListLink(spcList, plotType);
 			       break;       				
 			}
@@ -522,6 +576,24 @@ public class SPCController {
 			case("xsplot"):
 			{	
 				map.put("format",SpcXS.format());
+				return new ResponseEntity<Map<String,String>>
+				(map,HttpStatus.OK); 
+			}
+			case("xmrplot"):
+			{	
+				map.put("format",SpcXMR.format());
+				return new ResponseEntity<Map<String,String>>
+				(map,HttpStatus.OK); 
+			}
+			case("cplot"):
+			{	
+				map.put("format",SpcC.format());
+				return new ResponseEntity<Map<String,String>>
+				(map,HttpStatus.OK); 
+			}
+			case("uplot"):
+			{	
+				map.put("format",SpcU.format());
 				return new ResponseEntity<Map<String,String>>
 				(map,HttpStatus.OK); 
 			}
