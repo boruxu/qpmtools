@@ -111,10 +111,10 @@ public class SpcU extends Spc{
 	{
 		String format="{"+"createFormat:{"+
 			       "name:organizationName.projectName."+type+".name,"+
-			       "inputXR:{" + SpcUIn.format()+"}},"+
+			       "inputU:{" + SpcUIn.format()+"}},"+
 			       	"updateFormat:{"	+ 
 			       	"name:organizationName.projectName."+type+".name,"+
-				    "inputXR:{" + SpcUIn.format()+"}}}";
+				    "inputU:{" + SpcUIn.format()+"}}}";
 		return format;
 	}
 

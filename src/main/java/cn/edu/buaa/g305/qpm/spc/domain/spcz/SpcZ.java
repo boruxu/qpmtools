@@ -1,4 +1,4 @@
-package cn.edu.buaa.g305.qpm.spc.domain.spcxmr;
+package cn.edu.buaa.g305.qpm.spc.domain.spcz;
 
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -6,8 +6,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.http.HttpStatus;
 
 import cn.edu.buaa.g305.qpm.spc.domain.Spc;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXRIn;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXROut;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMRIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMROut;
 import cn.edu.buaa.g305.qpm.system.domain.Project;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -15,17 +15,17 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
 
 @Document
 @JsonSerialize(include=Inclusion.NON_NULL)
-public class SpcXMR extends Spc{
+public class SpcZ extends Spc{
 	
 	@Indexed(unique=true)
 	private String name;
 	@DBRef
 	private Project project;
 	
-	private static String type="spcXMR";
+	private static String type="spcZ";
 	private String stauts="computeFinished";
-	private SpcXMRIn input;
-	private SpcXMROut output;
+	private SpcZIn input;
+	private SpcZOut output;
 
 	public String getName() {
 		return name;
@@ -49,21 +49,25 @@ public class SpcXMR extends Spc{
 	}
 
 	
-	
-	public SpcXMRIn getInput() {
+
+	public SpcZIn getInput() {
 		return input;
 	}
 
-	public void setInput(SpcXMRIn input) {
+	public void setInput(SpcZIn input) {
 		this.input = input;
 	}
 
-	public SpcXMROut getOutput() {
+	public SpcZOut getOutput() {
 		return output;
 	}
 
-	public void setOutput(SpcXMROut output) {
+	public void setOutput(SpcZOut output) {
 		this.output = output;
+	}
+
+	public static void setType(String type) {
+		SpcZ.type = type;
 	}
 
 	public Project getProject() {
@@ -107,11 +111,12 @@ public class SpcXMR extends Spc{
 	{
 		String format="{"+"createFormat:{"+
 			       "name:organizationName.projectName."+type+".name,"+
-			       "inputXMR:{" + SpcXMRIn.format()+"}},"+
+			       "inputZ:{" + SpcZIn.format()+"}},"+
 			       	"updateFormat:{"	+ 
 			       	"name:organizationName.projectName."+type+".name,"+
-				    "inputXMR:{" + SpcXMRIn.format()+"}}}";
+				    "inputZ:{" + SpcZIn.format()+"}}}";
 		return format;
 	}
+
 
 }

@@ -26,6 +26,9 @@ import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXR;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXS;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXSIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXSOut;
+import cn.edu.buaa.g305.qpm.spc.domain.spcz.SpcZ;
+import cn.edu.buaa.g305.qpm.spc.domain.spcz.SpcZIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcz.SpcZOut;
 import cn.edu.buaa.g305.qpm.spc.server.SPCService;
 import cn.edu.buaa.g305.qpm.system.dao.ProjectRepository;
 import cn.edu.buaa.g305.qpm.system.domain.Project;
@@ -338,6 +341,41 @@ public class SPCImp implements SPCService{
 		
 		return spcuOut;
 	}
+	@Override
+	public SpcZOut computeZ(SpcZIn spczIn) {
+		int precision=5;
+		double xAverage=0;
+		int length=spczIn.getX().length;
+		
+		double[] a= toDouble(spczIn.getA());
+		double[] x= toDouble(spczIn.getX());
+		double[] u= new double[length];
+		double[] z= new double[length];
+		double aSum=0;
+		
+		SpcZOut spczOut=new SpcZOut();
+		
+		for(int i=0;i<length;i++)
+		{
+			xAverage+=x[i];
+			u[i]=x[i]/a[i];
+			aSum+=a[i];
+		} 
+		
+		xAverage=xAverage/aSum;
+		//上下控制限组
+	    for(int i=0;i<length;i++)
+	    {
+	    	z[i]=(u[i]-xAverage)/Math.sqrt(xAverage/a[i]);
+	    }
+		    
+		
+		spczOut.setX(toStringPrecision(z, precision));
+		spczOut.setTime(spczIn.getTime());
+		
+		return spczOut;
+	}
+
 
 	
 	
@@ -1003,6 +1041,55 @@ public class SPCImp implements SPCService{
 			spcList.setHttpStatus(HttpStatus.OK);
 			return spcList;
 		}
+	}
+
+	
+	@Override
+	public SpcZ getZByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SpcZ getZById(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SpcZ deleteZ(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SpcZ deleteZByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SpcZ update(SpcZ spcZ, String id, String project) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SpcZ save(SpcZ spcZ, String project) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SpcList getSpcZList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SpcList getSpcZListByProjectName(String name) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	

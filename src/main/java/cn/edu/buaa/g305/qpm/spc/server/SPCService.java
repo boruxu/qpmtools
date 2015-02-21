@@ -16,6 +16,9 @@ import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXR;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXS;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXSIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXSOut;
+import cn.edu.buaa.g305.qpm.spc.domain.spcz.SpcZ;
+import cn.edu.buaa.g305.qpm.spc.domain.spcz.SpcZIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcz.SpcZOut;
 
 public interface SPCService {
 	
@@ -24,6 +27,7 @@ public interface SPCService {
 	SpcXMROut computeXMR(SpcXMRIn spcxmrIn);
 	SpcCOut computeC(SpcCIn spccIn);
 	SpcUOut computeU(SpcUIn spcuIn);
+	SpcZOut computeZ(SpcZIn spczIn);
 	
 	//X-R图数据库操作
 	SpcXR getXRByName(String name);
@@ -100,5 +104,20 @@ public interface SPCService {
 	
 	SpcList getSpcUList();
 	SpcList getSpcUListByProjectName(String name);
+	
+	//Z图数据库操作
+	SpcZ getZByName(String name);
+	
+	SpcZ getZById(String id);
+	
+	SpcZ deleteZ(String id);
+	
+	SpcZ deleteZByName(String name);
+	
+	SpcZ update(SpcZ spcZ,String id,String project);
+	SpcZ save(SpcZ spcZ,String project);
+	
+	SpcList getSpcZList();
+	SpcList getSpcZListByProjectName(String name);
 
 }
