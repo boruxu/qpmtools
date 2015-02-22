@@ -5,6 +5,7 @@ import cn.edu.buaa.g305.qpm.spc.domain.spcu.SpcUIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMRIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXRIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXSIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcz.SpcZIn;
 
 /**
  * 用于接受前端传来的数据，使用spring MVC-jackson进行数据绑定
@@ -31,6 +32,8 @@ public class SpcVO {
 	private SpcCIn inputC;
 	//U图
 	private SpcUIn inputU;
+	//Z图
+	private SpcZIn inputZ;
 
 	public SpcXMRIn getInputXMR() {
 		return inputXMR;
@@ -95,5 +98,15 @@ public class SpcVO {
 	public void setInputU(SpcUIn inputU) {
 		this.inputU = inputU;
 	}
+
+	public SpcZIn getInputZ() {
+		return inputZ;
+	}
+
+	public void setInputZ(SpcZIn inputZ) {
+		this.inputZ = inputZ;
+	}
+	
+	
 	
 }

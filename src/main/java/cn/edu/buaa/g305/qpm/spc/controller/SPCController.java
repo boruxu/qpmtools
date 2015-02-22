@@ -24,6 +24,7 @@ import cn.edu.buaa.g305.qpm.spc.domain.spcu.SpcU;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMR;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXR;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXS;
+import cn.edu.buaa.g305.qpm.spc.domain.spcz.SpcZ;
 import cn.edu.buaa.g305.qpm.spc.server.SPCService;
 
 @Controller
@@ -106,6 +107,17 @@ public class SPCController {
 				spc=spcU;
 		        break;       				
 			}
+			case("zplot"):
+			{
+				SpcZ spcZ=new SpcZ();
+				spcZ.setName(spcVO.getName());
+				spcZ.setInput(spcVO.getInputZ());
+				spcZ=spcService.save(spcZ,spcVO.getProject());
+				id=spcZ.getId();
+				name=spcZ.getName();
+				spc=spcZ;
+		        break;       				
+			}
 			
 			default:
 			{
@@ -186,6 +198,16 @@ public class SPCController {
 				spc=spcU;
 		        break;       				
 			}
+			case("zplot"):
+			{
+				SpcZ spcZ=new SpcZ();
+				spcZ.setName(spcVO.getName());
+				spcZ.setInput(spcVO.getInputZ());
+				spcZ=spcService.update(spcZ, id,spcVO.getProject());
+				name=spcZ.getName();
+				spc=spcZ;
+		        break;       				
+			}
 			default:
 			{
 				addNoPlotType(spc, plotType);
@@ -238,6 +260,11 @@ public class SPCController {
 				spc=spcService.deleteU(id);
 		        break;       				
 			}
+			case("zplot"):
+			{
+				spc=spcService.deleteZ(id);
+		        break;       				
+			}
 			default:
 			{
 				addNoPlotType(spc, plotType);
@@ -283,6 +310,11 @@ public class SPCController {
 				spc=spcService.deleteUByName(name);
 		        break;       				
 			}
+			case("zplot"):
+			{
+				spc=spcService.deleteZByName(name);
+		        break;       				
+			}
 			default:
 			{
 				addNoPlotType(spc, plotType);
@@ -326,6 +358,11 @@ public class SPCController {
 			case("uplot"):
 			{
 				spc=spcService.getUById(id);
+		        break;       				
+			}
+			case("zplot"):
+			{
+				spc=spcService.getZById(id);
 		        break;       				
 			}
 			default:
@@ -380,6 +417,11 @@ public class SPCController {
 			case("uplot"):
 			{
 				spc=spcService.getUByName(name);
+		        break;       				
+			}
+			case("zplot"):
+			{
+				spc=spcService.getZByName(name);
 		        break;       				
 			}
 			
@@ -441,6 +483,12 @@ public class SPCController {
 				   setSpcListLink(spcList, plotType);
 			       break;       				
 			}
+			case("zplot"):
+			{
+				spcList=spcService.getSpcZList();
+				   setSpcListLink(spcList, plotType);
+			       break;       				
+			}
 			default:
 			{
 				spcList.setError("无"+plotType+"类型SPC控制图");
@@ -495,6 +543,12 @@ public class SPCController {
 			case("uplot"):
 			{
 				spcList=spcService.getSpcUListByProjectName(name);
+				   setSpcListLink(spcList, plotType);
+			       break;       				
+			}
+			case("zplot"):
+			{
+				spcList=spcService.getSpcZListByProjectName(name);
 				   setSpcListLink(spcList, plotType);
 			       break;       				
 			}
@@ -594,6 +648,12 @@ public class SPCController {
 			case("uplot"):
 			{	
 				map.put("format",SpcU.format());
+				return new ResponseEntity<Map<String,String>>
+				(map,HttpStatus.OK); 
+			}
+			case("zplot"):
+			{	
+				map.put("format",SpcZ.format());
 				return new ResponseEntity<Map<String,String>>
 				(map,HttpStatus.OK); 
 			}

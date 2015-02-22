@@ -51,6 +51,8 @@ public class SPCImp implements SPCService{
 	@Autowired
 	private SpcURepository spcuRepository;
 	@Autowired
+	private SpcZRepository spczRepository;
+	@Autowired
 	private SystemFind systemFind;
 	@Autowired
 	private ProjectRepository projectRepository;
@@ -343,7 +345,7 @@ public class SPCImp implements SPCService{
 	}
 	@Override
 	public SpcZOut computeZ(SpcZIn spczIn) {
-		int precision=5;
+		int precision=1;
 		double xAverage=0;
 		int length=spczIn.getX().length;
 		
@@ -886,9 +888,9 @@ public class SPCImp implements SPCService{
 
 	@Override
 	public SpcList getSpcCList() {
-		List<SpcC> spcXMRList= (List<SpcC>) spccRepository.findAll();
+		List<SpcC> spcCList= (List<SpcC>) spccRepository.findAll();
 		SpcList spcList=new SpcList();
-		spcList.setLists(spcXMRList);
+		spcList.setLists(spcCList);
 		spcList.setHttpStatus(HttpStatus.OK);
 		return spcList;
 	}
@@ -1018,9 +1020,9 @@ public class SPCImp implements SPCService{
 
 	@Override
 	public SpcList getSpcUList() {
-		List<SpcU> spcXMRList= (List<SpcU>) spcuRepository.findAll();
+		List<SpcU> spcUList= (List<SpcU>) spcuRepository.findAll();
 		SpcList spcList=new SpcList();
-		spcList.setLists(spcXMRList);
+		spcList.setLists(spcUList);
 		spcList.setHttpStatus(HttpStatus.OK);
 		return spcList;
 	}
@@ -1043,53 +1045,134 @@ public class SPCImp implements SPCService{
 		}
 	}
 
-	
+	//Z图数据库操作
 	@Override
 	public SpcZ getZByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		SpcZ spcZ=spczRepository.findByName(name);
+		if(spcZ==null)
+		{
+			spcZ=new SpcZ();
+			//找不到资源，设置错误信息和状态码
+			spcZ.setErrorOutput("名为"+name+"的Z图资源不存在",HttpStatus.NOT_FOUND);
+			return spcZ;
+		}
+		else{
+			spcZ.setHttpStatus(HttpStatus.OK);
+			return spcZ;
+		}
 	}
 
 	@Override
 	public SpcZ getZById(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		SpcZ spcZ=spczRepository.findOne(id);
+		if(spcZ==null)
+		{
+			spcZ=new SpcZ();
+			spcZ.setErrorOutput("id为"+id+"的Z图资源不存在",HttpStatus.NOT_FOUND);
+			return spcZ;
+		}
+		else {
+			spcZ.setHttpStatus(HttpStatus.OK);
+			return spcZ;
+		}
 	}
 
 	@Override
 	public SpcZ deleteZ(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		SpcZ spcZ=getZById(id);
+		if(spcZ.getError()==null)
+		{
+			spcZ.setStauts("deleted");
+			spczRepository.delete(id);
+		}	
+		return spcZ;
 	}
 
 	@Override
 	public SpcZ deleteZByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		SpcZ spcZ=getZByName(name);
+		if(spcZ.getError()==null)
+		{
+			spcZ.setStauts("deleted");
+		}
+		if(spcZ.getId()!=null)
+		{
+			spczRepository.delete(spcZ.getId());
+		}	
+		return spcZ;
 	}
 
 	@Override
 	public SpcZ update(SpcZ spcZ, String id, String project) {
-		// TODO Auto-generated method stub
-		return null;
+		SpcZ spcZdb=getZById(id);
+		if(spcZdb.getError()==null)
+		{
+			spcZ.setId(id);
+			spcZ=save(spcZ,project);
+			if(spcZ.getError()==null)
+			{
+				spcZ.setHttpStatus(HttpStatus.OK);
+				return spcZ;
+			}
+			else {
+				return spcZ;
+			}
+			 
+		}
+		else {
+			return spcZdb;
+		}
 	}
 
 	@Override
 	public SpcZ save(SpcZ spcZ, String project) {
-		// TODO Auto-generated method stub
-		return null;
+		Project projectO=systemFind.findProductAffiliation(project);
+		spcZ.setProject(projectO);
+
+		try {
+			spcZ.setOutput(computeZ(spcZ.getInput()));
+		} catch (Exception e) {
+			spcZ.setErrorOutput(e.getMessage(), HttpStatus.BAD_REQUEST);
+			e.printStackTrace();
+			return spcZ;
+		}
+
+		try {
+			spcZ=spczRepository.save(spcZ);
+		} catch (DuplicateKeyException e) {
+			spcZ.setErrorOutput("名字重复，请重新命名", HttpStatus.BAD_REQUEST);
+			return spcZ;
+		}
+		
+		spcZ.setHttpStatus(HttpStatus.CREATED);
+		return spcZ;
 	}
 
 	@Override
 	public SpcList getSpcZList() {
-		// TODO Auto-generated method stub
-		return null;
+		List<SpcZ> spcZList= (List<SpcZ>) spczRepository.findAll();
+		SpcList spcList=new SpcList();
+		spcList.setLists(spcZList);
+		spcList.setHttpStatus(HttpStatus.OK);
+		return spcList;
 	}
 
 	@Override
 	public SpcList getSpcZListByProjectName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		SpcList spcList=new SpcList();
+		Project project=projectRepository.findByName(name);
+		if(project==null)
+		{
+			spcList.setError("名为"+name+"项目不存在");
+			spcList.setHttpStatus(HttpStatus.NOT_FOUND);
+			spcList.setLists(new ArrayList<Spc>());
+			return spcList;
+		}
+		else {
+			spcList.setLists(spczRepository.findByProject(project));
+			spcList.setHttpStatus(HttpStatus.OK);
+			return spcList;
+		}
 	}
 
 	
