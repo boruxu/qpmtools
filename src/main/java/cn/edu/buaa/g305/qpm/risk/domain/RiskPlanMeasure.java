@@ -9,9 +9,9 @@ public class RiskPlanMeasure {
 	//类型为风险缓解时，不使用reason，使用下面描述参数
 	
 	//风险缓解措施
-	private String riskMitigation;
+	private String riskMitigationMeasure;
 	//缓解措施启动时间
-	private String riskMitigationStartTime;
+	private String riskMitigationMeasureStartTime;
 	//风险应急措施
 	private String riskEmergencyMeasure;
 	//应急措施触发事件
@@ -28,17 +28,19 @@ public class RiskPlanMeasure {
 	public void setReason(String reason) {
 		this.reason = reason;
 	}
-	public String getRiskMitigation() {
-		return riskMitigation;
+	
+	public String getRiskMitigationMeasure() {
+		return riskMitigationMeasure;
 	}
-	public void setRiskMitigation(String riskMitigation) {
-		this.riskMitigation = riskMitigation;
+	public void setRiskMitigationMeasure(String riskMitigationMeasure) {
+		this.riskMitigationMeasure = riskMitigationMeasure;
 	}
-	public String getRiskMitigationStartTime() {
-		return riskMitigationStartTime;
+	public String getRiskMitigationMeasureStartTime() {
+		return riskMitigationMeasureStartTime;
 	}
-	public void setRiskMitigationStartTime(String riskMitigationStartTime) {
-		this.riskMitigationStartTime = riskMitigationStartTime;
+	public void setRiskMitigationMeasureStartTime(
+			String riskMitigationMeasureStartTime) {
+		this.riskMitigationMeasureStartTime = riskMitigationMeasureStartTime;
 	}
 	public String getRiskEmergencyMeasure() {
 		return riskEmergencyMeasure;

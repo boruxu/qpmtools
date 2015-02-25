@@ -10,7 +10,7 @@ public class Risk extends ResourceSupportTransientLinks{
 	//风险项所属项目
 	private Project project;
 	//风险类型
-	private String type;
+	private RiskType riskType;
 	//风险陈述
 	private String riskInfo;
 	//风险状态
@@ -72,12 +72,14 @@ public class Risk extends ResourceSupportTransientLinks{
 		this.project = project;
 	}
 
-	public String getType() {
-		return type;
+	
+
+	public RiskType getRiskType() {
+		return riskType;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setRiskType(RiskType riskType) {
+		this.riskType = riskType;
 	}
 
 	public String getRiskInfo() {

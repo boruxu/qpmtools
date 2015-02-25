@@ -605,7 +605,7 @@ public class SPCController {
 	
 	private void setSpcListLink(SpcList spcList,String plotType)
 	{
-		for (Spc spc :spcList.getLists()) {
+		for (Spc spc :spcList.getList()) {
 			spc.add(linkTo(methodOn(SPCController.class).getByID(plotType,spc.getId())).withSelfRel());
 			spc.add(linkTo(methodOn(SPCController.class).updateXR(plotType, spc.getId(), null)).withRel("update"));
 			spc.add(linkTo(methodOn(SPCController.class).delete(plotType, spc.getId())).withRel("delete"));			

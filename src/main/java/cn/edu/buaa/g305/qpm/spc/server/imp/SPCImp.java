@@ -488,7 +488,7 @@ public class SPCImp implements SPCService{
 	public SpcList getSpcXRList() {
 		List<SpcXR> spcXRList= (List<SpcXR>) spcxrRepository.findAll();
 		SpcList spcList=new SpcList();
-		spcList.setLists(spcXRList);
+		spcList.setList(spcXRList);
 		spcList.setHttpStatus(HttpStatus.OK);
 		return spcList;
 	}
@@ -501,11 +501,11 @@ public class SPCImp implements SPCService{
 		{
 			spcList.setError("名为"+name+"项目不存在");
 			spcList.setHttpStatus(HttpStatus.NOT_FOUND);
-			spcList.setLists(new ArrayList<Spc>());
+			spcList.setList(new ArrayList<Spc>());
 			return spcList;
 		}
 		else {
-			spcList.setLists(spcxrRepository.findByProject(project));
+			spcList.setList(spcxrRepository.findByProject(project));
 			spcList.setHttpStatus(HttpStatus.OK);
 			return spcList;
 		}
@@ -621,7 +621,7 @@ public class SPCImp implements SPCService{
 	public SpcList getSpcXSList() {
 		List<SpcXS> spcXSList= (List<SpcXS>) spcxsRepository.findAll();
 		SpcList spcList=new SpcList();
-		spcList.setLists(spcXSList);
+		spcList.setList(spcXSList);
 		spcList.setHttpStatus(HttpStatus.OK);
 		return spcList;
 	}
@@ -633,11 +633,11 @@ public class SPCImp implements SPCService{
 		{
 			spcList.setError("名为"+name+"项目不存在");
 			spcList.setHttpStatus(HttpStatus.NOT_FOUND);
-			spcList.setLists(new ArrayList<Spc>());
+			spcList.setList(new ArrayList<Spc>());
 			return spcList;
 		}
 		else {
-			spcList.setLists(spcxsRepository.findByProject(project));
+			spcList.setList(spcxsRepository.findByProject(project));
 			spcList.setHttpStatus(HttpStatus.OK);
 			return spcList;
 		}
@@ -757,7 +757,7 @@ public class SPCImp implements SPCService{
 	public SpcList getSpcXMRList() {
 		List<SpcXMR> spcXMRList= (List<SpcXMR>) spcxmrRepository.findAll();
 		SpcList spcList=new SpcList();
-		spcList.setLists(spcXMRList);
+		spcList.setList(spcXMRList);
 		spcList.setHttpStatus(HttpStatus.OK);
 		return spcList;
 	}
@@ -770,11 +770,11 @@ public class SPCImp implements SPCService{
 		{
 			spcList.setError("名为"+name+"项目不存在");
 			spcList.setHttpStatus(HttpStatus.NOT_FOUND);
-			spcList.setLists(new ArrayList<Spc>());
+			spcList.setList(new ArrayList<Spc>());
 			return spcList;
 		}
 		else {
-			spcList.setLists(spcxmrRepository.findByProject(project));
+			spcList.setList(spcxmrRepository.findByProject(project));
 			spcList.setHttpStatus(HttpStatus.OK);
 			return spcList;
 		}
@@ -890,7 +890,7 @@ public class SPCImp implements SPCService{
 	public SpcList getSpcCList() {
 		List<SpcC> spcCList= (List<SpcC>) spccRepository.findAll();
 		SpcList spcList=new SpcList();
-		spcList.setLists(spcCList);
+		spcList.setList(spcCList);
 		spcList.setHttpStatus(HttpStatus.OK);
 		return spcList;
 	}
@@ -903,11 +903,11 @@ public class SPCImp implements SPCService{
 		{
 			spcList.setError("名为"+name+"项目不存在");
 			spcList.setHttpStatus(HttpStatus.NOT_FOUND);
-			spcList.setLists(new ArrayList<Spc>());
+			spcList.setList(new ArrayList<Spc>());
 			return spcList;
 		}
 		else {
-			spcList.setLists(spccRepository.findByProject(project));
+			spcList.setList(spccRepository.findByProject(project));
 			spcList.setHttpStatus(HttpStatus.OK);
 			return spcList;
 		}
@@ -1022,7 +1022,7 @@ public class SPCImp implements SPCService{
 	public SpcList getSpcUList() {
 		List<SpcU> spcUList= (List<SpcU>) spcuRepository.findAll();
 		SpcList spcList=new SpcList();
-		spcList.setLists(spcUList);
+		spcList.setList(spcUList);
 		spcList.setHttpStatus(HttpStatus.OK);
 		return spcList;
 	}
@@ -1035,11 +1035,11 @@ public class SPCImp implements SPCService{
 		{
 			spcList.setError("名为"+name+"项目不存在");
 			spcList.setHttpStatus(HttpStatus.NOT_FOUND);
-			spcList.setLists(new ArrayList<Spc>());
+			spcList.setList(new ArrayList<Spc>());
 			return spcList;
 		}
 		else {
-			spcList.setLists(spcuRepository.findByProject(project));
+			spcList.setList(spcuRepository.findByProject(project));
 			spcList.setHttpStatus(HttpStatus.OK);
 			return spcList;
 		}
@@ -1152,7 +1152,7 @@ public class SPCImp implements SPCService{
 	public SpcList getSpcZList() {
 		List<SpcZ> spcZList= (List<SpcZ>) spczRepository.findAll();
 		SpcList spcList=new SpcList();
-		spcList.setLists(spcZList);
+		spcList.setList(spcZList);
 		spcList.setHttpStatus(HttpStatus.OK);
 		return spcList;
 	}
@@ -1165,11 +1165,11 @@ public class SPCImp implements SPCService{
 		{
 			spcList.setError("名为"+name+"项目不存在");
 			spcList.setHttpStatus(HttpStatus.NOT_FOUND);
-			spcList.setLists(new ArrayList<Spc>());
+			spcList.setList(new ArrayList<Spc>());
 			return spcList;
 		}
 		else {
-			spcList.setLists(spczRepository.findByProject(project));
+			spcList.setList(spczRepository.findByProject(project));
 			spcList.setHttpStatus(HttpStatus.OK);
 			return spcList;
 		}

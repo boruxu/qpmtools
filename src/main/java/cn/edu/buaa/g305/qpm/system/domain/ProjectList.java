@@ -1,29 +1,38 @@
-package cn.edu.buaa.g305.qpm.spc.domain;
+package cn.edu.buaa.g305.qpm.system.domain;
 
 import java.util.List;
+
 import org.springframework.http.HttpStatus;
-import cn.edu.buaa.g305.qpm.system.domain.ResourceSupportTransientLinks;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
 
 @JsonSerialize(include=Inclusion.NON_NULL)
 @JsonIgnoreProperties("httpStatus")
-public class SpcList extends ResourceSupportTransientLinks {
+public class ProjectList extends ResourceSupportTransientLinks {
+	//列表所属项目名，全部为“全部”
+	private String organization;
 	
-	private String plotType;
-	
-	private List<? extends Spc> list;
+	private List<Project> list;
 	
 	private String error;
 
 	private  HttpStatus httpStatus;
-	
-	public List<? extends Spc> getList() {
+
+	public String getOrganization() {
+		return organization;
+	}
+
+	public void setOrganization(String organization) {
+		this.organization = organization;
+	}
+
+	public List<Project> getList() {
 		return list;
 	}
 
-	public void setList(List<? extends Spc> list) {
+	public void setList(List<Project> list) {
 		this.list = list;
 	}
 
@@ -41,14 +50,6 @@ public class SpcList extends ResourceSupportTransientLinks {
 
 	public void setHttpStatus(HttpStatus httpStatus) {
 		this.httpStatus = httpStatus;
-	}
-
-	public String getPlotType() {
-		return plotType;
-	}
-
-	public void setPlotType(String plotType) {
-		this.plotType = plotType;
 	}
 
 }

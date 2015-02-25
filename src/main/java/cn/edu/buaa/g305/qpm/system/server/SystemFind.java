@@ -2,6 +2,7 @@ package cn.edu.buaa.g305.qpm.system.server;
 
 import cn.edu.buaa.g305.qpm.system.domain.Organization;
 import cn.edu.buaa.g305.qpm.system.domain.Project;
+import cn.edu.buaa.g305.qpm.system.domain.ProjectList;
 
 public interface SystemFind {
 	
@@ -11,6 +12,16 @@ public interface SystemFind {
 	Organization findProjectAffiliation(String name);
 	
 	Project findProjectByName(String name);
+	Project findProjectById(String id);
+	Project deleteProjectByName(String name);
+	Project deleteProjectById(String id);
+	Project save(Project project,String organization);
+	Project update(Project project,String id,String organization);
+	
+	ProjectList getProjectList();
+	ProjectList getProjectistByOrganizationName(String name);
+	
+	
 
 
 	
