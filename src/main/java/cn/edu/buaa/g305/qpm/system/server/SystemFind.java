@@ -1,6 +1,7 @@
 package cn.edu.buaa.g305.qpm.system.server;
 
 import cn.edu.buaa.g305.qpm.system.domain.Organization;
+import cn.edu.buaa.g305.qpm.system.domain.OrganizationList;
 import cn.edu.buaa.g305.qpm.system.domain.Project;
 import cn.edu.buaa.g305.qpm.system.domain.ProjectList;
 
@@ -21,8 +22,13 @@ public interface SystemFind {
 	ProjectList getProjectList();
 	ProjectList getProjectistByOrganizationName(String name);
 	
+	Organization getOrganizationByName(String name);
+	Organization getOrganizationById(String id);
+	Organization deleteOrganizationByName(String name);
+	Organization deleteOrganizationById(String id);
+	Organization save(Organization organization);
+	Organization update(Organization organization,String id);
 	
-
-
+	OrganizationList getOrganizationList();
 	
 }

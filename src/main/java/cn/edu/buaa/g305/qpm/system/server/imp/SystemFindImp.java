@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import cn.edu.buaa.g305.qpm.system.dao.OrganizationRepository;
 import cn.edu.buaa.g305.qpm.system.dao.ProjectRepository;
 import cn.edu.buaa.g305.qpm.system.domain.Organization;
+import cn.edu.buaa.g305.qpm.system.domain.OrganizationList;
 import cn.edu.buaa.g305.qpm.system.domain.Project;
 import cn.edu.buaa.g305.qpm.system.domain.ProjectList;
 import cn.edu.buaa.g305.qpm.system.server.SystemFind;
@@ -184,10 +185,109 @@ public class SystemFindImp implements SystemFind {
 			return projectList;
 		}
 		else {
+			projectList.setOrganization(name);
 			projectList.setList(projectRepository.findByOrganization(organization));
 			projectList.setHttpStatus(HttpStatus.OK);
 			return projectList;
 		}
+	}
+
+	@Override
+	public Organization getOrganizationByName(String name) {
+		Organization organization=organizationRepository.findByName(name);
+		if(organization==null)
+		{
+			organization=new Organization();
+			//找不到资源，设置错误信息和状态码
+			organization.setErrorOutput("名为"+name+"的组织不存在",HttpStatus.NOT_FOUND);
+			return organization;
+		}
+		else{
+			organization.setHttpStatus(HttpStatus.OK);
+			return organization;
+		}
+	}
+
+	@Override
+	public Organization getOrganizationById(String id) {
+		Organization organization=organizationRepository.findOne(id);
+		if(organization==null)
+		{
+			organization=new Organization();
+			organization.setErrorOutput("id为"+id+"的组织不存在",HttpStatus.NOT_FOUND);
+			return organization;
+		}
+		else {
+			organization.setHttpStatus(HttpStatus.OK);
+			return organization;
+		}
+	}
+
+	@Override
+	public Organization deleteOrganizationByName(String name) {
+		Organization organization=getOrganizationByName(name);
+		if(organization.getError()==null)
+		{
+			organizationRepository.delete(organization.getId());
+		}
+		
+		return organization;
+	}
+
+	@Override
+	public Organization deleteOrganizationById(String id) {
+		Organization organization=getOrganizationById(id);
+		if(organization.getError()==null)
+		{
+			organizationRepository.delete(id);
+		}
+		
+		return organization;
+	}
+
+	@Override
+	public Organization save(Organization organization) {
+
+		try {
+			organization=organizationRepository.save(organization);
+		} catch (DuplicateKeyException e) {
+			organization.setErrorOutput("名字重复，请重新命名", HttpStatus.BAD_REQUEST);
+			return organization;
+		}
+		
+		organization.setHttpStatus(HttpStatus.CREATED);
+		return organization;
+	}
+
+	@Override
+	public Organization update(Organization organization, String id) {
+		Organization organizationDB=getOrganizationById(id);
+		if(organizationDB.getError()==null)
+		{
+			organization.setId(id);
+			organization=save(organization);
+			if(organization.getError()==null)
+			{
+				organization.setHttpStatus(HttpStatus.OK);
+				return organization;
+			}
+			else {
+				return organization;
+			}
+			 
+		}
+		else {
+			return organizationDB;
+		}
+	}
+
+	@Override
+	public OrganizationList getOrganizationList() {
+		List<Organization> organizations= (List<Organization>) organizationRepository.findAll();
+		OrganizationList organizationList=new OrganizationList();
+		organizationList.setList(organizations);
+		organizationList.setHttpStatus(HttpStatus.OK);
+		return organizationList;
 	}
 	
 	

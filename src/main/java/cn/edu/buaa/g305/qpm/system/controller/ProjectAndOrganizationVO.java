@@ -1,6 +1,6 @@
 package cn.edu.buaa.g305.qpm.system.controller;
 
-public class ProjectVO {
+public class ProjectAndOrganizationVO {
 	
 	private String id;
 	
