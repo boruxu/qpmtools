@@ -1,0 +1,81 @@
+<!--identify_detail.html-->
+<div>
+    <div class="row">
+        <div class="box col-lg-12">
+            <div class="box-inner">
+                <div class="box-header well">
+                    <h2>已识别的风险详细信息</h2>
+                    <div class="box-icon">
+                        <a href="#" class="btn btn-setting-alpha btn-round btn-default"><i
+                                class="glyphicon glyphicon-cog"></i></a>
+                        <a href="#"  class="btn btn-minimize btn-round btn-default"><i
+                                class="glyphicon glyphicon-chevron-up"></i></a>
+                        <a href="#" class="btn btn-close btn-round btn-default"><i
+                                class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                </div>
+                <div class="box-content row" >
+                    <div class="col-lg-12  ">
+                        <div class="panel-heading">
+                            <button class="btn btn-default" ui-sref="risk.identify">
+                                <span class="glyphicon glyphicon-backward"></span> 返回</button>
+                        </div>
+                        <div class="panel-body" ng-controller="IdentifyDetail" >
+                            <table class="table" >
+                                <tr>
+                                    <td class="col-lg-1"><strong>风险项</strong></td><td >{{detail.riskItem}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-lg-1"><strong>风险类型</strong></td><td >{{detail.riskType}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-lg-1"><strong>风险描述</strong></td><td >{{detail.riskInfo}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-lg-1"><strong>潜在影响</strong></td><td >{{detail.riskPotentialInfluence}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-lg-1"><strong>发生条件</strong></td><td >{{detail.riskCondition}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-lg-1"><strong>风险状态</strong></td><td >{{detail.riskState}}</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-lg-1"><strong>建议措施</strong></td><td >{{detail.riskProposeMeasure}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td nowrap>
+                                        <button type="button" class="btn btn-warning btn-xs" >
+                                            <span class="glyphicon glyphicon-edit"></span> 编辑
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-xs" >
+                                            <span class="glyphicon glyphicon-trash"></span> 删除
+                                        </button>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label>活动描述</label>
+                        <textarea kendo-editor  k-encoded="false" ng-model="description"  style="height:200px"></textarea>
+                        <textarea kendo-editor
+                                  k-tools="[
+                  'bold',
+                  'italic',
+                  'undeline',
+                  {
+                    name: 'foreColor',
+                    palette: [ '#f00', '#0f0', '#00f' ]
+                  }
+              ]"></textarea>
+
+                   </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

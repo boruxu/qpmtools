@@ -1,0 +1,19 @@
+<!--风险管理主页面-->
+<div>
+   <div class="row col-lg-12">
+       <div class="riskStatus">
+           <div class="row"> risk状态
+               <select ng-model="riskG.selectOrganization" ng-options="organization.name for organization in organizationList">
+                   <option value="">-- 请选择 --</option>       
+               </select>
+               <select ng-model="riskG.selectProject" ng-options="project.name for project in projectList">
+                   <option value="">-- 请选择 --</option>       
+               </select>
+           <button ui-sref="risk.type" class="btn btn-primary btn-xs">风险库管理</button>
+           <button ui-sref="risk.identify" class="btn btn-primary btn-xs">风险识别</button>
+           </div>
+       </div>
+   </div>
+   <div ui-view></div>
+
+</div>

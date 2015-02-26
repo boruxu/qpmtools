@@ -1,0 +1,59 @@
+<!--typeDetail.html-->
+<div >
+    <div class="row">
+        <div class="box col-lg-12">
+            <div class="box-inner">
+                <div class="box-header well">
+                    <h2>常见风险详细信息</h2>
+                    <div class="box-icon">
+                        <a href="#" class="btn btn-setting-alpha btn-round btn-default"><i
+                                class="glyphicon glyphicon-cog"></i></a>
+                        <a href="#"  class="btn btn-minimize btn-round btn-default"><i
+                                class="glyphicon glyphicon-chevron-up"></i></a>
+                        <a href="#" class="btn btn-close btn-round btn-default"><i
+                                class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                </div>
+                <div class="box-content row" >
+                    <div class="col-lg-12  ">
+                        <div class="panel-heading">
+                            <button class="btn btn-default" ui-sref="risk.type">
+                                <span class="glyphicon glyphicon-backward"></span> 返回</button>
+                        </div>
+                        <div class="panel-body"  >
+                            <table class="table" >
+                                <tr>
+                                    <td><strong>风险类型:&nbsp</strong>{{detail.name}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>风险描述:&nbsp</strong>{{detail.description}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>举例:&nbsp</strong>{{detail.exsample}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>缓解措施:&nbsp</strong>{{detail.mitigationMeasure}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>应急措施:&nbsp</strong>{{detail.emergencyMeasure}}</td>
+                                </tr>
+                                <tr>
+                                    <td nowrap>
+                                        <button type="button" class="btn btn-warning btn-xs" >
+                                            <span class="glyphicon glyphicon-edit"></span> 编辑
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-xs" >
+                                            <span class="glyphicon glyphicon-trash"></span> 删除
+                                        </button>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

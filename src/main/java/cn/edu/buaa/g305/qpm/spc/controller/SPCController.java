@@ -28,19 +28,12 @@ import cn.edu.buaa.g305.qpm.spc.domain.spcz.SpcZ;
 import cn.edu.buaa.g305.qpm.spc.server.SPCService;
 
 @Controller
-@RequestMapping("/spc")
+@RequestMapping("/api/spc")
 public class SPCController {
 	
 	@Autowired
 	private SPCService spcService;
 	
-	//spc主页
-	@RequestMapping()
-	public String spcHome()
-
-	{
-		return "jsp/spc.jsp";
-	}
 
 	@RequestMapping(value="/{plotType}",method=RequestMethod.POST)
 	@ResponseBody

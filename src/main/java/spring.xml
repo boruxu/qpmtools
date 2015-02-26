@@ -26,8 +26,8 @@
     <!-- 视图解释类 -->  
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <!-- 为controllers的return自动添加前缀和后缀 -->  
-        <property name="prefix" value="/WEB-INF/"/>  
-        <!--<property name="suffix" value=""/>可为空,方便实现自已的依据扩展名来选择视图解释类的逻辑  -->  
+        <property name="prefix" value="/WEB-INF/html/"/>  
+        <property name="suffix" value=".html"/><!--可为空,方便实现自已的依据扩展名来选择视图解释类的逻辑  -->  
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />  
     </bean> 
     <!-- MongoDB配置项  -->

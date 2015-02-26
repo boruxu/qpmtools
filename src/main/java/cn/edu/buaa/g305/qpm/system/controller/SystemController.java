@@ -23,7 +23,7 @@ import cn.edu.buaa.g305.qpm.system.domain.ProjectList;
 import cn.edu.buaa.g305.qpm.system.server.SystemFind;
 
 @Controller
-@RequestMapping("/system")
+@RequestMapping("/api/system")
 public class SystemController {
 	
 	@Autowired
