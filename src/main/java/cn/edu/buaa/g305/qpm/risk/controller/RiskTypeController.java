@@ -19,7 +19,7 @@ import cn.edu.buaa.g305.qpm.risk.server.RiskServer;
 
 
 @Controller
-@RequestMapping("/risk/riskType")
+@RequestMapping("api/risk/riskType")
 public class RiskTypeController {
 	
 	@Autowired
@@ -33,6 +33,7 @@ public class RiskTypeController {
 		RiskType riskType=new RiskType();
 		riskType.setName(riskVO.getName());
 		riskType.setDescription(riskVO.getDescription());
+		riskType.setExsample(riskVO.getExsample());
 		riskType.setEmergencyMeasure(riskVO.getEmergencyMeasure());
 		riskType.setMitigationMeasure(riskVO.getMitigationMeasure());
 		riskType=riskServer.saveRiskType(riskType, riskVO.getOrganization());
@@ -54,6 +55,9 @@ public class RiskTypeController {
 		RiskType riskType=new RiskType();
 		riskType.setName(riskVO.getName());
 		riskType.setDescription(riskVO.getDescription());
+		riskType.setExsample(riskVO.getExsample());
+		riskType.setEmergencyMeasure(riskVO.getEmergencyMeasure());
+		riskType.setMitigationMeasure(riskVO.getMitigationMeasure());
 		riskType=riskServer.updateRiskType(riskType, id, riskVO.getOrganization());
 
 		if(riskType.getError()==null)

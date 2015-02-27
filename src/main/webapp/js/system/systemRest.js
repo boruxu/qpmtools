@@ -6,15 +6,16 @@ app.factory('RestServerce', ['Restangular', function(Restangular) {
     var restAngular = Restangular.withConfig(function(Configurer) {
         Configurer.setBaseUrl('/qpmtools');
     });
+
     return {
         get: function(resource) {
-            var getUrl=restAngular.all('');
+            var getUrl=restAngular.all("");
             return getUrl.get(resource);
         },
-        //create和update都用post
         post:function(resource,json){
+            var jsons=JSON.stringify(json);
             var cUrl=restAngular.all(resource);
-            return cUrl.post(json);
+            return cUrl.post(jsons);
         },
         remove:function(resource){
             var removeUrl=restAngular.all(resource);

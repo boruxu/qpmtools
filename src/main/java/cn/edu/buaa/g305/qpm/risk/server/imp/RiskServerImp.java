@@ -105,7 +105,7 @@ public class RiskServerImp implements RiskServer{
 		if(riskTypeDB.getError()==null)
 		{
 			riskType.setId(id);
-			riskType=saveRiskType(riskTypeDB, organization);
+			riskType=saveRiskType(riskType, organization);
 			if(riskType.getError()==null)
 			{
 				riskType.setHttpStatus(HttpStatus.OK);
