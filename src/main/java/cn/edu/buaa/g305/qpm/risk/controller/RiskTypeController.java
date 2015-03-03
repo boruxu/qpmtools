@@ -28,7 +28,7 @@ public class RiskTypeController {
 
 	@RequestMapping(value="",method=RequestMethod.POST)
 	@ResponseBody
-	public  HttpEntity<RiskType> create(@RequestBody RiskVO riskVO)
+	public  HttpEntity<RiskType> create(@RequestBody RiskTypeVO riskVO)
 	{
 		RiskType riskType=new RiskType();
 		riskType.setName(riskVO.getName());
@@ -49,7 +49,7 @@ public class RiskTypeController {
 	
 	@RequestMapping(value="/{id}",method=RequestMethod.POST)
 	@ResponseBody
-	public  HttpEntity<RiskType> update(@RequestBody RiskVO riskVO
+	public  HttpEntity<RiskType> update(@RequestBody RiskTypeVO riskVO
 			,@PathVariable String id)
 	{
 		RiskType riskType=new RiskType();

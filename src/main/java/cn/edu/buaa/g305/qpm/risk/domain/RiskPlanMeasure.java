@@ -1,6 +1,11 @@
 package cn.edu.buaa.g305.qpm.risk.domain;
 
 public class RiskPlanMeasure {
+	
+	//计划负责人
+	private String riskPlanMan;
+	//计划时间
+	private String riskPlanTime;
 	//计划措施类型
 	private String planMeasureType;
 	//理由
@@ -16,6 +21,20 @@ public class RiskPlanMeasure {
 	private String riskEmergencyMeasure;
 	//应急措施触发事件
 	private String riskEmergencyTrigger;
+	
+	
+	public String getRiskPlanMan() {
+		return riskPlanMan;
+	}
+	public void setRiskPlanMan(String riskPlanMan) {
+		this.riskPlanMan = riskPlanMan;
+	}
+	public String getRiskPlanTime() {
+		return riskPlanTime;
+	}
+	public void setRiskPlanTime(String riskPlanTime) {
+		this.riskPlanTime = riskPlanTime;
+	}
 	public String getPlanMeasureType() {
 		return planMeasureType;
 	}

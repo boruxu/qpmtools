@@ -1,11 +1,24 @@
 package cn.edu.buaa.g305.qpm.risk.domain;
 
+import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.http.HttpStatus;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
+
 import cn.edu.buaa.g305.qpm.system.domain.Project;
 import cn.edu.buaa.g305.qpm.system.domain.ResourceSupportTransientLinks;
-
+@Document
+@JsonSerialize(include=Inclusion.NON_NULL)
+@JsonIgnoreProperties("httpStatus")
 public class Risk extends ResourceSupportTransientLinks{
-	
+
+	private String id;
 	//风险项名
+	@Indexed(unique=true)
 	private String name;
 	//风险项所属项目
 	private Project project;
@@ -35,10 +48,7 @@ public class Risk extends ResourceSupportTransientLinks{
 	private String riskPriority;
 	//建议措施
 	private String riskProposeMeasure;
-	//计划负责人
-	private String riskPlanMan;
-	//计划时间
-	private String riskPlanTime;
+
 	//计划措施
 	private RiskPlanMeasure riskPlanMeasure; 
 	
@@ -46,8 +56,7 @@ public class Risk extends ResourceSupportTransientLinks{
 	private String riskIndicator;
 	//指示器阀值
 	private String riskIndicatorThresholdValue;
-	//审批状态
-	private String riskApprovalState;
+
 	
 	private RiskApproval riskApproval;
 	
@@ -55,6 +64,14 @@ public class Risk extends ResourceSupportTransientLinks{
 	
 	//跟踪信息，只可记录，不可修改
 	private RiskTrack[] riskTrack;
+	
+	
+	//错误处理与状态码部分，不持久化
+	@Transient
+	private String error;
+	
+	@Transient
+	private  HttpStatus httpStatus;
 
 	public String getName() {
 		return name;
@@ -178,25 +195,7 @@ public class Risk extends ResourceSupportTransientLinks{
 		this.riskProposeMeasure = riskProposeMeasure;
 	}
 
-	public String getRiskPlanMan() {
-		return riskPlanMan;
-	}
-
-	public void setRiskPlanMan(String riskPlanMan) {
-		this.riskPlanMan = riskPlanMan;
-	}
-
-	public String getRiskPlanTime() {
-		return riskPlanTime;
-	}
-
-	public void setRiskPlanTime(String riskPlanTime) {
-		this.riskPlanTime = riskPlanTime;
-	}
-
-	public RiskPlanMeasure getRiskPlanMeasure() {
-		return riskPlanMeasure;
-	}
+	
 
 	public void setRiskPlanMeasure(RiskPlanMeasure riskPlanMeasure) {
 		this.riskPlanMeasure = riskPlanMeasure;
@@ -218,13 +217,6 @@ public class Risk extends ResourceSupportTransientLinks{
 		this.riskIndicatorThresholdValue = riskIndicatorThresholdValue;
 	}
 
-	public String getRiskApprovalState() {
-		return riskApprovalState;
-	}
-
-	public void setRiskApprovalState(String riskApprovalState) {
-		this.riskApprovalState = riskApprovalState;
-	}
 
 	public RiskApproval getRiskApproval() {
 		return riskApproval;
@@ -248,8 +240,60 @@ public class Risk extends ResourceSupportTransientLinks{
 
 	public void setRiskTrack(RiskTrack[] riskTrack) {
 		this.riskTrack = riskTrack;
+	}
+
+	public String getError() {
+		return error;
+	}
+
+	public void setError(String error) {
+		this.error = error;
+	}
+
+	public HttpStatus getHttpStatus() {
+		return httpStatus;
+	}
+
+	public void setHttpStatus(HttpStatus httpStatus) {
+		this.httpStatus = httpStatus;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setErrorOutput(String error, HttpStatus httpStatus) {
+		id=null;
+		name=null;
+		project=null;
+		riskType=null;
+		riskInfo=null;
+		riskState=null;
+		riskSource=null;
+		riskContex=null;
+		riskWarning=null;
+		riskPotentialInfluence=null;
+		riskCondition=null;
+		riskPosibility=null;
+		riskDamage=null;
+		riskUrgency=null;
+		riskPriority=null;
+		riskProposeMeasure=null;
+		riskPlanMeasure=null; 
+		riskIndicator=null;
+		riskIndicatorThresholdValue=null;
+
+		riskApproval=null;
+		riskRemark=null;
+		riskTrack=null;
+		
+		this.error=error;
+		this.httpStatus=httpStatus;
+		
 	}  
 	
-	
-
 }

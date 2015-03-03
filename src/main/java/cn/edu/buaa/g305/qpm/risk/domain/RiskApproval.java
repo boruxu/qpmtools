@@ -2,6 +2,8 @@ package cn.edu.buaa.g305.qpm.risk.domain;
 
 public class RiskApproval {
 	
+	//审批状态
+	private String riskApprovalState;
 	//审批负责人
 	private String riskApprovalMan;
 	//审批时间
@@ -10,6 +12,14 @@ public class RiskApproval {
 	private String riskApprovalResult;
 	//未通过理由
 	private String riskNotApprovalReason;
+	
+	
+	public String getRiskApprovalState() {
+		return riskApprovalState;
+	}
+	public void setRiskApprovalState(String riskApprovalState) {
+		this.riskApprovalState = riskApprovalState;
+	}
 	public String getRiskApprovalMan() {
 		return riskApprovalMan;
 	}
