@@ -19,7 +19,7 @@ import cn.edu.buaa.g305.qpm.risk.server.RiskServer;
 
 
 @Controller
-@RequestMapping("api/risk/riskType")
+@RequestMapping("/api/risk/riskType")
 public class RiskTypeController {
 	
 	@Autowired

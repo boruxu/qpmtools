@@ -1,0 +1,71 @@
+<!--list.html-->
+<div >
+    <div ui-view >
+        <div class="row">
+            <div class="box col-lg-12">
+                <div class="box-inner">
+                    <div class="box-header well">
+                        <h2><i class="glyphicon glyphicon-list"></i>已识别风险列表</h2>
+                        <div class="box-icon">
+                            <a href="#" class="btn btn-setting-alpha btn-round btn-default"><i
+                                    class="glyphicon glyphicon-cog"></i></a>
+                            <a href="#"  class="btn btn-minimize btn-round btn-default"><i
+                                    class="glyphicon glyphicon-chevron-up"></i></a>
+                            <a href="#" class="btn btn-close btn-round btn-default"><i
+                                    class="glyphicon glyphicon-remove"></i></a>
+                        </div>
+                    </div>
+                    <div class="box-content row" >
+                        <div class="col-lg-12  ">
+                            <div class="panel-body"  >
+                                <table class="table" >
+
+                                    <tr>
+                                        <th>风险项</th>
+                                        <th>风险类型</th>
+                                        <th>操作
+                                            <button class="btn btn-success btn-xs" ui-sref="risk.identify.create">
+                                                <span class="glyphicon glyphicon-plus "></span>风险识别
+                                            </button>
+                                            <button type="button" class="btn btn-primary btn-xs" ui-sref="risk.analyse">
+                                                <span class="glyphicon glyphicon-circle-arrow-right"></span> 风险分析
+                                            </button>
+                                        </th>
+                                    </tr>
+                                    <tr ng-repeat="risk in riskG.riskList">
+                                        <td>{{risk.name}}</td>
+                                        <td>{{risk.riskType.name}}</td>
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-primary btn-xs"
+                                                    ui-sref="risk.identify.detail({id:risk.id})">
+                                                <span class="glyphicon glyphicon-eye-open"></span> 查看
+                                            </button>
+                                            <button type="button" class="btn btn-warning btn-xs"
+                                                    ui-sref="risk.identify.edit({id:risk.id})">
+                                                <span class="glyphicon glyphicon-edit "></span> 编辑
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="riskG.remove(risk.id)">
+                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                            </button>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>共{{riskG.riskList.length}}条</th>
+                                        <td></td><td></td><td></td>
+                                    </tr>
+
+                                </table>
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

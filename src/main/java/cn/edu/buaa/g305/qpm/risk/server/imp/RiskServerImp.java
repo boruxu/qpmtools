@@ -8,10 +8,12 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
+import cn.edu.buaa.g305.qpm.risk.controller.RiskVO;
 import cn.edu.buaa.g305.qpm.risk.dao.RiskRepository;
 import cn.edu.buaa.g305.qpm.risk.dao.RiskTypeRepository;
 import cn.edu.buaa.g305.qpm.risk.domain.Risk;
 import cn.edu.buaa.g305.qpm.risk.domain.RiskList;
+import cn.edu.buaa.g305.qpm.risk.domain.RiskTrack;
 import cn.edu.buaa.g305.qpm.risk.domain.RiskType;
 import cn.edu.buaa.g305.qpm.risk.domain.RiskTypeList;
 import cn.edu.buaa.g305.qpm.risk.server.RiskServer;
@@ -213,7 +215,8 @@ public class RiskServerImp implements RiskServer{
 	}
 
 	@Override
-	public Risk saveRisk(Risk risk, String project,String riskType) {
+	public Risk saveRisk(Risk risk, String project,String riskType,RiskTrack riskTrack) {
+
 		Project projectDB=systemFind.findProductAffiliation(project);
 		risk.setProject(projectDB);
 		RiskType riskTypeDB=riskTypeRepository.findByName(riskType);
@@ -223,10 +226,41 @@ public class RiskServerImp implements RiskServer{
 			return risk;
 		}
 		risk.setRiskType(riskTypeDB);
-		
+		List<RiskTrack> riskTracks=new ArrayList<RiskTrack>();
+		riskTracks.add(riskTrack);
+		risk.setRiskTrack(riskTracks);
 		try {
 			risk=riskRepository.save(risk);
 		} catch (DuplicateKeyException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+			
+			risk.setErrorOutput("名字重复，请重新命名", HttpStatus.BAD_REQUEST);
+			return risk;
+		}
+		
+		risk.setHttpStatus(HttpStatus.CREATED);
+		return risk;
+	}
+	
+	public Risk saveRiskNoTrack(Risk risk, String project,String riskType) {
+
+		Project projectDB=systemFind.findProductAffiliation(project);
+		risk.setProject(projectDB);
+		RiskType riskTypeDB=riskTypeRepository.findByName(riskType);
+		if(riskTypeDB==null)
+		{
+			risk.setErrorOutput("所选风险类型"+riskType+"不存在", HttpStatus.BAD_REQUEST);
+			return risk;
+		}
+		risk.setRiskType(riskTypeDB);
+
+		try {
+			risk=riskRepository.save(risk);
+		} catch (DuplicateKeyException e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+			
 			risk.setErrorOutput("名字重复，请重新命名", HttpStatus.BAD_REQUEST);
 			return risk;
 		}
@@ -236,25 +270,43 @@ public class RiskServerImp implements RiskServer{
 	}
 
 	@Override
-	public Risk updateRisk(Risk risk, String id) {
+	public Risk updateRisk(RiskVO riskVO,String step,String id,String project,String riskType,RiskTrack riskTrack) {
 		Risk riskDB=getRiskById(id);
+		
 		if(riskDB.getError()==null)
 		{
-			risk.setId(id);
-			risk=saveRisk(risk, riskDB.getProject().getName(),riskDB.getRiskType().getName());
-			if(risk.getError()==null)
+			List<RiskTrack> riskTracks=riskDB.getRiskTrack();
+			riskTracks.add(riskTrack);
+			switch (step) {
+			case "identify":
 			{
-				risk.setHttpStatus(HttpStatus.OK);
-				return risk;
+				riskDB.setName(riskVO.getName());
+				riskDB.setRiskContex(riskVO.getRiskContex());
+				riskDB.setRiskPotentialInfluence(riskVO.getRiskPotentialInfluence());
+				riskDB.setRiskCondition(riskVO.getRiskCondition());
+				riskDB.setRiskState(riskVO.getRiskState());
+				riskDB.setRiskProposeMeasure(riskVO.getRiskProposeMeasure());				
+				
+				riskDB=saveRiskNoTrack(riskDB, project, riskType);
+				break;
 			}
-			else {
-				return risk;
+				
+
+			default:
+				break;
 			}
+			
+			if(riskDB.getError()==null)
+			{
+				riskDB.setHttpStatus(HttpStatus.OK);
+			}
+
+			return riskDB;
+
 			 
 		}
-		else {
 			return riskDB;
-		}
+
 	}
 
 	@Override

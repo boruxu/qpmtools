@@ -52,7 +52,7 @@ public class RiskVO {
 	private String riskRemark;
 	
 	//跟踪信息，只可记录，不可修改
-	private RiskTrack[] riskTrack;
+	private RiskTrack riskTrack;
 
 	public String getName() {
 		return name;
@@ -216,12 +216,14 @@ public class RiskVO {
 		this.riskRemark = riskRemark;
 	}
 
-	public RiskTrack[] getRiskTrack() {
+	public RiskTrack getRiskTrack() {
 		return riskTrack;
 	}
 
-	public void setRiskTrack(RiskTrack[] riskTrack) {
+	public void setRiskTrack(RiskTrack riskTrack) {
 		this.riskTrack = riskTrack;
 	}
+
+	
 	
 }

@@ -15,48 +15,54 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.edu.buaa.g305.qpm.risk.domain.Risk;
 import cn.edu.buaa.g305.qpm.risk.domain.RiskList;
+import cn.edu.buaa.g305.qpm.risk.domain.RiskTrack;
 import cn.edu.buaa.g305.qpm.risk.server.RiskServer;
 
 
 @Controller
-@RequestMapping("api/risk/riskItem")
+@RequestMapping("/api/risk/riskItem")
 public class RiskController {
 	
 	@Autowired
 	private RiskServer riskServer;
 	
-
+    //风险识别时为创建risk的时候
 	@RequestMapping(value="",method=RequestMethod.POST)
 	@ResponseBody
 	public  HttpEntity<Risk> create(@RequestBody RiskVO riskVO)
 	{
-		Risk riskType=new Risk();
-		riskType.setName(riskVO.getName());
-
-		riskType=riskServer.saveRisk(riskType, riskVO.getProject(),riskVO.getRiskType());
-		if(riskType.getError()==null)
-		{
-			addAllLink(riskType, riskType.getId(), riskType.getName());
-		}
-		riskType.add(linkTo(methodOn(RiskController.class).create(null)).withRel("create"));
+		Risk risk=new Risk();
+		//创建已识别风险接受的输入
+		risk.setName(riskVO.getName());
+		risk.setRiskContex(riskVO.getRiskContex());
+		risk.setRiskPotentialInfluence(riskVO.getRiskPotentialInfluence());
+		risk.setRiskCondition(riskVO.getRiskCondition());
+		risk.setRiskState(riskVO.getRiskState());
+		risk.setRiskProposeMeasure(riskVO.getRiskProposeMeasure());
 		
-		return new ResponseEntity<Risk>(riskType,riskType.getHttpStatus());
+		risk=riskServer.saveRisk(risk, riskVO.getProject(),riskVO.getRiskType(),riskVO.getRiskTrack());
+		if(risk.getError()==null)
+		{
+			addAllLink(risk, risk.getId(), risk.getName(),"indentify");
+		}
+		risk.add(linkTo(methodOn(RiskController.class).create(null)).withRel("create"));
+		
+		return new ResponseEntity<Risk>(risk,risk.getHttpStatus());
 		
 	}
 	
 	@RequestMapping(value="/{step}/{id}",method=RequestMethod.POST)
 	@ResponseBody
 	public  HttpEntity<Risk> update(@RequestBody RiskVO riskVO
-			,@PathVariable String id)
+			,@PathVariable String step,@PathVariable String id)
 	{
-		Risk risk=new Risk();
-		risk.setName(riskVO.getName());
-	
-		risk=riskServer.updateRisk(risk, id);
+		Risk risk=riskServer.updateRisk(riskVO, step,id,riskVO.getProject(),
+						riskVO.getRiskType(),riskVO.getRiskTrack());
 
+		
 		if(risk.getError()==null)
 		{
-			addAllLink(risk, risk.getId(), risk.getName());
+			addAllLink(risk, risk.getId(), risk.getName(),"step");
 		}
 		risk.add(linkTo(methodOn(RiskController.class).create(null)).withRel("create"));
 		return new ResponseEntity<Risk>(risk,risk.getHttpStatus());
@@ -71,7 +77,7 @@ public class RiskController {
 
 		if(risk.getError()==null)
 		{
-			addAllLink(risk, risk.getId(), risk.getName());
+			addAllLink(risk, risk.getId(), risk.getName(),"step");
 		}
 		risk.add(linkTo(methodOn(RiskController.class).create(null)).withRel("create"));
 		return new ResponseEntity<Risk>(risk,risk.getHttpStatus());
@@ -87,7 +93,7 @@ public class RiskController {
 
 		if(risk.getError()==null)
 		{
-			addAllLink(risk, risk.getId(), risk.getName());
+			addAllLink(risk, risk.getId(), risk.getName(),"step");
 		}
 		risk.add(linkTo(methodOn(RiskController.class).create(null)).withRel("create"));
 		return new ResponseEntity<Risk>(risk,risk.getHttpStatus());
@@ -102,7 +108,7 @@ public class RiskController {
 
 		if(risk.getError()==null)
 		{
-			addAllLink(risk, risk.getId(), risk.getName());
+			addAllLink(risk, risk.getId(), risk.getName(),"step");
 		}
 		risk.add(linkTo(methodOn(RiskController.class).create(null)).withRel("create"));
 		return new ResponseEntity<Risk>(risk,risk.getHttpStatus());
@@ -117,7 +123,7 @@ public class RiskController {
 
 		if(risk.getError()==null)
 		{
-			addAllLink(risk, risk.getId(), risk.getName());
+			addAllLink(risk, risk.getId(), risk.getName(),"step");
 		}
 		risk.add(linkTo(methodOn(RiskController.class).create(null)).withRel("create"));
 		return new ResponseEntity<Risk>(risk,risk.getHttpStatus());
@@ -156,13 +162,13 @@ public class RiskController {
 		
 	}
 	
-	private void addAllLink(Risk risk,String id,String name)
+	private void addAllLink(Risk risk,String id,String name,String step)
 	{
 		risk.add(linkTo(methodOn(RiskController.class).getById(id)).withSelfRel());
 		risk.add(linkTo(methodOn(RiskController.class).getByName(name)).withRel("getByName"));
 		risk.add(linkTo(methodOn(RiskController.class).delete(id)).withRel("delete"));
 		risk.add(linkTo(methodOn(RiskController.class).deleteByName(name)).withRel("deleteByName"));
-		risk.add(linkTo(methodOn(RiskController.class).update(null, id)).withRel("update"));
+		risk.add(linkTo(methodOn(RiskController.class).update(null,step, id)).withRel("update"));
 			
 	}
 
@@ -170,7 +176,7 @@ public class RiskController {
 	{
 		for (Risk risk :riskList.getList()) {
 			risk.add(linkTo(methodOn(RiskController.class).getById(risk.getId())).withSelfRel());
-			risk.add(linkTo(methodOn(RiskController.class).update(  null,risk.getId())).withRel("update"));
+			risk.add(linkTo(methodOn(RiskController.class).update( null,"step",risk.getId())).withRel("update"));
 			risk.add(linkTo(methodOn(RiskController.class).delete( risk.getId())).withRel("delete"));			
 		}
 

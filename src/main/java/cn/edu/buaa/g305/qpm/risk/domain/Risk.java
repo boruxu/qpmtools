@@ -1,7 +1,10 @@
 package cn.edu.buaa.g305.qpm.risk.domain;
 
+import java.util.List;
+
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.http.HttpStatus;
 
@@ -21,7 +24,9 @@ public class Risk extends ResourceSupportTransientLinks{
 	@Indexed(unique=true)
 	private String name;
 	//风险项所属项目
+	@DBRef
 	private Project project;
+	@DBRef
 	//风险类型
 	private RiskType riskType;
 	//风险陈述
@@ -63,7 +68,7 @@ public class Risk extends ResourceSupportTransientLinks{
 	private String riskRemark;
 	
 	//跟踪信息，只可记录，不可修改
-	private RiskTrack[] riskTrack;
+	private List<RiskTrack> riskTrack;
 	
 	
 	//错误处理与状态码部分，不持久化
@@ -234,12 +239,18 @@ public class Risk extends ResourceSupportTransientLinks{
 		this.riskRemark = riskRemark;
 	}
 
-	public RiskTrack[] getRiskTrack() {
+	
+
+	public List<RiskTrack> getRiskTrack() {
 		return riskTrack;
 	}
 
-	public void setRiskTrack(RiskTrack[] riskTrack) {
+	public void setRiskTrack(List<RiskTrack> riskTrack) {
 		this.riskTrack = riskTrack;
+	}
+
+	public RiskPlanMeasure getRiskPlanMeasure() {
+		return riskPlanMeasure;
 	}
 
 	public String getError() {

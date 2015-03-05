@@ -1,4 +1,6 @@
-
+textarea{
+    height: 100px;
+}
 .nav-margin{
     margin-top: 5px;
 }
