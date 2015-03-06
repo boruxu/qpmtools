@@ -280,14 +280,12 @@ public class RiskServerImp implements RiskServer{
 			switch (step) {
 			case "identify":
 			{
-				riskDB.setName(riskVO.getName());
-				riskDB.setRiskContex(riskVO.getRiskContex());
-				riskDB.setRiskPotentialInfluence(riskVO.getRiskPotentialInfluence());
-				riskDB.setRiskCondition(riskVO.getRiskCondition());
-				riskDB.setRiskState(riskVO.getRiskState());
-				riskDB.setRiskProposeMeasure(riskVO.getRiskProposeMeasure());				
-				
-				riskDB=saveRiskNoTrack(riskDB, project, riskType);
+				setIdentify(riskDB,riskVO);								
+				break;
+			}
+			case "analysis":
+			{
+				setAnalysis(riskDB,riskVO);
 				break;
 			}
 				
@@ -296,6 +294,7 @@ public class RiskServerImp implements RiskServer{
 				break;
 			}
 			
+			riskDB=saveRiskNoTrack(riskDB, project, riskType);
 			if(riskDB.getError()==null)
 			{
 				riskDB.setHttpStatus(HttpStatus.OK);
@@ -336,6 +335,29 @@ public class RiskServerImp implements RiskServer{
 			riskList.setHttpStatus(HttpStatus.OK);
 			return riskList;
 		}
+	}
+	
+	private void setIdentify(Risk riskDB,RiskVO riskVO)
+	{
+		riskDB.setName(riskVO.getName());
+		riskDB.setRiskContex(riskVO.getRiskContex());
+		riskDB.setRiskPotentialInfluence(riskVO.getRiskPotentialInfluence());
+		riskDB.setRiskCondition(riskVO.getRiskCondition());
+		riskDB.setRiskState(riskVO.getRiskState());
+		riskDB.setRiskProposeMeasure(riskVO.getRiskProposeMeasure());
+		
+	}
+	
+	
+	private void setAnalysis(Risk riskDB,RiskVO riskVO)
+	{
+		setIdentify(riskDB,riskVO);
+		riskDB.setRiskSource(riskVO.getRiskSource());
+		riskDB.setRiskWarning(riskVO.getRiskWarning());
+		riskDB.setRiskPriority(riskVO.getRiskPriority());
+		riskDB.setRiskPosibility(riskVO.getRiskPosibility());
+		riskDB.setRiskUrgency(riskVO.getRiskUrgency());
+		riskDB.setRiskDamage(riskVO.getRiskDamage());
 	}
 	
 

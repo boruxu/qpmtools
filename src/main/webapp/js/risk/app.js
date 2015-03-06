@@ -39,24 +39,40 @@ app.config(function($stateProvider, $urlRouterProvider) {
         //风险识别
         .state('risk.identify', {
             url: '/identify',
-            templateUrl: 'risk/identify/list.html',
-            controller: 'IdentifyList'
+            templateUrl: 'risk/identify/list.html'
         })
         .state('risk.identify.detail', {
             url: '/detail/{id}',
             templateUrl: 'risk/identify/detail.html',
-            controller:'IdentifyDetail'
+            controller:'riskDetail'
         })
         .state('risk.identify.edit', {
             url: '/edit/{id}',
             templateUrl: 'risk/identify/edit.html',
-            controller:'IdentifyDetail'
+            controller:'riskDetail'
 
         })
         .state('risk.identify.create', {
             url: '/create',
             templateUrl: 'risk/identify/create.html',
             controller:'IdentifyCreate'
+
+        })
+        //风险分析
+        .state('risk.analysis', {
+            url: '/analysis',
+            templateUrl: 'risk/analysis/list.html',
+            controller: ''
+        })
+        .state('risk.analysis.detail', {
+            url: '/detail/{id}',
+            templateUrl: 'risk/analysis/detail.html',
+            controller:'riskDetail'
+        })
+        .state('risk.analysis.edit', {
+            url: '/edit/{id}',
+            templateUrl: 'risk/analysis/edit.html',
+            controller:'riskDetail'
 
         });
 });
@@ -295,18 +311,6 @@ app.controller('TypeEdit',['$scope','$stateParams','riskGlobal','RestServerce',
 }]);
 
 
-app.controller('IdentifyList',['$scope','RestServerce',function($scope,RestServerce){
-
-
-
-
-
-
-
-
-
-}]);
-
 app.controller('IdentifyCreate',['$scope','RestServerce',function($scope,RestServerce){
 
     //create页面
@@ -334,14 +338,10 @@ app.controller('IdentifyCreate',['$scope','RestServerce',function($scope,RestSer
     };
 
 
-
-
-
-
 }]);
 
 
-app.controller('IdentifyDetail',['$scope','$stateParams','RestServerce',function($scope,$stateParams,RestServerce){
+app.controller('riskDetail',['$scope','$stateParams','RestServerce','$state',function($scope,$stateParams,RestServerce,$state){
 
 
     var getDetail=function()
@@ -357,7 +357,10 @@ app.controller('IdentifyDetail',['$scope','$stateParams','RestServerce',function
                       $scope.detail=angular.copy(d);
                       $scope.detail.riskType= angular.copy(d.riskType.name);
                       $scope.detail.project=angular.copy(d.project.name);
-                      $scope.detail.riskState="已识别";
+                      if($state.current.name=='risk.identify.edit')
+                      {
+                          $scope.detail.riskState="已识别";
+                      }
                   }
 
               }
@@ -368,6 +371,20 @@ app.controller('IdentifyDetail',['$scope','$stateParams','RestServerce',function
     };
 
     getDetail();
+
+    var rest=function(url,message){
+
+        RestServerce.post(url+$scope.detail.id,$scope.detail).then(
+            function(data){
+
+                $scope.riskG.getRiskListByProject();
+                $scope.riskG.tips(message);
+
+            },function(error){
+                alert(error.error);
+            });
+
+    };
 
 
     $scope.update=function(){
@@ -380,18 +397,70 @@ app.controller('IdentifyDetail',['$scope','$stateParams','RestServerce',function
             measureTime:date
         };
 
-        RestServerce.post("api/risk/riskItem/identify/"+$scope.detail.id,$scope.detail).then(
-            function(data){
-
-                $scope.riskG.getRiskListByProject();
-                $scope.riskG.tips("修改成功！");
-
-            },function(error){
-                alert(error.error);
-            });
+        rest("api/risk/riskItem/identify/","修改成功!");
 
 
     };
+
+
+    //风险分析
+    $scope.posibilityList=[
+        {name:'高',value:'9'},
+        {name:'中',value:'6'},
+        {name:'低',value:'3'}
+    ];
+    $scope.damageList=[
+        {name:'高',value:'9'},
+        {name:'中',value:'6'},
+        {name:'低',value:'3'}
+    ];
+    $scope.urgencyList=[
+        {name:'近期',value:'9'},
+        {name:'中期',value:'6'},
+        {name:'远期',value:'3'}
+    ];
+
+
+    $scope.Analysis=function(){
+
+        var date=new Date();
+
+        if($scope.detail.riskState=="已识别")
+        {
+
+            $scope.detail.riskTrack={
+                measureType:'分析风险',
+                measureMan:'测试人员',
+                measureTime:date
+            };
+            $scope.detail.riskState="已分析";
+        }
+        else
+        {
+            $scope.detail.riskTrack={
+                measureType:'重新分析风险',
+                measureMan:'测试人员',
+                measureTime:date
+            };
+
+        }
+
+
+        if($scope.detail.riskPriority==0)
+        {
+            alert("请选择优先级选项！");
+        }
+        else{
+            $scope.detail.riskPosibility=$scope.riskPosibility.name;
+            $scope.detail.riskDamage=$scope.riskDamage.name;
+            $scope.detail.riskUrgency=$scope.riskUrgency.name;
+            rest("api/risk/riskItem/analysis/","分析成功!");
+        }
+
+
+
+    };
+
 
 
 }]);

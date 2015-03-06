@@ -27,12 +27,12 @@
                                             <button class="btn btn-success btn-xs" ui-sref="risk.identify.create">
                                                 <span class="glyphicon glyphicon-plus "></span>风险识别
                                             </button>
-                                            <button type="button" class="btn btn-primary btn-xs" ui-sref="risk.analyse">
+                                            <button type="button" class="btn btn-primary btn-xs" ui-sref="risk.analysis">
                                                 <span class="glyphicon glyphicon-circle-arrow-right"></span> 风险分析
                                             </button>
                                         </th>
                                     </tr>
-                                    <tr ng-repeat="risk in riskG.riskList">
+                                    <tr ng-repeat="risk in (filterList=(riskG.riskList| filter:{'riskState':'已识别'}))">
                                         <td>{{risk.name}}</td>
                                         <td>{{risk.riskType.name}}</td>
                                         <td nowrap>
@@ -51,7 +51,7 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>共{{riskG.riskList.length}}条</th>
+                                        <th>共{{filterList.length}}条</th>
                                         <td></td><td></td><td></td>
                                     </tr>
 
