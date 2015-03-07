@@ -288,6 +288,11 @@ public class RiskServerImp implements RiskServer{
 				setAnalysis(riskDB,riskVO);
 				break;
 			}
+			case "evaluate":
+			{
+				setAnalysis(riskDB,riskVO);
+				break;
+			}
 				
 
 			default:

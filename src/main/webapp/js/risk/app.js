@@ -61,8 +61,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
         //风险分析
         .state('risk.analysis', {
             url: '/analysis',
-            templateUrl: 'risk/analysis/list.html',
-            controller: ''
+            templateUrl: 'risk/analysis/list.html'
         })
         .state('risk.analysis.detail', {
             url: '/detail/{id}',
@@ -74,6 +73,17 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'risk/analysis/edit.html',
             controller:'riskDetail'
 
+        })
+        //风险评估
+        .state('risk.evaluate', {
+            url: '/evaluate',
+            templateUrl: 'risk/evaluate/list.html',
+            controller:'EvaluateController'
+        })
+        .state('risk.evaluate.detail', {
+            url: '/detail/{id}',
+            templateUrl: 'risk/evaluate/detail.html',
+            controller:'riskDetail'
         });
 });
 
@@ -85,7 +95,7 @@ app.factory('riskGlobal',function(){
        project:'',
        projectList:'',
        riskTypeList:'',
-       riskList:''
+       riskList:[]
    }
 });
 
@@ -95,7 +105,8 @@ app.controller('RiskHomeController',['$scope','RestServerce','riskGlobal'
     ,function($scope,RestServerce,riskGlobal){
 
         $scope.riskG={selectOrganization:'',
-            selectProject:''};
+            selectProject:'',
+            riskList:[]};
         //页面加载的时候获取组织列表
         RestServerce.get("api/system/organization/list").then(
             function(data){
@@ -196,9 +207,6 @@ app.controller('RiskHomeController',['$scope','RestServerce','riskGlobal'
                 $scope.$apply($scope.riskG.message);
             },2000);
         };
-
-
-
 
     }]);
 //风险常见列表controller
@@ -457,6 +465,56 @@ app.controller('riskDetail',['$scope','$stateParams','RestServerce','$state',fun
             rest("api/risk/riskItem/analysis/","分析成功!");
         }
 
+
+
+    };
+
+
+
+}]);
+
+app.controller('EvaluateController',['$scope','RestServerce',function($scope,RestServerce){
+
+
+
+    $scope.setEvaluate=function(id){
+
+        var detail='';
+
+        if(typeof($scope.riskG.riskList)!='undefined')
+        {
+
+            $scope.riskG.riskList.forEach(
+                function(d){
+                    if(d.id==id)
+                    {
+                        detail=angular.copy(d);
+                        detail.riskType= angular.copy(d.riskType.name);
+                        detail.project=angular.copy(d.project.name);
+
+                    }
+
+                }
+            );
+
+            detail.riskState="已评估";
+
+            var date=new Date();
+
+            detail.riskTrack={
+                measureType:'评估风险',
+                measureMan:'测试人员',
+                measureTime:date
+            };
+
+            RestServerce.post("api/risk/riskItem/evaluate/"+detail.id,detail).then(
+                function(data){
+
+                    $scope.riskG.getRiskListByProject();
+                    $scope.riskG.tips("评估成功！");
+                },function(error){});
+
+        }
 
 
     };

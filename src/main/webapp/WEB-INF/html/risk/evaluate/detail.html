@@ -4,8 +4,8 @@
         <div class="box col-lg-12">
             <div class="box-inner">
                 <div class="box-header well">
-                    <h2 ng-show="detail.riskState=='已识别'">待分析风险详细信息</h2>
-                    <h2 ng-show="detail.riskState=='已分析'">已分析风险详细信息</h2>
+                    <h2 ng-show="detail.riskState=='已分析'">待评估风险详细信息</h2>
+                    <h2 ng-show="detail.riskState=='已评估'">已评估风险详细信息</h2>
                     <div class="box-icon">
                         <a href="#" class="btn btn-setting-alpha btn-round btn-default"><i
                                 class="glyphicon glyphicon-cog"></i></a>
@@ -18,7 +18,7 @@
                 <div class="box-content row" >
                     <div class="col-lg-12  ">
                         <div class="panel-heading">
-                            <button class="btn btn-default btn-xs" ui-sref="risk.analysis">
+                            <button class="btn btn-default btn-xs" ui-sref="risk.evaluate">
                                 <span class="glyphicon glyphicon-backward"></span> 返回</button>
                         </div>
                         <div class="panel-body"  >
@@ -47,32 +47,32 @@
                                 <tr>
                                     <td><strong>建议措施:</strong>{{detail.riskProposeMeasure}}</td>
                                 </tr>
-                                <tr ng-show="detail.riskState=='已分析'">
+                                <tr >
                                     <td><strong>风险来源:&nbsp</strong>
                                         {{detail.riskSource}}
                                     </td>
                                 </tr>
-                                <tr ng-show="detail.riskState=='已分析'">
+                                <tr >
                                     <td><strong>风险征兆:&nbsp</strong>
                                         {{detail.riskWarning}}
                                     </td>
                                 </tr>
-                                <tr ng-show="detail.riskState=='已分析'">
+                                <tr >
                                     <td><strong>优先级:&nbsp</strong>
                                         {{detail.riskPriority}}
                                     </td>
                                 </tr>
-                                <tr ng-show="detail.riskState=='已分析'">
+                                <tr >
                                     <td><strong>风险发生概率:&nbsp</strong>
                                         {{detail.riskPosibility}}
                                     </td>
                                 </tr>
-                                <tr ng-show="detail.riskState=='已分析'">
+                                <tr >
                                     <td><strong>风险危害程度:&nbsp</strong>
                                         {{detail.riskDamage}}
                                     </td>
                                 </tr>
-                                <tr ng-show="detail.riskState=='已分析'">
+                                <tr >
                                     <td><strong>风险发生紧迫性:&nbsp</strong>
                                         {{detail.riskUrgency}}
                                     </td>
