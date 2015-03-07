@@ -84,6 +84,22 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/detail/{id}',
             templateUrl: 'risk/evaluate/detail.html',
             controller:'riskDetail'
+        })
+        //风险计划
+        .state('risk.plan', {
+            url: '/plan',
+            templateUrl: 'risk/plan/list.html'
+        })
+        .state('risk.plan.detail', {
+            url: '/detail/{id}',
+            templateUrl: 'risk/plan/detail.html',
+            controller:'riskDetail'
+        })
+        .state('risk.plan.edit', {
+            url: '/edit/{id}',
+            templateUrl: 'risk/plan/edit.html',
+            controller:'riskDetail'
+
         });
 });
 
@@ -369,6 +385,7 @@ app.controller('riskDetail',['$scope','$stateParams','RestServerce','$state',fun
                       {
                           $scope.detail.riskState="已识别";
                       }
+
                   }
 
               }
@@ -381,6 +398,7 @@ app.controller('riskDetail',['$scope','$stateParams','RestServerce','$state',fun
     getDetail();
 
     var rest=function(url,message){
+
 
         RestServerce.post(url+$scope.detail.id,$scope.detail).then(
             function(data){
@@ -410,23 +428,83 @@ app.controller('riskDetail',['$scope','$stateParams','RestServerce','$state',fun
 
     };
 
+    var setPDU=function(){
+        if(typeof($scope.detail)!='undefined'
+            &&typeof($scope.detail.riskPosibility)!='undefined'
+            &&typeof($scope.detail.riskDamage)!='undefined'
+            &&typeof($scope.detail.riskUrgency)!='undefined')
+        {
+            $scope.posibilityList.forEach(
+                function(d)
+                {
+                    if(d.name==$scope.detail.riskPosibility)
+                    {
+                        $scope.riskPosibility=d;
+
+                    }
+
+                }
+            );
+
+            $scope.damageList.forEach(
+                function(d)
+                {
+                    if(d.name==$scope.detail.riskDamage)
+                    {
+                        $scope.riskDamage=d;
+                    }
+
+                }
+            );
+
+            $scope.urgencyList.forEach(
+                function(d)
+                {
+                    if(d.name==$scope.detail.riskUrgency)
+                    {
+                        $scope.riskUrgency=d;
+                    }
+
+                }
+            );
+
+        }
+
+
+    };
 
     //风险分析
-    $scope.posibilityList=[
-        {name:'高',value:'9'},
-        {name:'中',value:'6'},
-        {name:'低',value:'3'}
-    ];
-    $scope.damageList=[
-        {name:'高',value:'9'},
-        {name:'中',value:'6'},
-        {name:'低',value:'3'}
-    ];
-    $scope.urgencyList=[
-        {name:'近期',value:'9'},
-        {name:'中期',value:'6'},
-        {name:'远期',value:'3'}
-    ];
+    if($state.current.name=='risk.analysis.edit'
+        || $state.current.name=='risk.plan.edit')
+    {
+
+        $scope.posibilityList=[
+            {name:'高',value:'9'},
+            {name:'中',value:'6'},
+            {name:'低',value:'3'}
+        ];
+        $scope.damageList=[
+            {name:'高',value:'9'},
+            {name:'中',value:'6'},
+            {name:'低',value:'3'}
+        ];
+        $scope.urgencyList=[
+            {name:'近期',value:'9'},
+            {name:'中期',value:'6'},
+            {name:'远期',value:'3'}
+        ];
+
+        setPDU();
+
+
+
+
+
+
+    }
+
+
+
 
 
     $scope.Analysis=function(){
@@ -466,6 +544,86 @@ app.controller('riskDetail',['$scope','$stateParams','RestServerce','$state',fun
         }
 
 
+
+    };
+
+    $scope.plan=function(){
+
+        var date=new Date();
+
+        if($scope.detail.riskState=="已评估")
+        {
+
+            $scope.detail.riskTrack={
+                measureType:'计划风险',
+                measureMan:'测试人员',
+                measureTime:date
+            };
+            $scope.detail.riskState="已计划";
+        }
+        else
+        {
+            $scope.detail.riskTrack={
+                measureType:'重新计划风险',
+                measureMan:'测试人员',
+                measureTime:date
+            };
+
+        }
+
+
+        if($scope.detail.riskPriority==0)
+        {
+            alert("请选择优先级选项！");
+        }
+        else if(typeof ($scope.detail.riskPlanMeasure)=='undefined'
+            ||$scope.detail.riskPlanMeasure.planMeasureType=='') {
+
+            alert("请选择风险计划选项！")
+        }
+        else if($scope.detail.riskPlanMeasure.riskIndicator=='') {
+
+            alert("请选择风险指示器选项！")
+        }
+        else
+        {
+            $scope.detail.riskPosibility=$scope.riskPosibility.name;
+            $scope.detail.riskDamage=$scope.riskDamage.name;
+            $scope.detail.riskUrgency=$scope.riskUrgency.name;
+    
+            rest("api/risk/riskItem/plan/","计划成功!");
+
+        }
+
+
+    };
+
+
+    //display
+    $scope.display={
+        text:'修改其他项',
+        value:false,
+        class:'glyphicon glyphicon-chevron-up'
+    };
+
+    $scope.displayOther=function(){
+
+        if($scope.display.value==false)
+        {
+            $scope.display={
+                text:'收起',
+                value:true,
+                class:'glyphicon glyphicon-chevron-down'
+            };
+        }
+        else
+        {
+            $scope.display={
+                text:'修改其他项',
+                value:false,
+                class:'glyphicon glyphicon-chevron-up'
+            };
+        }
 
     };
 

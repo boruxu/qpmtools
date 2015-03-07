@@ -9,7 +9,7 @@ public class RiskPlanMeasure {
 	//计划措施类型
 	private String planMeasureType;
 	//理由
-	private String reason;
+	private String remark;
 	
 	//类型为风险缓解时，不使用reason，使用下面描述参数
 	
@@ -22,7 +22,25 @@ public class RiskPlanMeasure {
 	//应急措施触发事件
 	private String riskEmergencyTrigger;
 	
+	//风险指示器
+	private String riskIndicator;
+	//指示器阀值
+	private String riskIndicatorThresholdValue;
 	
+	
+	
+	public String getRiskIndicator() {
+		return riskIndicator;
+	}
+	public void setRiskIndicator(String riskIndicator) {
+		this.riskIndicator = riskIndicator;
+	}
+	public String getRiskIndicatorThresholdValue() {
+		return riskIndicatorThresholdValue;
+	}
+	public void setRiskIndicatorThresholdValue(String riskIndicatorThresholdValue) {
+		this.riskIndicatorThresholdValue = riskIndicatorThresholdValue;
+	}
 	public String getRiskPlanMan() {
 		return riskPlanMan;
 	}
@@ -42,10 +60,10 @@ public class RiskPlanMeasure {
 		this.planMeasureType = planMeasureType;
 	}
 	public String getReason() {
-		return reason;
+		return remark;
 	}
 	public void setReason(String reason) {
-		this.reason = reason;
+		this.remark = reason;
 	}
 	
 	public String getRiskMitigationMeasure() {
@@ -73,5 +91,12 @@ public class RiskPlanMeasure {
 	public void setRiskEmergencyTrigger(String riskEmergencyTrigger) {
 		this.riskEmergencyTrigger = riskEmergencyTrigger;
 	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+	
 
 }

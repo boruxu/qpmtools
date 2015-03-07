@@ -57,10 +57,7 @@ public class Risk extends ResourceSupportTransientLinks{
 	//计划措施
 	private RiskPlanMeasure riskPlanMeasure; 
 	
-	//风险指示器
-	private String riskIndicator;
-	//指示器阀值
-	private String riskIndicatorThresholdValue;
+	
 
 	
 	private RiskApproval riskApproval;
@@ -206,21 +203,7 @@ public class Risk extends ResourceSupportTransientLinks{
 		this.riskPlanMeasure = riskPlanMeasure;
 	}
 
-	public String getRiskIndicator() {
-		return riskIndicator;
-	}
 
-	public void setRiskIndicator(String riskIndicator) {
-		this.riskIndicator = riskIndicator;
-	}
-
-	public String getRiskIndicatorThresholdValue() {
-		return riskIndicatorThresholdValue;
-	}
-
-	public void setRiskIndicatorThresholdValue(String riskIndicatorThresholdValue) {
-		this.riskIndicatorThresholdValue = riskIndicatorThresholdValue;
-	}
 
 
 	public RiskApproval getRiskApproval() {
@@ -295,8 +278,7 @@ public class Risk extends ResourceSupportTransientLinks{
 		riskPriority=null;
 		riskProposeMeasure=null;
 		riskPlanMeasure=null; 
-		riskIndicator=null;
-		riskIndicatorThresholdValue=null;
+
 
 		riskApproval=null;
 		riskRemark=null;
