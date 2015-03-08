@@ -115,6 +115,47 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'risk/approval/edit.html',
             controller:'riskDetail'
 
+        })
+        //风险跟踪
+        .state('risk.track', {
+            url: '/track',
+            templateUrl: 'risk/track/list.html'
+        })
+        .state('risk.track.detail', {
+            url: '/detail/{id}',
+            templateUrl: 'risk/track/detail.html',
+            controller:'riskDetail'
+        })
+        .state('risk.track.edit', {
+            url: '/edit/{id}',
+            templateUrl: 'risk/track/edit.html',
+            controller:'riskDetail'
+
+        })
+        //风险控制
+        .state('risk.control', {
+            url: '/control',
+            templateUrl: 'risk/control/list.html',
+            controller:'ControlController'
+        })
+        .state('risk.control.detail', {
+            url: '/detail/{id}',
+            templateUrl: 'risk/control/detail.html',
+            controller:'riskDetail'
+        })//风险列表
+        .state('risk.riskList', {
+            url: '/riskList',
+            templateUrl: 'risk/riskList/list.html',
+            controller:'ControlController'
+        })
+        .state('risk.riskList.detail', {
+            url: '/detail/{id}',
+            templateUrl: 'risk/riskList/detail.html',
+            controller:'riskDetail'
+        }).state('risk.riskList.track', {
+            url: '/track/{id}',
+            templateUrl: 'risk/riskList/track.html',
+            controller:'riskDetail'
         });
 });
 
@@ -492,6 +533,7 @@ app.controller('riskDetail',['$scope','$stateParams','RestServerce','$state',fun
     if($state.current.name=='risk.analysis.edit'
         || $state.current.name=='risk.plan.edit'
         || $state.current.name=='risk.approval.edit'
+        || $state.current.name=='risk.track.edit'
         || $state.current.name=='risk.control.edit')
     {
 
@@ -615,25 +657,75 @@ app.controller('riskDetail',['$scope','$stateParams','RestServerce','$state',fun
 
     };
 
-    $scope.approval=function(){
+    $scope.approval=function() {
+
+        var date = new Date();
+
+        if ($scope.detail.riskState == "已计划") {
+
+            $scope.detail.riskTrack = {
+                measureType: '审批风险',
+                measureMan: '测试人员',
+                measureTime: date
+            };
+
+            $scope.detail.riskState = "已审批";
+        }
+        else {
+            $scope.detail.riskTrack = {
+                measureType: '重新审批风险',
+                measureMan: '测试人员',
+                measureTime: date
+            };
+
+        }
+
+
+        if ($scope.detail.riskPriority == 0) {
+            alert("请选择优先级选项！");
+        }
+        else if (typeof ($scope.detail.riskPlanMeasure) == 'undefined'
+            || $scope.detail.riskPlanMeasure.planMeasureType == '') {
+
+            alert("请选择风险计划选项！");
+        }
+        else if ($scope.detail.riskPlanMeasure.riskIndicator == '') {
+
+            alert("请选择风险指示器选项！");
+        }
+        else if (typeof ($scope.detail.riskApproval) == 'undefined'
+            || $scope.detail.riskApproval.riskApprovalResult == '') {
+            alert("请选择风险审批结果选项！");
+        }
+        else {
+            $scope.detail.riskPosibility = $scope.riskPosibility.name;
+            $scope.detail.riskDamage = $scope.riskDamage.name;
+            $scope.detail.riskUrgency = $scope.riskUrgency.name;
+            $scope.detail.riskApproval.riskApprovalTime = date;
+
+            rest("api/risk/riskItem/approval/", "审批成功!");
+
+        }
+    };
+    $scope.track=function(){
 
         var date=new Date();
 
-        if($scope.detail.riskState=="已计划")
+        if($scope.detail.riskState=="已审批")
         {
 
             $scope.detail.riskTrack={
-                measureType:'审批风险',
+                measureType:'跟踪风险',
                 measureMan:'测试人员',
                 measureTime:date
             };
 
-            $scope.detail.riskState="已审批";
+            $scope.detail.riskState="已跟踪";
         }
         else
         {
             $scope.detail.riskTrack={
-                measureType:'重新审批风险',
+                measureType:'继续跟踪风险',
                 measureMan:'测试人员',
                 measureTime:date
             };
@@ -666,7 +758,7 @@ app.controller('riskDetail',['$scope','$stateParams','RestServerce','$state',fun
             $scope.detail.riskUrgency=$scope.riskUrgency.name;
             $scope.detail.riskApproval.riskApprovalTime=date;
 
-            rest("api/risk/riskItem/approval/","审批成功!");
+            rest("api/risk/riskItem/track/","跟踪成功!");
 
         }
 
@@ -746,6 +838,66 @@ app.controller('EvaluateController',['$scope','RestServerce',function($scope,Res
 
                     $scope.riskG.getRiskListByProject();
                     $scope.riskG.tips("评估成功！");
+                },function(error){});
+
+        }
+
+
+    };
+
+
+
+}]);
+
+app.controller('ControlController',['$scope','RestServerce',function($scope,RestServerce){
+
+
+
+    $scope.control=function(id,state){
+
+        var detail='';
+
+        if(typeof($scope.riskG.riskList)!='undefined')
+        {
+
+            $scope.riskG.riskList.forEach(
+                function(d){
+                    if(d.id==id)
+                    {
+                        detail=angular.copy(d);
+                        detail.riskType= angular.copy(d.riskType.name);
+                        detail.project=angular.copy(d.project.name);
+
+                    }
+
+                }
+            );
+            var date=new Date();
+
+            if(state==0)
+            {
+                detail.riskState="已关闭";
+                detail.riskTrack={
+                    measureType:'关闭风险',
+                    measureMan:'测试人员',
+                    measureTime:date
+                };
+            }
+            else
+            {
+                detail.riskState="已计划";
+                detail.riskTrack={
+                    measureType:'变更风险计划',
+                    measureMan:'测试人员',
+                    measureTime:date
+                };
+            }
+
+            RestServerce.post("api/risk/riskItem/control/"+detail.id,detail).then(
+                function(data){
+
+                    $scope.riskG.getRiskListByProject();
+                    $scope.riskG.tips("操作成功！");
                 },function(error){});
 
         }

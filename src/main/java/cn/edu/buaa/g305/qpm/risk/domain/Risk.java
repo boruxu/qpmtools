@@ -53,11 +53,11 @@ public class Risk extends ResourceSupportTransientLinks{
 	private String riskPriority;
 	//建议措施
 	private String riskProposeMeasure;
+	//风险执行情况
+	private String riskPlanImplementation;
 
 	//计划措施
 	private RiskPlanMeasure riskPlanMeasure; 
-	
-	
 
 	
 	private RiskApproval riskApproval;
@@ -259,6 +259,15 @@ public class Risk extends ResourceSupportTransientLinks{
 	public void setId(String id) {
 		this.id = id;
 	}
+	
+
+	public String getRiskPlanImplementation() {
+		return riskPlanImplementation;
+	}
+
+	public void setRiskPlanImplementation(String riskPlanImplementation) {
+		this.riskPlanImplementation = riskPlanImplementation;
+	}
 
 	public void setErrorOutput(String error, HttpStatus httpStatus) {
 		id=null;
@@ -278,6 +287,7 @@ public class Risk extends ResourceSupportTransientLinks{
 		riskPriority=null;
 		riskProposeMeasure=null;
 		riskPlanMeasure=null; 
+		riskPlanImplementation=null;
 
 
 		riskApproval=null;

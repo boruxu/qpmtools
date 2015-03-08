@@ -1,0 +1,184 @@
+<!--detail.html-->
+<div >
+    <div class="row">
+        <div class="box col-lg-12">
+            <div class="box-inner">
+                <div class="box-header well">
+                    <h2 >风险详细信息</h2>
+
+                    <div class="box-icon">
+                        <a href="#" class="btn btn-setting-alpha btn-round btn-default"><i
+                                class="glyphicon glyphicon-cog"></i></a>
+                        <a href="#"  class="btn btn-minimize btn-round btn-default"><i
+                                class="glyphicon glyphicon-chevron-up"></i></a>
+                        <a href="#" class="btn btn-close btn-round btn-default"><i
+                                class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                </div>
+                <div class="box-content row" >
+                    <div class="col-lg-12  ">
+                        <div class="panel-heading">
+                            <button class="btn btn-default btn-xs" ui-sref="risk.riskList">
+                                <span class="glyphicon glyphicon-backward"></span> 返回</button>
+                        </div>
+                        <div class="panel-body"  >
+                            <table class="table" >
+                                <tr>
+                                    <td><strong>风险项:&nbsp</strong>{{detail.name}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>风险类型:&nbsp</strong>{{detail.riskType}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>所属项目:&nbsp</strong>{{detail.project}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>风险情况:&nbsp</strong>{{detail.riskContex}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>潜在影响::&nbsp</strong>{{detail.riskPotentialInfluence}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>发生条件:&nbsp</strong>{{detail.riskCondition}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>风险状态:</strong>{{detail.riskState}}
+                                </tr>
+                                <tr>
+                                    <td><strong>建议措施:</strong>{{detail.riskProposeMeasure}}</td>
+                                </tr>
+                                <tr >
+                                    <td><strong>风险来源:&nbsp</strong>
+                                        {{detail.riskSource}}
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td><strong>风险征兆:&nbsp</strong>
+                                        {{detail.riskWarning}}
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td><strong>优先级:&nbsp</strong>
+                                        {{detail.riskPriority}}
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td><strong>风险发生概率:&nbsp</strong>
+                                        {{detail.riskPosibility}}
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td><strong>风险危害程度:&nbsp</strong>
+                                        {{detail.riskDamage}}
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td><strong>风险发生紧迫性:&nbsp</strong>
+                                        {{detail.riskUrgency}}
+                                    </td>
+                                </tr >
+
+                                <tr><td><strong>风险计划:&nbsp</strong>
+                                    {{detail.riskPlanMeasure.planMeasureType}}
+                                </td>
+                                </tr>
+
+                                <tr>
+                                    <td><strong>计划负责人:&nbsp</strong>
+                                        {{detail.riskPlanMeasure.riskPlanMan}}
+                                </tr>
+                                <tr>
+                                    <td><strong>计划时间:&nbsp</strong>
+                                        {{detail.riskPlanMeasure.riskPlanTime}}
+                                    </td>
+                                </tr>
+
+
+                                <tbody ng-if="detail.riskPlanMeasure.planMeasureType=='接受风险'">
+                                <tr>
+                                    <td><strong>风险接受理由:&nbsp</strong>
+                                        <textarea class="col-lg-12"  ng-model="detail.riskPlanMeasure.remark"></textarea>
+                                    </td>
+                                </tr>
+                                </tbody>
+
+                                <tbody ng-if="detail.riskPlanMeasure.planMeasureType=='转移风险'">
+                                <tr>
+                                    <td><strong>风险转移措施:&nbsp</strong>
+                                        {{detail.riskPlanMeasure.remark}}
+                                    </td>
+                                </tr>
+                                </tbody>
+
+                                <tbody ng-if="detail.riskPlanMeasure.planMeasureType=='规避风险'">
+                                <tr>
+                                    <td><strong>风险规避措施:&nbsp</strong>
+                                        {{detail.riskPlanMeasure.remark}}
+                                    </td>
+                                </tr>
+                                </tbody>
+
+                                <tbody ng-if="detail.riskPlanMeasure.planMeasureType=='观察风险'">
+                                <tr>
+                                    <td><strong>风险观察内容:&nbsp</strong>
+                                        {{detail.riskPlanMeasure.remark}}
+                                    </td>
+                                </tr>
+                                </tbody>
+
+                                <tbody ng-if="detail.riskPlanMeasure.planMeasureType=='缓解风险'">
+                                <tr><td><strong>风险缓解措施:&nbsp</strong>
+                                    {{detail.riskPlanMeasure.riskMitigationMeasure}}</td>
+                                </tr>
+                                <tr><td><strong>风险缓解计划启动时机:&nbsp</strong>
+                                    {{detail.riskPlanMeasure.riskMitigationMeasureStartTime}}
+                                </tr>
+                                <tr><td><strong>风险应急措施:&nbsp</strong>
+                                    {{detail.riskPlanMeasure.riskEmergencyMeasure}}</td>
+                                </tr>
+                                <tr><td><strong>风险应急启动触发事件:&nbsp</strong>
+                                    {{detail.riskPlanMeasure.riskEmergencyTrigger}}</td>
+                                </tr>
+                                <tr>
+                                <tr><td><strong>风险指示器:&nbsp</strong>
+                                    {{detail.riskPlanMeasure.riskIndicator}}
+                                </td></tr>
+                                <tr>
+                                    <td><strong>指示器阀值:&nbsp</strong>
+                                        {{detail.riskPlanMeasure.riskIndicatorThresholdValue}}</td>
+                                </tr>
+                                </tbody>
+
+                                <tr>
+                                    <td><strong>审批负责人:&nbsp</strong>
+                                    {{detail.riskApproval.riskApprovalMan}}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>审批时间:&nbsp</strong>
+                                        {{detail.riskApproval.riskApprovalTime | date:'yyyy年MM月dd日 HH:mm:ss'}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td><strong>审批结果:&nbsp</strong>
+                                        {{detail.riskApproval.riskApprovalResult}}</td>
+                                </tr>
+
+                                <tr ><td><strong>风险计划执行情况:</strong>
+                                        {{detail.riskPlanImplementation}}</td>
+
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

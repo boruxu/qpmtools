@@ -46,6 +46,9 @@ public class RiskVO {
 	
 	private String riskRemark;
 	
+	//风险执行情况
+    private String riskPlanImplementation;
+	
 	//跟踪信息，只可记录，不可修改
 	private RiskTrack riskTrack;
 
@@ -203,6 +206,16 @@ public class RiskVO {
 	public void setRiskTrack(RiskTrack riskTrack) {
 		this.riskTrack = riskTrack;
 	}
+
+	public String getRiskPlanImplementation() {
+		return riskPlanImplementation;
+	}
+
+	public void setRiskPlanImplementation(String riskPlanImplementation) {
+		this.riskPlanImplementation = riskPlanImplementation;
+	}
+	
+	
 
 	
 	
