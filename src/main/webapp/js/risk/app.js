@@ -100,6 +100,21 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'risk/plan/edit.html',
             controller:'riskDetail'
 
+        })//风险审批
+        .state('risk.approval', {
+            url: '/approval',
+            templateUrl: 'risk/approval/list.html'
+        })
+        .state('risk.approval.detail', {
+            url: '/detail/{id}',
+            templateUrl: 'risk/approval/detail.html',
+            controller:'riskDetail'
+        })
+        .state('risk.approval.edit', {
+            url: '/edit/{id}',
+            templateUrl: 'risk/approval/edit.html',
+            controller:'riskDetail'
+
         });
 });
 
@@ -475,7 +490,9 @@ app.controller('riskDetail',['$scope','$stateParams','RestServerce','$state',fun
 
     //风险分析
     if($state.current.name=='risk.analysis.edit'
-        || $state.current.name=='risk.plan.edit')
+        || $state.current.name=='risk.plan.edit'
+        || $state.current.name=='risk.approval.edit'
+        || $state.current.name=='risk.control.edit')
     {
 
         $scope.posibilityList=[
@@ -590,13 +607,72 @@ app.controller('riskDetail',['$scope','$stateParams','RestServerce','$state',fun
             $scope.detail.riskPosibility=$scope.riskPosibility.name;
             $scope.detail.riskDamage=$scope.riskDamage.name;
             $scope.detail.riskUrgency=$scope.riskUrgency.name;
-    
+
             rest("api/risk/riskItem/plan/","计划成功!");
 
         }
 
 
     };
+
+    $scope.approval=function(){
+
+        var date=new Date();
+
+        if($scope.detail.riskState=="已计划")
+        {
+
+            $scope.detail.riskTrack={
+                measureType:'审批风险',
+                measureMan:'测试人员',
+                measureTime:date
+            };
+
+            $scope.detail.riskState="已审批";
+        }
+        else
+        {
+            $scope.detail.riskTrack={
+                measureType:'重新审批风险',
+                measureMan:'测试人员',
+                measureTime:date
+            };
+
+        }
+
+
+        if($scope.detail.riskPriority==0)
+        {
+            alert("请选择优先级选项！");
+        }
+        else if(typeof ($scope.detail.riskPlanMeasure)=='undefined'
+            ||$scope.detail.riskPlanMeasure.planMeasureType=='') {
+
+            alert("请选择风险计划选项！");
+        }
+        else if($scope.detail.riskPlanMeasure.riskIndicator=='') {
+
+            alert("请选择风险指示器选项！");
+        }
+        else if(typeof ($scope.detail.riskApproval)=='undefined'
+            ||$scope.detail.riskApproval.riskApprovalResult=='')
+        {
+            alert("请选择风险审批结果选项！");
+        }
+        else
+        {
+            $scope.detail.riskPosibility=$scope.riskPosibility.name;
+            $scope.detail.riskDamage=$scope.riskDamage.name;
+            $scope.detail.riskUrgency=$scope.riskUrgency.name;
+            $scope.detail.riskApproval.riskApprovalTime=date;
+
+            rest("api/risk/riskItem/approval/","审批成功!");
+
+        }
+
+
+    };
+
 
 
     //display

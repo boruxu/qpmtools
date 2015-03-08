@@ -1,0 +1,147 @@
+<!--list.html-->
+<div >
+    <div ui-view >
+        <div class="row">
+            <div class="box col-lg-12">
+                <div class="box-inner">
+                    <div class="box-header well">
+                        <h2><i class="glyphicon glyphicon-list"></i>待审批风险列表</h2>
+                        <div class="box-icon">
+                            <a href="#" class="btn btn-setting-alpha btn-round btn-default"><i
+                                    class="glyphicon glyphicon-cog"></i></a>
+                            <a href="#"  class="btn btn-minimize btn-round btn-default"><i
+                                    class="glyphicon glyphicon-chevron-up"></i></a>
+                            <a href="#" class="btn btn-close btn-round btn-default"><i
+                                    class="glyphicon glyphicon-remove"></i></a>
+                        </div>
+                    </div>
+                    <div class="box-content row" >
+                        <div class="col-lg-12  ">
+                            <div class="panel-body"  >
+                                <table class="table" >
+                                    {{riskG.message}}
+                                    <tr>
+                                        <th>风险项</th>
+                                        <th>风险类型</th>
+                                        <th>风险情况</th>
+                                        <th>优先级</th>
+                                        <th>风险状态</th>
+                                        <th>操作
+                                            <button class="btn btn-primary btn-xs" ui-sref="risk.plan">
+                                                <span class="glyphicon glyphicon-circle-arrow-left "></span>风险计划
+                                            </button>
+                                            <button type="button" class="btn btn-primary btn-xs" ui-sref="risk.track">
+                                                <span class="glyphicon glyphicon-circle-arrow-right"></span> 风险跟踪
+                                            </button>
+                                        </th>
+                                    </tr>
+                                    <tr ng-repeat="risk in (filter_1=(riskG.riskList| filter:{'riskState':'已计划'} | orderBy:'riskPriority':true ))">
+                                        <td>{{risk.name}}</td>
+                                        <td>{{risk.riskType.name}}</td>
+                                        <td>{{risk.riskContex}}</td>
+                                        <td>{{risk.riskPriority}}</td>
+                                        <td>{{risk.riskState}}</td>
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-primary btn-xs"
+                                                    ui-sref="risk.approval.detail({id:risk.id})">
+                                                <span class="glyphicon glyphicon-eye-open"></span> 查看
+                                            </button>
+                                            <button type="button" class="btn btn-warning btn-xs"
+                                                    ui-sref="risk.approval.edit({id:risk.id})">
+                                                <span class="glyphicon glyphicon-edit "></span> 审批
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="riskG.remove(risk.id)">
+                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                            </button>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>共{{filter_1.length}}条</th>
+                                        <td></td><td></td><td></td><td></td><td></td>
+                                    </tr>
+
+                                </table>
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="box col-lg-12">
+                <div class="box-inner">
+                    <div class="box-header well">
+                        <h2><i class="glyphicon glyphicon-list"></i>已审批风险列表</h2>
+                        <div class="box-icon">
+                            <a href="#" class="btn btn-setting-alpha btn-round btn-default"><i
+                                    class="glyphicon glyphicon-cog"></i></a>
+                            <a href="#"  class="btn btn-minimize btn-round btn-default"><i
+                                    class="glyphicon glyphicon-chevron-up"></i></a>
+                            <a href="#" class="btn btn-close btn-round btn-default"><i
+                                    class="glyphicon glyphicon-remove"></i></a>
+                        </div>
+                    </div>
+                    <div class="box-content row" >
+                        <div class="col-lg-12  ">
+                            <div class="panel-body"  >
+                                <table class="table" >
+
+                                    <tr>
+                                        <th>风险项</th>
+                                        <th>风险类型</th>
+                                        <th>风险情况</th>
+                                        <th>优先级</th>
+                                        <th>风险状态</th>
+                                        <th>操作
+                                            <button class="btn btn-primary btn-xs" ui-sref="risk.plan">
+                                                <span class="glyphicon glyphicon-circle-arrow-left "></span>风险计划
+                                            </button>
+                                            <button type="button" class="btn btn-primary btn-xs" ui-sref="risk.track">
+                                                <span class="glyphicon glyphicon-circle-arrow-right"></span> 风险跟踪
+                                            </button>
+                                        </th>
+                                    </tr>
+                                    <tr ng-repeat="risk in (filter_2=(riskG.riskList| filter:{'riskState':'已审批'} | orderBy:'riskPriority':true ))">
+                                        <td>{{risk.name}}</td>
+                                        <td>{{risk.riskType.name}}</td>
+                                        <td>{{risk.riskContex}}</td>
+                                        <td>{{risk.riskPriority}}</td>
+                                        <td>{{risk.riskState}}</td>
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-primary btn-xs"
+                                                    ui-sref="risk.approval.detail({id:risk.id})">
+                                                <span class="glyphicon glyphicon-eye-open"></span> 查看
+                                            </button>
+                                            <button type="button" class="btn btn-warning btn-xs"
+                                                    ui-sref="risk.approval.edit({id:risk.id})">
+                                                <span class="glyphicon glyphicon-edit "></span> 重新审批
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="riskG.remove(risk.id)">
+                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>共{{filter_2.length}}条</th>
+                                        <td></td><td></td><td></td><td></td><td></td>
+                                    </tr>
+
+                                </table>
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

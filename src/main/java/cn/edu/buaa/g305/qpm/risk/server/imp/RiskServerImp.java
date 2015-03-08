@@ -298,6 +298,11 @@ public class RiskServerImp implements RiskServer{
 				setPlan(riskDB,riskVO);
 				break;
 			}
+			case "approval":
+			{
+				setApproval(riskDB,riskVO);
+				break;
+			}
 				
 
 			default:
@@ -374,6 +379,12 @@ public class RiskServerImp implements RiskServer{
 	{
 		setAnalysis(riskDB,riskVO);
 		riskDB.setRiskPlanMeasure(riskVO.getRiskPlanMeasure());
+		
+	}
+	private void setApproval(Risk riskDB,RiskVO riskVO)
+	{
+		setPlan(riskDB,riskVO);
+		riskDB.setRiskApproval(riskVO.getRiskApproval());
 		
 	}
 	
