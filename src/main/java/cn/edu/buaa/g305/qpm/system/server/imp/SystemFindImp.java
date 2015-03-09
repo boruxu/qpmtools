@@ -14,6 +14,7 @@ import cn.edu.buaa.g305.qpm.system.domain.Organization;
 import cn.edu.buaa.g305.qpm.system.domain.OrganizationList;
 import cn.edu.buaa.g305.qpm.system.domain.Project;
 import cn.edu.buaa.g305.qpm.system.domain.ProjectList;
+import cn.edu.buaa.g305.qpm.system.domain.User;
 import cn.edu.buaa.g305.qpm.system.server.SystemFind;
 @Component
 public class SystemFindImp implements SystemFind {
@@ -288,6 +289,42 @@ public class SystemFindImp implements SystemFind {
 		organizationList.setList(organizations);
 		organizationList.setHttpStatus(HttpStatus.OK);
 		return organizationList;
+	}
+
+	@Override
+	public User getUserById(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public User getUserByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public User deleteUserByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public User deleteUserById(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public User save(User user) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public User update(User user) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

@@ -4,6 +4,7 @@ import cn.edu.buaa.g305.qpm.system.domain.Organization;
 import cn.edu.buaa.g305.qpm.system.domain.OrganizationList;
 import cn.edu.buaa.g305.qpm.system.domain.Project;
 import cn.edu.buaa.g305.qpm.system.domain.ProjectList;
+import cn.edu.buaa.g305.qpm.system.domain.User;
 
 public interface SystemFind {
 	
@@ -30,5 +31,12 @@ public interface SystemFind {
 	Organization update(Organization organization,String id);
 	
 	OrganizationList getOrganizationList();
+	
+	User getUserById(String id);
+	User getUserByName(String name);
+	User deleteUserByName(String name);
+	User deleteUserById(String id);
+	User save(User user);
+	User update(User user);
 	
 }
