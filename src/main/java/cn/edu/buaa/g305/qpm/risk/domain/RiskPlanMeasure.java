@@ -59,12 +59,7 @@ public class RiskPlanMeasure {
 	public void setPlanMeasureType(String planMeasureType) {
 		this.planMeasureType = planMeasureType;
 	}
-	public String getReason() {
-		return remark;
-	}
-	public void setReason(String reason) {
-		this.remark = reason;
-	}
+
 	
 	public String getRiskMitigationMeasure() {
 		return riskMitigationMeasure;

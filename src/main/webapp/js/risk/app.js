@@ -756,8 +756,9 @@ app.controller('riskDetail',['$scope','$stateParams','RestServerce','$state',fun
             $scope.detail.riskPosibility=$scope.riskPosibility.name;
             $scope.detail.riskDamage=$scope.riskDamage.name;
             $scope.detail.riskUrgency=$scope.riskUrgency.name;
-            $scope.detail.riskApproval.riskApprovalTime=date;
+            $scope.detail.riskApproval.riskApprovalTime=date
 
+           
             rest("api/risk/riskItem/track/","跟踪成功!");
 
         }
