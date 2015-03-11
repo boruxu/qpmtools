@@ -1,4 +1,4 @@
-package cn.edu.buaa.g305.qpm.system.domain;
+ package cn.edu.buaa.g305.qpm.system.domain;
 
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -19,6 +19,8 @@ public class User extends ResourceSupportTransientLinks{
 	private String name;
 	
 	private String password;
+	
+	private String fullName;
 	
 	private String description;
 	
@@ -76,11 +78,20 @@ public class User extends ResourceSupportTransientLinks{
 		this.password = password;
 	}
 
+	public String getFullName() {
+		return fullName;
+	}
+
+	public void setFullName(String fullName) {
+		this.fullName = fullName;
+	}
+
 	@Override
 	public String toString()
 	{
 		return "{id:"+id+","+
 	           "name:"+name+","+
+			   "fullName"+fullName+","+
 	           "description:"+description+"}";
 	}
 
@@ -89,6 +100,7 @@ public class User extends ResourceSupportTransientLinks{
 		name=null;
 		description=null;
 		password=null;
+		fullName=null;
 
 		this.error=error;
 		this.httpStatus=httpStatus;

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import cn.edu.buaa.g305.qpm.system.dao.OrganizationRepository;
 import cn.edu.buaa.g305.qpm.system.dao.ProjectRepository;
+import cn.edu.buaa.g305.qpm.system.dao.UserRepository;
 import cn.edu.buaa.g305.qpm.system.domain.Organization;
 import cn.edu.buaa.g305.qpm.system.domain.OrganizationList;
 import cn.edu.buaa.g305.qpm.system.domain.Project;
@@ -23,6 +24,8 @@ public class SystemFindImp implements SystemFind {
 	private ProjectRepository projectRepository;
 	@Autowired
 	private OrganizationRepository organizationRepository;
+	@Autowired
+	private UserRepository userRepository;
 
 
 	public Project findProductAffiliation(String name) {
@@ -293,38 +296,92 @@ public class SystemFindImp implements SystemFind {
 
 	@Override
 	public User getUserById(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		User user=userRepository.findOne(id);
+		if(user==null)
+		{
+			user=new User();
+			//找不到资源，设置错误信息和状态码
+			user.setErrorOutput("id为"+id+"用户的不存在",HttpStatus.NOT_FOUND);
+			return user;
+		}
+		else{
+			user.setHttpStatus(HttpStatus.OK);
+			return user;
+		}
 	}
 
 	@Override
 	public User getUserByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		User user=userRepository.findByName(name);
+		if(user==null)
+		{
+			user=new User();
+			//找不到资源，设置错误信息和状态码
+			user.setErrorOutput("名为"+name+"用户的不存在",HttpStatus.NOT_FOUND);
+			return user;
+		}
+		else{
+			user.setHttpStatus(HttpStatus.OK);
+			return user;
+		}
 	}
 
 	@Override
 	public User deleteUserByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		User user=getUserByName(name);
+		if(user.getError()==null)
+		{
+			userRepository.delete(user.getId());
+		}
+		
+		return user;
 	}
 
 	@Override
 	public User deleteUserById(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		User user=getUserById(id);
+		if(user.getError()==null)
+		{
+			userRepository.delete(user.getId());
+		}
+		
+		return user;
 	}
 
 	@Override
 	public User save(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			user=userRepository.save(user);
+		} catch (DuplicateKeyException e) {
+			user.setErrorOutput("名字重复，请重新命名", HttpStatus.BAD_REQUEST);
+			return user;
+		}
+		
+		user.setHttpStatus(HttpStatus.CREATED);
+		return user;
 	}
 
 	@Override
-	public User update(User user) {
-		// TODO Auto-generated method stub
-		return null;
+	public User update(User user,String id) {
+		User userDB=getUserById(id);
+		if(userDB.getError()==null)
+		{
+			user.setId(id);
+			user=save(user);
+			if(user.getError()==null)
+			{
+				user.setHttpStatus(HttpStatus.OK);
+				return user;
+			}
+			else {
+				return user;
+			}
+			 
+		}
+		else {
+			return userDB;
+		}
 	}
 	
 	

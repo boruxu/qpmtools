@@ -37,6 +37,6 @@ public interface SystemFind {
 	User deleteUserByName(String name);
 	User deleteUserById(String id);
 	User save(User user);
-	User update(User user);
+	User update(User user,String id);
 	
 }

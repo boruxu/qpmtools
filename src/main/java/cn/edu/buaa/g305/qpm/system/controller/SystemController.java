@@ -13,13 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import cn.edu.buaa.g305.qpm.spc.controller.SPCController;
-import cn.edu.buaa.g305.qpm.spc.domain.Spc;
-import cn.edu.buaa.g305.qpm.spc.domain.SpcList;
 import cn.edu.buaa.g305.qpm.system.domain.Organization;
 import cn.edu.buaa.g305.qpm.system.domain.OrganizationList;
 import cn.edu.buaa.g305.qpm.system.domain.Project;
 import cn.edu.buaa.g305.qpm.system.domain.ProjectList;
+import cn.edu.buaa.g305.qpm.system.domain.User;
 import cn.edu.buaa.g305.qpm.system.server.SystemFind;
 
 @Controller
@@ -42,7 +40,7 @@ public class SystemController {
 		{
 			addAllLink(project, project.getId(), project.getName());
 		}
-		project.add(linkTo(methodOn(SystemController.class).create(null)).withRel("create"));
+		project.add(linkTo(methodOn(SystemController.class).create(projectVO)).withRel("create"));
 		
 		return new ResponseEntity<Project>(project,project.getHttpStatus());
 		
@@ -64,6 +62,21 @@ public class SystemController {
 		return new ResponseEntity<Organization>(organization,organization.getHttpStatus());
 		
 	}
+	@RequestMapping(value="/user",method=RequestMethod.POST)
+	@ResponseBody
+	public  HttpEntity<User> create(@RequestBody User user)
+	{
+
+		user=systemFind.save(user);
+		if(user.getError()==null)
+		{
+			addAllLink(user);
+		}
+		user.add(linkTo(methodOn(SystemController.class).create(user)).withRel("create"));
+		
+		return new ResponseEntity<User>(user,user.getHttpStatus());
+	
+	}
 	@RequestMapping(value="/project/{id}",method=RequestMethod.POST)
 	@ResponseBody
 	public  HttpEntity<Project> update(@RequestBody ProjectAndOrganizationVO projectVO
@@ -78,7 +91,7 @@ public class SystemController {
 		{
 			addAllLink(project, project.getId(), project.getName());
 		}
-		project.add(linkTo(methodOn(SystemController.class).create(null)).withRel("create"));
+		project.add(linkTo(methodOn(SystemController.class).create(projectVO)).withRel("create"));
 		return new ResponseEntity<Project>(project,project.getHttpStatus());
 		
 	}
@@ -100,6 +113,22 @@ public class SystemController {
 		return new ResponseEntity<Organization>(organization,organization.getHttpStatus());
 		
 	}
+	@RequestMapping(value="/user/{id}",method=RequestMethod.POST)
+	@ResponseBody
+	public  HttpEntity<User> update(@RequestBody User user
+			,@PathVariable String id)
+	{
+		
+		user=systemFind.update(user, id);
+
+		if(user.getError()==null)
+		{
+			addAllLink(user);
+		}
+		user.add(linkTo(methodOn(SystemController.class).create(user)).withRel("create"));
+		return new ResponseEntity<User>(user,user.getHttpStatus());
+		
+	}
 	@RequestMapping(value="/project/{id}",method=RequestMethod.GET)
 	@ResponseBody
 	public  HttpEntity<Project> getById(@PathVariable String id)
@@ -111,7 +140,7 @@ public class SystemController {
 		{
 			addAllLink(project, project.getId(), project.getName());
 		}
-		project.add(linkTo(methodOn(SystemController.class).create(null)).withRel("create"));
+		project.add(linkTo(methodOn(SystemController.class).create(new ProjectAndOrganizationVO())).withRel("create"));
 		return new ResponseEntity<Project>(project,project.getHttpStatus());
 		
 	}
@@ -130,6 +159,21 @@ public class SystemController {
 		return new ResponseEntity<Organization>(organization,organization.getHttpStatus());
 		
 	}
+	@RequestMapping(value="/user/{id}",method=RequestMethod.GET)
+	@ResponseBody
+	public  HttpEntity<User> getUserById(@PathVariable String id)
+	{
+		User user=new User();
+		user=systemFind.getUserById(id);
+
+		if(user.getError()==null)
+		{
+			addAllLink(user);
+		}
+		user.add(linkTo(methodOn(SystemController.class).create(user)).withRel("create"));
+		return new ResponseEntity<User>(user,user.getHttpStatus());
+		
+	}
 	
 	@RequestMapping(value="/project/byName/{name}",method=RequestMethod.GET)
 	@ResponseBody
@@ -142,7 +186,7 @@ public class SystemController {
 		{
 			addAllLink(project, project.getId(), project.getName());
 		}
-		project.add(linkTo(methodOn(SystemController.class).create(null)).withRel("create"));
+		project.add(linkTo(methodOn(SystemController.class).create(new ProjectAndOrganizationVO())).withRel("create"));
 		return new ResponseEntity<Project>(project,project.getHttpStatus());
 		
 	}
@@ -161,6 +205,22 @@ public class SystemController {
 		return new ResponseEntity<Organization>(organization,organization.getHttpStatus());
 		
 	}
+	@RequestMapping(value="/user/byName/{name}",method=RequestMethod.GET)
+	@ResponseBody
+	public  HttpEntity<User> getUserByName(@PathVariable String name)
+	{
+		User user=new User();
+		user=systemFind.getUserByName(name);
+
+		if(user.getError()==null)
+		{
+			addAllLink(user);
+		}
+		user.add(linkTo(methodOn(SystemController.class).create(user)).withRel("create"));
+		return new ResponseEntity<User>(user,user.getHttpStatus());
+		
+	}
+	
 	@RequestMapping(value="/project/{id}",method=RequestMethod.DELETE)
 	@ResponseBody
 	public  HttpEntity<Project> delete(@PathVariable String id)
@@ -172,7 +232,7 @@ public class SystemController {
 		{
 			addAllLink(project, project.getId(), project.getName());
 		}
-		project.add(linkTo(methodOn(SystemController.class).create(null)).withRel("create"));
+		project.add(linkTo(methodOn(SystemController.class).create(new ProjectAndOrganizationVO())).withRel("create"));
 		return new ResponseEntity<Project>(project,project.getHttpStatus());
 		
 	}
@@ -191,6 +251,21 @@ public class SystemController {
 		return new ResponseEntity<Organization>(organization,organization.getHttpStatus());
 		
 	}
+	@RequestMapping(value="/user/{id}",method=RequestMethod.DELETE)
+	@ResponseBody
+	public  HttpEntity<User> deleteUser(@PathVariable String id)
+	{
+		User user=new User();
+		user=systemFind.deleteUserById(id);
+
+		if(user.getError()==null)
+		{
+			addAllLink(user);
+		}
+		user.add(linkTo(methodOn(SystemController.class).create(user)).withRel("create"));
+		return new ResponseEntity<User>(user,user.getHttpStatus());
+		
+	}
 	@RequestMapping(value="/project/byName/{name}",method=RequestMethod.DELETE)
 	@ResponseBody
 	public  HttpEntity<Project> deleteByName(@PathVariable String name)
@@ -202,7 +277,7 @@ public class SystemController {
 		{
 			addAllLink(project, project.getId(), project.getName());
 		}
-		project.add(linkTo(methodOn(SystemController.class).create(null)).withRel("create"));
+		project.add(linkTo(methodOn(SystemController.class).create(new ProjectAndOrganizationVO())).withRel("create"));
 		return new ResponseEntity<Project>(project,project.getHttpStatus());
 		
 	}
@@ -219,6 +294,21 @@ public class SystemController {
 		}
 		organization.add(linkTo(methodOn(SystemController.class).createO(null)).withRel("create"));
 		return new ResponseEntity<Organization>(organization,organization.getHttpStatus());
+		
+	}
+	@RequestMapping(value="/user/byName/{name}",method=RequestMethod.DELETE)
+	@ResponseBody
+	public  HttpEntity<User> deleteUserByname(@PathVariable String  name)
+	{
+		User user=new User();
+		user=systemFind.deleteUserByName(name);
+
+		if(user.getError()==null)
+		{
+			addAllLink(user);
+		}
+		user.add(linkTo(methodOn(SystemController.class).create(user)).withRel("create"));
+		return new ResponseEntity<User>(user,user.getHttpStatus());
 		
 	}
 	
@@ -272,7 +362,7 @@ public class SystemController {
 		project.add(linkTo(methodOn(SystemController.class).getByName(name)).withRel("getByName"));
 		project.add(linkTo(methodOn(SystemController.class).delete(id)).withRel("delete"));
 		project.add(linkTo(methodOn(SystemController.class).deleteByName(name)).withRel("deleteByName"));
-		project.add(linkTo(methodOn(SystemController.class).update(null, id)).withRel("update"));
+		project.add(linkTo(methodOn(SystemController.class).update(new ProjectAndOrganizationVO(), id)).withRel("update"));
 			
 	}
 	private void addAllLink(Organization organization,String id,String name)
@@ -284,10 +374,17 @@ public class SystemController {
 		organization.add(linkTo(methodOn(SystemController.class).updateO(null, id)).withRel("update"));
 			
 	}
+	private void addAllLink(User user)
+	{
+		user.add(linkTo(methodOn(SystemController.class).getUserById(user.getId())).withSelfRel());
+		user.add(linkTo(methodOn(SystemController.class).deleteUserByname(user.getName())).withRel("delete"));
+		user.add(linkTo(methodOn(SystemController.class).update(user, user.getId())).withRel("update"));
+			
+	}
 	private void setOrganizationListLink(OrganizationList organizationList) {
 		for (Organization organization :organizationList.getList()) {
 			organization.add(linkTo(methodOn(SystemController.class).getById(organization.getId())).withSelfRel());
-			organization.add(linkTo(methodOn(SystemController.class).update(  null,organization.getId())).withRel("update"));
+			organization.add(linkTo(methodOn(SystemController.class).update(new ProjectAndOrganizationVO(),organization.getId())).withRel("update"));
 			organization.add(linkTo(methodOn(SystemController.class).delete( organization.getId())).withRel("delete"));			
 		}
 		
@@ -296,7 +393,7 @@ public class SystemController {
 	{
 		for (Project project :projectList.getList()) {
 			project.add(linkTo(methodOn(SystemController.class).getById(project.getId())).withSelfRel());
-			project.add(linkTo(methodOn(SystemController.class).update(  null,project.getId())).withRel("update"));
+			project.add(linkTo(methodOn(SystemController.class).update(  new ProjectAndOrganizationVO(),project.getId())).withRel("update"));
 			project.add(linkTo(methodOn(SystemController.class).delete( project.getId())).withRel("delete"));			
 		}
 
