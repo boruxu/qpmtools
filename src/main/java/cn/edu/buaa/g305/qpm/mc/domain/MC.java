@@ -34,7 +34,7 @@ public class MC extends AbstractDocument {
 	
 	//产生的随机数不存入数据库
 	@Transient
-	private double[] result;
+	private Double[] result;
 
 	public String getName() {
 		return name;
@@ -60,14 +60,12 @@ public class MC extends AbstractDocument {
 		this.mcParam = mcParam;
 	}
 
-	public double[] getResult() {
+	public Double[] getResult() {
 		return result;
 	}
-
-	public void setResult(double[] result) {
+	public void setResult(Double[] result) {
 		this.result = result;
 	}
-
 	public String getError() {
 		return error;
 	}
