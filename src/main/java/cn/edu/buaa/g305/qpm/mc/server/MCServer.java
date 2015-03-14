@@ -8,6 +8,8 @@ public interface MCServer {
 	
 	MC getByName(String name);
 	MC getById(String id);
+	MC delete(String id);
+	MC deleteByName(String name);
 	MC save(MC mc);
 	MC update(MC mc,String id);
 	

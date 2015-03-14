@@ -1,19 +1,17 @@
 package cn.edu.buaa.g305.qpm.mc.server.imp;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.stereotype.Component;
 
 import cn.edu.buaa.g305.qpm.mc.dao.MCRepository;
 import cn.edu.buaa.g305.qpm.mc.domain.MC;
-import cn.edu.buaa.g305.qpm.mc.domain.MCParam;
 import cn.edu.buaa.g305.qpm.mc.server.MCServer;
 import cn.edu.buaa.g305.qpm.system.server.SystemFind;
 
+@Component
 public class MCServerImp implements MCServer{
 	
 	@Autowired
@@ -29,7 +27,7 @@ public class MCServerImp implements MCServer{
 			mc=new MC("名为"+name+"mc资源不存在！");
 		}
 		else {
-			compute(mc);			
+			mc=compute(mc);			
 		}
 		return mc;
 	}
@@ -43,7 +41,7 @@ public class MCServerImp implements MCServer{
 			mc=new MC("ID为"+id+"mc资源不存在！");
 		}
 		else {
-			compute(mc);			
+			mc=compute(mc);			
 		}
 		return mc;
 	}
@@ -52,6 +50,7 @@ public class MCServerImp implements MCServer{
 	public MC save(MC mc) {
 		
 		mc.setId(null);
+		mc.setProject(systemFind.findProductAffiliation(mc.getProject().getName()));
 		try{
 			mc=mcRepository.save(mc);
 		}
@@ -61,7 +60,7 @@ public class MCServerImp implements MCServer{
 			return mc;
 		}
 		
-		compute(mc);
+		mc=compute(mc);
 		return mc;
 		
 	}
@@ -70,6 +69,8 @@ public class MCServerImp implements MCServer{
 	public MC update(MC mc, String id) {
 		
 		mc.setId(id);
+		mc.setProject(systemFind.findProductAffiliation(mc.getProject().getName()));
+		
 		try{
 			mc=mcRepository.save(mc);
 		}
@@ -79,9 +80,35 @@ public class MCServerImp implements MCServer{
 			return mc;
 		}
 		
-		compute(mc);
+		mc=compute(mc);
 		return mc;
 				
+	}
+	@Override
+	public MC delete(String id) {
+		MC mc=getById(id);
+		if(mc.getError()!=null)
+		{
+			mcRepository.delete(mc);
+			return null;
+		}
+		else {
+			return mc;			
+		}
+		
+	}
+
+	@Override
+	public MC deleteByName(String name) {
+		MC mc=getByName(name);
+		if(mc.getError()!=null)
+		{
+			mcRepository.delete(mc);
+			return null;
+		}
+		else {
+			return mc;			
+		}
 	}
 
 	@Override
@@ -108,20 +135,24 @@ public class MCServerImp implements MCServer{
 		return null;
 	}
 	
-	private void compute(MC mc)
+	private MC compute(MC mc)
 	{
 		try{
 			
 	   	 	mc.setResult(FormulaParse.compute(mc.getMcParam(),
 	   	 			mc.getMcParam().getPredictionValue()));
+	   	 	return mc;
 			
 		}
 		catch(Exception e)
 		{
 			mc=new MC("计算参数出错");
+			return mc;
 		}
 			
 	}
+
+	
 	
 
 }

@@ -47,22 +47,27 @@ public class FormulaParse {
 		 }
 		 		 
 		 //设置常量
-		 for( MCNormalParam m: mcparam.getMcNormalParamList())
-	     {
-			 Double[] temp=new Double[num];
-			 String name=m.getName();
-			 Double value=Double.valueOf(m.getValue());
-			 for(int i=0;i<num;i++)
-			 {
-				 temp[i]=value;
-			 }
-			 variableNameValue.put(name, temp);
-	      }
+		 if(mcparam.getMcNormalParamList()!=null)
+		 {
+			 for( MCNormalParam m: mcparam.getMcNormalParamList())
+		     {
+				 Double[] temp=new Double[num];
+				 String name=m.getName();
+				 Double value=Double.valueOf(m.getValue());
+				 for(int i=0;i<num;i++)
+				 {
+					 temp[i]=value;
+				 }
+				 variableNameValue.put(name, temp);
+				 number.remove(name);
+		      }		 
+		 }	
 		  //设置假设变量
 		  for (MCAssumptionParam m : mcparam.getMcAssumptionParamList())  
 		  {
 			  
 			  String name=m.getName();
+			  number.remove(name);
 			  MonteCarloSimulation.setSimilationNumber(num);
 			  if(m.getType().equals("0"))
 			  {
@@ -84,6 +89,17 @@ public class FormulaParse {
 			  }
 
 		    }
+		  //设置数字
+		  for (String conNumber : number.keySet()) {
+			  
+			  Double[] temp=new Double[num];
+			  Double double1=Double.valueOf(conNumber);
+			  for(int i=0;i<num;i++)
+			  {
+				  temp[i]=double1;
+			  }
+			   variableNameValue.put(conNumber, temp);
+		  }
 			return variableNameValue;		
 	 }
 
@@ -280,5 +296,7 @@ public class FormulaParse {
 		 }	    	 
 		 return resultArray;
 	 }
+	 
+	
 
 }
