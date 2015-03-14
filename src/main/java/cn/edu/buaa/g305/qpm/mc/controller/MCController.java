@@ -1,6 +1,8 @@
 package cn.edu.buaa.g305.qpm.mc.controller;
 
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -60,6 +62,13 @@ public class MCController {
 	public MC deleteByName(@PathVariable String name)
 	{
 		return mcServer.deleteByName(name);			
+	}
+	
+	@RequestMapping(value="/list/{name}",method=RequestMethod.GET)
+	@ResponseBody
+	public List<MC> getListByProjectName(@PathVariable String name)
+	{
+		return mcServer.getListByProject(name);		
 	}
 
 	

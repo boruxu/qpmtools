@@ -35,6 +35,11 @@ public class HomeController {
 	{
 		return "risk/"+name+"/"+name2;
 	}
+	@RequestMapping("/mc/{name}")
+	public String mcPage(@PathVariable String name)
+	{
+		return "mc/"+name;
+	}
 	
 	//主页
 	@RequestMapping("/test/angular-spc")

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import cn.edu.buaa.g305.qpm.mc.dao.MCRepository;
 import cn.edu.buaa.g305.qpm.mc.domain.MC;
 import cn.edu.buaa.g305.qpm.mc.server.MCServer;
+import cn.edu.buaa.g305.qpm.system.domain.Project;
 import cn.edu.buaa.g305.qpm.system.server.SystemFind;
 
 @Component
@@ -119,21 +120,17 @@ public class MCServerImp implements MCServer{
 
 	@Override
 	public List<MC> getListByProject(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		Project project=systemFind.findProjectByName(name);
+		if(project==null)
+		{
+			return null;
+		}
+		else {
+			return mcRepository.findByProject(project);
+		}
 	}
 
-	@Override
-	public List<String> getAllName() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<String> getNameListByProject(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 	
 	private MC compute(MC mc)
 	{

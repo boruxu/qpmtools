@@ -1,0 +1,94 @@
+<!--MC管理主页面-->
+<div>
+    <div class="row">
+        <div class="box col-lg-12">
+            <div class="box-inner">
+                <div class="box-header well">
+                    <h2><i class="glyphicon glyphicon-globe"></i>{{mcG.selectProject.name}}蒙特卡洛模拟</h2>
+                    <div class="box-icon">
+                        <a href="#"  class="btn btn-minimize btn-round btn-default"><i
+                                class="glyphicon glyphicon-chevron-up"></i></a>
+                    </div>
+                </div>
+                <div class="box-content row" >
+                    <div class="col-lg-12 box">
+                        <select ng-change="choseO()" ng-model="mcG.selectOrganization" ng-options="organization.name for organization in mcG.organizationList">
+                            <option value="">-- 请选择所属组织 --</option>
+                        </select>
+                        <select ng-change="choseP()" ng-model="mcG.selectProject" ng-options="project.name for project in mcG.projectList">
+                            <option value="">-- 请选择所属项目 --</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div ui-view>
+        <div class="row">
+            <div class="box col-lg-12">
+                <div class="box-inner">
+                    <div class="box-header well">
+                        <h2><i class="glyphicon glyphicon-list"></i>待计划风险列表</h2>
+                        <div class="box-icon">
+                            <a href="#" class="btn btn-setting-alpha btn-round btn-default"><i
+                                    class="glyphicon glyphicon-cog"></i></a>
+                            <a href="#"  class="btn btn-minimize btn-round btn-default"><i
+                                    class="glyphicon glyphicon-chevron-up"></i></a>
+                            <a href="#" class="btn btn-close btn-round btn-default"><i
+                                    class="glyphicon glyphicon-remove"></i></a>
+                        </div>
+                    </div>
+                    <div class="box-content row" >
+                        <div class="col-lg-12  ">
+                            <div class="panel-body"  >
+                                <table class="table" >
+                                    <div class="alert-danger" ng-if="mcG.message!=''">{{mcG.message}}</div>
+                                    <tr>
+                                        <th>模拟项</th>
+                                        <th>预测项</th>
+                                        <th>操作
+                                            <button class="btn btn-success btn-xs" ui-sref="mc.create">
+                                                <span class="glyphicon glyphicon-plus "></span>新建风险
+                                            </button>
+
+                                        </th>
+                                    </tr>
+                                    <tr ng-repeat="mc in mcG.mcList">
+                                        <td>{{mc.name}}</td>
+                                        <td>{{mc.predictionName}}</td>
+
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-primary btn-xs"
+                                                    ui-sref="mc.detail({id:mc.id})">
+                                                <span class="glyphicon glyphicon-eye-open"></span> 查看
+                                            </button>
+                                            <button type="button" class="btn btn-warning btn-xs"
+                                                    ui-sref="mc.edit({id:mc.id})">
+                                                <span class="glyphicon glyphicon-edit "></span> 编辑
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="mcG.remove(mc.id)">
+                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                            </button>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>共{{mcG.mcList.length}}条</th>
+                                        <td></td><td></td><td></td><td></td><td></td>
+                                    </tr>
+
+                                </table>
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

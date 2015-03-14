@@ -3,7 +3,7 @@
  * qpmtools Angular前端框架主js
  */
 var app=angular.module('qpmtools',['ui.router','qpmtools.home','qpmtools.spc.router',
-'qpmtools.risk.app','kendo.directives']);
+'qpmtools.risk.app','qpmtools.mc.app','kendo.directives']);
 
 app.config(function($stateProvider, $urlRouterProvider){
 
@@ -14,3 +14,5 @@ app.config(function($stateProvider, $urlRouterProvider){
 app.controller('IndexController',function($scope,$location,$rootScope){
 
 });
+
+

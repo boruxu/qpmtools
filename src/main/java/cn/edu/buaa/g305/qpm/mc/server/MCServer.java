@@ -13,11 +13,10 @@ public interface MCServer {
 	MC save(MC mc);
 	MC update(MC mc,String id);
 	
+	//返回的MC不包含返回的随机数result，通过get请求在单独获得（考虑到传输性能）
 	List<MC> getAllList();
 	List<MC> getListByProject(String name);
-	//返回mc名字列表,弥补返回List MC的性能损失，返回MC会返回大量随机数，数据量较大
-	List<String> getAllName();
-	List<String> getNameListByProject(String name);
+
 	
 
 }
