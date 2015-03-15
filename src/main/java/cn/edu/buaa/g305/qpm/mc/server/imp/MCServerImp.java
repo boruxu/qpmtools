@@ -90,7 +90,7 @@ public class MCServerImp implements MCServer{
 		MC mc=getById(id);
 		if(mc.getError()!=null)
 		{
-			mcRepository.delete(mc);
+			mcRepository.delete(id);
 			return null;
 		}
 		else {
@@ -104,7 +104,7 @@ public class MCServerImp implements MCServer{
 		MC mc=getByName(name);
 		if(mc.getError()!=null)
 		{
-			mcRepository.delete(mc);
+			mcRepository.delete(mc.getId());
 			return null;
 		}
 		else {

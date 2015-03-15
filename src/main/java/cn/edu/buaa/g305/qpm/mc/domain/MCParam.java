@@ -2,7 +2,10 @@ package cn.edu.buaa.g305.qpm.mc.domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
 
+@JsonSerialize(include=Inclusion.NON_NULL)
 public class MCParam {
 	
 		//mc参数的预测变量名和公式

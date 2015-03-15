@@ -29,7 +29,7 @@
             <div class="box col-lg-12">
                 <div class="box-inner">
                     <div class="box-header well">
-                        <h2><i class="glyphicon glyphicon-list"></i>待计划风险列表</h2>
+                        <h2><i class="glyphicon glyphicon-list"></i>蒙特卡洛模拟列表</h2>
                         <div class="box-icon">
                             <a href="#" class="btn btn-setting-alpha btn-round btn-default"><i
                                     class="glyphicon glyphicon-cog"></i></a>
@@ -46,17 +46,17 @@
                                     <div class="alert-danger" ng-if="mcG.message!=''">{{mcG.message}}</div>
                                     <tr>
                                         <th>模拟项</th>
-                                        <th>预测项</th>
+                                        <th>预测名</th>
                                         <th>操作
                                             <button class="btn btn-success btn-xs" ui-sref="mc.create">
-                                                <span class="glyphicon glyphicon-plus "></span>新建风险
+                                                <span class="glyphicon glyphicon-plus "></span>新建
                                             </button>
 
                                         </th>
                                     </tr>
                                     <tr ng-repeat="mc in mcG.mcList">
                                         <td>{{mc.name}}</td>
-                                        <td>{{mc.predictionName}}</td>
+                                        <td>{{mc.mcParam.predictionName}}</td>
 
                                         <td nowrap>
                                             <button type="button" class="btn btn-primary btn-xs"

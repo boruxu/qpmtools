@@ -13,6 +13,21 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/mc',
             templateUrl: 'mc/mc.html',
             controller: 'MCHomeController'
+        })
+        .state('mc.detail', {
+            url: '/detail/{id}',
+            templateUrl: 'mc/detail.html',
+            controller: 'DetailController'
+        })
+        .state('mc.edit', {
+            url: '/edit/{id}',
+            templateUrl: 'mc/edit.html',
+            controller: 'DetailController'
+        })
+        .state('mc.create', {
+            url: '/create',
+            templateUrl: 'mc/edit.html',
+            controller: 'DetailController'
         });
 });
 
@@ -25,7 +40,8 @@ app.controller('MCHomeController',['$scope','RestServerce'
             selectOrganization:'',
             selectProject:'',
             mcList:[],
-            message:''};
+            message:'',
+            state:''};
         //页面加载的时候获取组织列表
         RestServerce.get("api/system/organization/list").then(
             function(data){
@@ -90,4 +106,120 @@ app.controller('MCHomeController',['$scope','RestServerce'
             },2000);
         };
 
+        $scope.mcG.remove=function(id){
+            RestServerce.remove("api/mc/"+id).then(
+                function(data){
+
+                    $scope.mcG.getMCListByProject();
+                    $scope.mcG.tips("删除成功！");
+
+                },function(error){
+                    alert(error);
+                });
+        };
+
     }]);
+
+app.controller('DetailController',['$scope','$stateParams','RestServerce','$state',function($scope,$stateParams,RestServerce,$state){
+
+    $scope.detail={
+        name:'',
+        project:{name:''},
+        mcParam:{
+            predictionName:'',
+            predictionValue:'',
+            confidenceInterval:'',
+            simulationNumber:'',
+            mcAssumptionParamList:[],
+            mcNormalParamList:[]
+        }
+
+    };
+
+    $scope.mcG.state=$state.current.name;
+    var getDetail=function()
+    {
+
+        if(typeof($scope.mcG.mcList)!='undefined')
+        {
+
+            $scope.mcG.mcList.forEach(
+                function(d){
+                    if(d.id==$stateParams.id)
+                    {
+                        $scope.detail=angular.copy(d);
+
+                    }
+
+                }
+            );
+
+        }
+
+    };
+
+    getDetail();
+
+    var rest=function(url,message){
+
+
+        RestServerce.post(url+$scope.detail.id,$scope.detail).then(
+            function(data){
+
+                $scope.mcG.getMCListByProject();
+                $scope.mcG.tips(message);
+
+            },function(error){
+                alert(error.error);
+            });
+
+    };
+
+    $scope.update=function(){
+
+        rest("api/mc/","更新成功!");
+    };
+
+    $scope.create=function(){
+
+        RestServerce.post("api/mc",$scope.detail).then(
+            function(data){
+
+                $scope.mcG.getMCListByProject();
+                $scope.mcG.tips("创建成功!");
+
+            },function(error){
+                alert(error.error);
+            });
+
+    };
+
+    $scope.addN=function(){
+        var mcN={
+            name:"",
+            value:""
+        };
+        $scope.detail.mcParam.mcNormalParamList.push(mcN);
+
+    };
+    $scope.removeN=function(index){
+
+        $scope.detail.mcParam.mcNormalParamList.splice(index,1);
+
+    };
+    $scope.addA=function(){
+        var mcA={
+            name:"",
+            type:"",
+            distributionParam:[0,0,0]
+        };
+        $scope.detail.mcParam.mcAssumptionParamList.push(mcA);
+
+    };
+    $scope.removeA=function(index){
+
+        $scope.detail.mcParam.mcAssumptionParamList.splice(index,1);
+
+    };
+
+}]);
