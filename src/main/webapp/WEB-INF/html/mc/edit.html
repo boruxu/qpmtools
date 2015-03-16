@@ -4,7 +4,8 @@
         <div class="box col-lg-12">
             <div class="box-inner">
                 <div class="box-header well">
-                    <h2>新建蒙特卡洛模拟</h2>
+                    <h2 ng-if="mcG.state=='mc.create'">新建蒙特卡洛模拟</h2>
+                    <h2 ng-if="mcG.state=='mc.edit'">修改蒙特卡洛模拟</h2>
                     <div class="box-icon">
                         <a href="#" class="btn btn-setting-alpha btn-round btn-default"><i
                                 class="glyphicon glyphicon-cog"></i></a>
@@ -75,50 +76,71 @@
                                     <td>
                                     </td>
                                 </tr>
-
                                 <tr>
-                                    <th>常量名</th>
-                                    <th>常量值</th>
-                                    <th>操作
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+
+                            <div class="col-lg-12 col-md-12" style="height: 50px"></div>
+
+                            <table class="table">
+
+                                <tr >
+                                    <th colspan="1">常量名</th>
+                                    <th colspan="1">常量值</th>
+                                    <th colspan="1">操作
                                         <button type="button" class="btn btn-success btn-xs" ng-click="addN()" >
                                             <span class="glyphicon glyphicon-plus"></span> 增加常量
                                         </button>
                                     </th>
                                 </tr>
                                 <tr ng-repeat="mcNP in detail.mcParam.mcNormalParamList">
-                                    <td>
+                                    <td colspan="1">
 
                                         <input class="col-lg-12"  ng-model="mcNP.name"/>
                                     </td>
-                                    <td>
+                                    <td colspan="1">
                                         <input class="col-lg-12"  ng-model="mcNP.value"/>
-                                    </td>
-                                    <td>
+                                    </td >
+                                    <td colspan="1">
+
                                         <button type="button" class="btn btn-danger btn-xs" ng-click="removeN($index)">
                                             <span class="glyphicon glyphicon-trash"></span> 删除
                                         </button>
+
                                     </td>
                                 </tr>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </table>
+
+                            <div class="col-lg-12 col-md-12" style="height: 50px"></div>
+
+
+                            <table class="table"  >
 
                                 <tr>
                                     <th>假设变量名</th>
                                     <th>假设变量类型</th>
-                                    <th>变量范围&&操作
+                                    <th>变量范围</th>
+                                    <th>操作
                                         <button type="button" class="btn btn-success btn-xs" ng-click="addA()" >
                                             <span class="glyphicon glyphicon-plus"></span> 增加预测变量
                                         </button>
                                     </th>
                                 </tr>
+
                                 <tbody ng-repeat="mcAP in detail.mcParam.mcAssumptionParamList">
                                 <tr >
-                                    <td rowspan="4" nowrap>
-
-
-                                        <input class="col-lg-10"  ng-model="mcAP.name"/>
-
+                                    <td rowspan="3">
+                                        <input class="col-lg-12"  ng-model="mcAP.name"/>
                                     </td>
-
-                                    <td rowspan="4" >
+                                    <td rowspan="3">
                                         <select class="col-lg-12" ng-model="mcAP.type" style="height: 26px;">
                                             <option value="">-- 请选择所属类型 --</option>
                                             <option value="0">均匀分布</option>
@@ -126,36 +148,42 @@
                                             <option value="2">三角分布</option>
                                         </select>
                                     </td>
-                                    <td rowspan="1">
-                                        <button type="button" class="btn btn-danger btn-xs col-lg-2" ng-click="removeA($index)">
+                                    <td ng-if="mcAP.type==''"></td>
+
+                                    <td ng-if="mcAP.type!=''">
+                                        <div class="col-lg-5">最小值:</div><input class="col-lg-5"  ng-model="mcAP.distributionParam[0]"/>
+                                    </td>
+                                    <td rowspan="3">
+                                        <button type="button" class="btn btn-danger btn-xs" ng-click="removeA($index)">
                                             <span class="glyphicon glyphicon-trash"></span> 删除
                                         </button>
                                     </td>
 
+                                 </tr>
 
+                                <tr>
 
+                                    <td ng-if="mcAP.type=='2'&&mcAP.type!=''">
+                                        <div class="col-lg-5">最可能值:</div><input class="col-lg-5"  ng-model="mcAP.distributionParam[1]"/>
+
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td rowspan="1" ng-if="mcAP.type!=''"><strong>最小值:&nbsp</strong>
 
-                                        <input class="col-lg-12"  ng-model="mcAP.distributionParam[0]"/>
-                                    </td>
-
-                                </tr>
-
-                                <tr ng-if="mcAP.type=='2'&&mcAP.type!=''">
-                                    <td rowspan="1"><strong>最可能值:&nbsp</strong>
-                                        <input class="col-lg-12"  ng-model="mcAP.distributionParam[1]"/>
-
+                                    <td  ng-if="mcAP.type!=''">
+                                        <div class="col-lg-5">最大值:</div>
+                                        <input ng-if="mcAP.type!='2'" class="col-lg-5"  ng-model="mcAP.distributionParam[1]"/>
+                                        <input ng-if="mcAP.type=='2'" class="col-lg-5"  ng-model="mcAP.distributionParam[2]"/>
                                     </td>
                                 </tr>
-                                <tr ng-if="mcAP.type!=''">
-                                    <td rowspan="1"><strong>最大值:&nbsp</strong>
-                                        <input ng-if="mcAP.type!='2'" class="col-lg-12"  ng-model="mcAP.distributionParam[1]"/>
-                                        <input ng-if="mcAP.type=='2'" class="col-lg-12"  ng-model="mcAP.distributionParam[2]"/>
-                                    </td>
-                                </tr>
+
+                                
+
+
+
                                 </tbody>
+
+                            </table>
 
                                 <tr>
                                     <td></td>

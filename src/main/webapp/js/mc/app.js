@@ -199,6 +199,10 @@ app.controller('DetailController',['$scope','$stateParams','RestServerce','$stat
             name:"",
             value:""
         };
+        if(typeof($scope.detail.mcParam.mcNormalParamList)=='undefined')
+        {
+            $scope.detail.mcParam.mcNormalParamList=[];
+        }
         $scope.detail.mcParam.mcNormalParamList.push(mcN);
 
     };
@@ -213,6 +217,10 @@ app.controller('DetailController',['$scope','$stateParams','RestServerce','$stat
             type:"",
             distributionParam:[0,0,0]
         };
+        if(typeof($scope.detail.mcParam.mcNormalParamList)=='undefined')
+        {
+            $scope.detail.mcParam.mcNormalParamList=[];
+        }
         $scope.detail.mcParam.mcAssumptionParamList.push(mcA);
 
     };
