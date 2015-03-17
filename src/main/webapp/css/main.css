@@ -143,3 +143,43 @@ footer {
 .box-content.buttons {
     min-height: 297px;
 }
+
+
+
+
+.bar rect {
+    fill: steelblue;
+    shape-rendering: crispEdges;
+}
+.bar   rect.selected {
+    fill: green;
+    shape-rendering: crispEdges;
+}
+
+
+
+.resize path {
+    fill: #666;
+    fill-opacity: .8;
+    stroke: #000;
+    stroke-width: 1.5px;
+}
+.selecting circle {
+    fill-opacity: .2;
+}
+
+.selecting circle.selected {
+    stroke: #f00;
+}
+
+
+.axis path, .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.brush .extent {
+    fill-opacity: .125;
+    shape-rendering: crispEdges;
+}

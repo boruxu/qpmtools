@@ -132,7 +132,8 @@ app.controller('DetailController',['$scope','$stateParams','RestServerce','$stat
             simulationNumber:'',
             mcAssumptionParamList:[],
             mcNormalParamList:[]
-        }
+        },
+        result:[]
 
     };
 
@@ -168,7 +169,8 @@ app.controller('DetailController',['$scope','$stateParams','RestServerce','$stat
 
                 $scope.mcG.getMCListByProject();
                 $scope.mcG.tips(message);
-
+                $scope.detail=angular.copy(data);
+                mcD3.compute($scope.detail.result,800,500,$scope.detail.mcParam.simulationNumber);
             },function(error){
                 alert(error.error);
             });
