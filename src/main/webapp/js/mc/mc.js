@@ -5,14 +5,23 @@
 {
 
     var mcD3={
-        compute:""
+        compute:"",
+        size:'',
+        width:'',
+        height:''
     };
-    mcD3.compute=function(mcArray,widthF,heightF,simulationNumber)
+    mcD3.size=function(width,height)
+    {
+        mcD3.width=width;
+        mcD3.height=height;
+        return mcD3;
+    };
+    mcD3.compute=function(mcArray,simulationNumber)
     {
         $("svg").empty();
         var margin = {top: 10, right: 100, bottom: 30, left:50},
-            width = widthF - margin.left - margin.right,
-            height = heightF - margin.top - margin.bottom;
+            width = mcD3.width - margin.left - margin.right,
+            height = mcD3.height - margin.top - margin.bottom;
 
         var min=d3.min(mcArray);
         var max=d3.max(mcArray);
@@ -22,17 +31,16 @@
             .domain([min,max])
             .range([0,width]);
 
-        /*var x1 = d3.scale.linear()
-         .domain([0.26,0.5])
-         .range([0,width]);
-         */
-
+        //分组数
+        var k=simulationNumber/10;
+        console.log("k",k);
+        console.log("width",width);
+        var groupNumber=Math.min(k,width);
+        console.log("groupNumber",groupNumber);
         var data = d3.layout.histogram()
-            .bins(x.ticks(1000))
+            .bins(x.ticks(groupNumber))
         (mcArray);
 
-
-// Generate a histogram using twenty uniformly-spaced bins.
 
         var recty=d3.max(data, function(d) { return d.y; });
         var y = d3.scale.linear()
