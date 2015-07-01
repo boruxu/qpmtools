@@ -4,8 +4,20 @@ import java.util.List;
 
 public class MCAssumptionParam {
 
+	//假设变量类型
 	private String type;
+	//假设变量名 符号，例如 x或y
 	private String name;
+	//变量符号解释 例如，x是什么
+    private String nameRemark;
+	public String getNameRemark() {
+		return nameRemark;
+	}
+	public void setNameRemark(String nameRemark) {
+		this.nameRemark = nameRemark;
+	}
+
+
 	private List<Double> distributionParam;
 
 	public String getType() {

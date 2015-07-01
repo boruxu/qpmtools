@@ -1,3 +1,7 @@
+html{
+    width: 1366px;
+    margin: auto;
+}
 textarea{
     height: 100px;
     width: 100%;

@@ -19,7 +19,15 @@ public class MCParam {
 		private List<MCAssumptionParam> mcAssumptionParamList;
 		//mc参数的常量
 		private List<MCNormalParam> mcNormalParamList;
+		
+		private String remark;
 
+		public String getRemark() {
+			return remark;
+		}
+		public void setRemark(String remark) {
+			this.remark = remark;
+		}
 		public String getPredictionName() {
 			return predictionName;
 		}

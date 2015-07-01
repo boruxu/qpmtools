@@ -90,6 +90,7 @@
                                 <tr >
                                     <th colspan="1">常量名</th>
                                     <th colspan="1">常量值</th>
+                                    <th colspan="1">常量意义解释</th>
                                     <th colspan="1">操作
                                         <button type="button" class="btn btn-success btn-xs" ng-click="addN()" >
                                             <span class="glyphicon glyphicon-plus"></span> 增加常量
@@ -105,6 +106,9 @@
                                         <input class="col-lg-12"  ng-model="mcNP.value"/>
                                     </td >
                                     <td colspan="1">
+                                        <input class="col-lg-12"  ng-model="mcNP.nameRemark"/>
+                                    </td >
+                                    <td colspan="1">
 
                                         <button type="button" class="btn btn-danger btn-xs" ng-click="removeN($index)">
                                             <span class="glyphicon glyphicon-trash"></span> 删除
@@ -113,6 +117,7 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -126,6 +131,7 @@
 
                                 <tr>
                                     <th>假设变量名</th>
+                                    <th>变量意义解释</th>
                                     <th>假设变量类型</th>
                                     <th>变量范围</th>
                                     <th>操作
@@ -139,6 +145,10 @@
                                 <tr >
                                     <td rowspan="3">
                                         <input class="col-lg-12"  ng-model="mcAP.name"/>
+                                    </td>
+                                    <td rowspan="3">
+                                        <input class="col-lg-12"  ng-model="mcAP.nameRemark"/>
+
                                     </td>
                                     <td rowspan="3">
                                         <select class="col-lg-12" ng-model="mcAP.type" style="height: 26px;">
@@ -184,11 +194,15 @@
                                 </tbody>
 
                             </table>
-
+                            <table  class="table">
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <th>备注</th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <textarea class="col-lg-12"   ng-model="detail.mcParam.remark" ></textarea>
+
+                                    </td>
                                 </tr>
                             </table>
                         </div>
