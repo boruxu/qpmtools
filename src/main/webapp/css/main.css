@@ -187,3 +187,7 @@ footer {
     fill-opacity: .125;
     shape-rendering: crispEdges;
 }
+
+svg.mc{
+    margin-left: 40px;
+}

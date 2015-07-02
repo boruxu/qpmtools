@@ -1,0 +1,196 @@
+<!--detail.html-->
+<div >
+    <div class="row">
+        <div class="box col-lg-12">
+            <div class="box-inner">
+                <div class="box-header well">
+                    <h2>蒙特卡洛模拟</h2>
+                    <div class="box-icon">
+                        <a href="#" class="btn btn-setting-alpha btn-round btn-default"><i
+                                class="glyphicon glyphicon-cog"></i></a>
+                        <a href="#"  class="btn btn-minimize btn-round btn-default"><i
+                                class="glyphicon glyphicon-chevron-up"></i></a>
+                        <a href="#" class="btn btn-close btn-round btn-default"><i
+                                class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                </div>
+                <div class="box-content row" >
+                    <div class="col-lg-12  ">
+                        <div class="panel-heading">
+                            <button class="btn btn-default btn-xs" ui-sref="mc">
+                                <span class="glyphicon glyphicon-backward"></span> 返回</button>
+                            <button  type="button" class="btn btn-warning btn-xs" ng-click="get()" >
+                                <span class="glyphicon glyphicon-upload"></span> 显示模拟分布图
+                            </button>
+                        </div>
+                        <div class="panel-body"  >
+                            <table class="table" >
+                                <tr>
+                                    <td >
+                                        <strong>模拟项（名称）:&nbsp</strong>{{detail.name}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td >
+                                        <strong>所属项目:&nbsp</strong>{{detail.project.name}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td >
+                                        <strong>预测变量名:&nbsp</strong>{{detail.mcParam.predictionName}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td >
+                                        <strong>预测变量值:&nbsp</strong>{{detail.mcParam.predictionValue}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>置信区间:&nbsp</strong>{{detail.mcParam.confidenceInterval}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>模拟次数:&nbsp</strong>{{detail.mcParam.simulationNumber}}
+                                    </td>
+                                </tr>
+
+
+                            </table>
+
+                            <table class="table" ng-if="detail.mcParam.mcNormalParamList.length>=1">
+
+                                <tr >
+                                    <th colspan="1">常量名</th>
+                                    <th colspan="1">常量值</th>
+                                    <th colspan="1">常量意义解释</th>
+                                </tr>
+                                <tr ng-repeat="mcNP in detail.mcParam.mcNormalParamList">
+                                    <td colspan="1">
+                                        {{mcNP.name}}
+                                    </td>
+                                    <td colspan="1">
+                                        {{mcNP.value}}
+                                    </td >
+                                    <td colspan="1">
+                                        {{mcNP.nameRemark}}
+                                    </td >
+
+                                </tr>
+
+                            </table>
+
+                        <!--    <div class="col-lg-12 col-md-12" style="height: 50px"></div>-->
+
+
+                            <table class="table" ng-if="detail.mcParam.mcAssumptionParamList.length>=1">
+
+                                <tr>
+                                    <th>假设变量名</th>
+                                    <th>变量意义解释</th>
+                                    <th>假设变量类型</th>
+                                    <th>变量范围</th>
+                                </tr>
+
+                                <tbody ng-repeat="mcAP in detail.mcParam.mcAssumptionParamList">
+                                <tr >
+                                    <td rowspan="3">
+                                        {{mcAP.name}}
+                                    </td>
+                                    <td rowspan="3">
+                                        {{mcAP.nameRemark}}
+
+                                    </td>
+                                    <td rowspan="3" ng-if="mcAP.type==''">
+
+                                    </td>
+                                    <td rowspan="3" ng-if="mcAP.type==0">
+                                        均匀分布
+                                    </td>
+                                    <td rowspan="3" ng-if="mcAP.type==1">
+                                        正态分布
+                                    </td>
+                                    <td rowspan="3" ng-if="mcAP.type==2">
+                                        三角分布
+                                    </td>
+                                    <td ng-if="mcAP.type==''"></td>
+
+                                    <td ng-if="mcAP.type!=''">
+                                        最小值:{{mcAP.distributionParam[0]}}
+                                    </td>
+
+
+                                 </tr>
+
+                                <tr>
+
+                                    <td ng-if="mcAP.type=='2'&&mcAP.type!=''">
+                                        最可能值:{{mcAP.distributionParam[1]}}
+
+                                    </td>
+                                </tr>
+                                <tr>
+
+                                    <td  ng-if="mcAP.type!=''&&mcAP.type!='2'">
+                                        最大值:{{mcAP.distributionParam[1]}}
+                                        <input ng-if="mcAP.type!='2'" class="col-lg-5"  ng-model="mcAP.distributionParam[1]"/>
+                                        <input ng-if="mcAP.type=='2'" class="col-lg-5"  ng-model="mcAP.distributionParam[2]"/>
+                                    </td>
+                                    <td  ng-if="mcAP.type=='2'">
+                                        最大值:{{mcAP.distributionParam[2]}}
+                                    </td>
+
+                                </tr>
+
+
+
+
+                                </tbody>
+                                <tr>
+                                    <td>
+                                        备注:{{detail.mcParam.remark}}
+
+                                    </td>
+                                </tr>
+
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" >
+        <div class="box col-lg-12" ng-if="detail.result!=''">
+            <div class="box-inner">
+                <div class="box-header well">
+                    <h2>模拟结果</h2>
+
+                    <div class="box-icon">
+                        <a href="#" class="btn btn-setting-alpha btn-round btn-default"><i
+                                class="glyphicon glyphicon-cog"></i></a>
+                        <a href="#"  class="btn btn-minimize btn-round btn-default"><i
+                                class="glyphicon glyphicon-chevron-up"></i></a>
+                        <a href="#" class="btn btn-close btn-round btn-default"><i
+                                class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                </div>
+                <div class="box-content row" >
+                    <div class="col-lg-12  ">
+                        <div class="panel-heading">
+
+                        </div>
+                        <div class="panel-body"  >
+                            <svg  class="mc">
+                            </svg>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

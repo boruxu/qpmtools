@@ -19,7 +19,7 @@
     mcD3.compute=function(mcArray,simulationNumber)
     {
         $("svg").empty();
-        var margin = {top: 10, right: 100, bottom: 30, left:50},
+        var margin = {top: 10, right: 100, bottom: 30, left:100},
             width = mcD3.width - margin.left - margin.right,
             height = mcD3.height - margin.top - margin.bottom;
 

@@ -170,7 +170,7 @@ app.controller('DetailController',['$scope','$stateParams','RestServerce','$stat
                 $scope.mcG.getMCListByProject();
                 $scope.mcG.tips(message);
                 $scope.detail=angular.copy(data);
-                mcD3.size(800,500).compute($scope.detail.result,$scope.detail.mcParam.simulationNumber);
+                mcD3.size(1000,500).compute($scope.detail.result,$scope.detail.mcParam.simulationNumber);
             },function(error){
                 alert(error.error);
             });
@@ -180,6 +180,18 @@ app.controller('DetailController',['$scope','$stateParams','RestServerce','$stat
     $scope.update=function(){
 
         rest("api/mc/","更新成功!");
+    };
+
+    //获取mc模拟数据
+    $scope.get=function(){
+
+        RestServerce.get("api/mc/"+$scope.detail.id).then(
+            function(data){
+                $scope.detail=angular.copy(data);
+                mcD3.size(1000,500).compute($scope.detail.result,$scope.detail.mcParam.simulationNumber);
+            },function(error){
+                alert(error.error);
+            });
     };
 
     $scope.create=function(){
