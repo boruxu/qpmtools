@@ -7,5 +7,5 @@ release.properties
 /.settings/
 /.classpath
 /.project
-/.idea
-/..externalToolBuilders
+/src/main/webapp/.idea/
+/.externalToolBuilders
