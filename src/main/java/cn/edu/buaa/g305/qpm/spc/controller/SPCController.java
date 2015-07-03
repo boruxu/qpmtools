@@ -1,6 +1,7 @@
 package cn.edu.buaa.g305.qpm.spc.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -670,6 +671,14 @@ public class SPCController {
 		return new ResponseEntity<PlotList[]>(lists,HttpStatus.NOT_FOUND);	
 	}
 	
+	//简化开发，不使用超媒体,获得一个项目下的所有spc控制图
+	@RequestMapping(value="/plotList/{name}",method=RequestMethod.GET)
+	@ResponseBody
+	public List<? extends Spc> getSpcListByProject(@PathVariable String name)
+	{
+		return spcService.getAllSpcListByProject(name).getList();
+		
+	}
 	
 	
 	

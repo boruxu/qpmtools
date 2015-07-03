@@ -1175,6 +1175,37 @@ public class SPCImp implements SPCService{
 		}
 	}
 
+	@Override
+	public SpcList getAllSpcListByProject(String name) {
+		SpcList spcList=new SpcList();
+		Project project=projectRepository.findByName(name);
+		if(project==null)
+		{
+			spcList.setError("名为"+name+"项目不存在");
+			spcList.setHttpStatus(HttpStatus.NOT_FOUND);
+			spcList.setList(new ArrayList<Spc>());
+			return spcList;
+		}
+		else {
+			List<Spc> list=new ArrayList<Spc>();
+			list.addAll(spccRepository.findByProject(project));
+			list.addAll(spcuRepository.findByProject(project));
+			list.addAll(spcxmrRepository.findByProject(project));
+			list.addAll(spcxrRepository.findByProject(project));
+			list.addAll(spcxsRepository.findByProject(project));
+			list.addAll(spczRepository.findByProject(project));
+
+			spcList.setList(list);
+
+			
+			spcList.setHttpStatus(HttpStatus.OK);
+			spcList.setPlotType("all");
+			return spcList;
+		}
+	}
+	
+	
+
 	
 	
 }

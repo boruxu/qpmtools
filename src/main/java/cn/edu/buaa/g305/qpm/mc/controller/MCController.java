@@ -25,7 +25,6 @@ public class MCController {
 	@ResponseBody
 	public MC create(@RequestBody MC mc)
 	{
-		System.out.println(mc.getProject().getName());
 		return mcServer.save(mc);			
 	}
 	

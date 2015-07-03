@@ -87,13 +87,14 @@ public class MCServerImp implements MCServer{
 	}
 	@Override
 	public MC delete(String id) {
-		MC mc=getById(id);
-		if(mc.getError()!=null)
+		MC mc=mcRepository.findOne(id);
+		if(mc!=null)
 		{
 			mcRepository.delete(id);
 			return null;
 		}
 		else {
+			mc=new MC("id："+id+"的资源不存在！");
 			return mc;			
 		}
 		
@@ -101,14 +102,15 @@ public class MCServerImp implements MCServer{
 
 	@Override
 	public MC deleteByName(String name) {
-		MC mc=getByName(name);
-		if(mc.getError()!=null)
+		MC mc=mcRepository.findByName(name);
+		if(mc!=null)
 		{
-			mcRepository.delete(mc.getId());
+			mcRepository.delete(mc);
 			return null;
 		}
 		else {
-			return mc;			
+			mc=new MC("name："+name+"的资源不存在！");
+			return mc;		
 		}
 	}
 

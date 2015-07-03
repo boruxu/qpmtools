@@ -119,5 +119,7 @@ public interface SPCService {
 	
 	SpcList getSpcZList();
 	SpcList getSpcZListByProjectName(String name);
+	
+	SpcList getAllSpcListByProject(String name);
 
 }
