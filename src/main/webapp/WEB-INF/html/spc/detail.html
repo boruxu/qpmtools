@@ -1,0 +1,101 @@
+<!--detail.html-->
+<div >
+    <div class="row">
+        <div class="box col-lg-12">
+            <div class="box-inner">
+                <div class="box-header well">
+                    <h2>统计过程控制</h2>
+                    <div class="box-icon">
+                        <a href="#" class="btn btn-setting-alpha btn-round btn-default"><i
+                                class="glyphicon glyphicon-cog"></i></a>
+                        <a href="#"  class="btn btn-minimize btn-round btn-default"><i
+                                class="glyphicon glyphicon-chevron-up"></i></a>
+                        <a href="#" class="btn btn-close btn-round btn-default"><i
+                                class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                </div>
+                <div class="box-content row" >
+                    <div class="col-lg-12  ">
+                        <div class="panel-heading">
+                            <button class="btn btn-default btn-xs" ui-sref="spc">
+                                <span class="glyphicon glyphicon-backward"></span> 返回</button>
+                        </div>
+                        <div class="panel-body"  ng-if="detail.type=='spcC'">
+                            <table class="table" >
+                                <tr>
+                                    <td >
+                                        <strong>控制图名称:&nbsp</strong>{{detail.name}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td >
+                                        <strong>所属组织:&nbsp</strong>{{detail.project.organization.name}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td >
+                                        <strong>所属项目:&nbsp</strong>{{detail.project.name}}
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table" >
+                                <tr  >
+                                    <td>
+                                        <strong>{{detail.input.timeName}}:</strong>
+                                    <td>
+                                    <td ng-repeat="inputTime in detail.input.time track by $index">
+                                        {{inputTime}}
+                                    </td>
+                                </tr>
+                                <tr  >
+                                    <td>
+                                        <strong>{{detail.input.xName}}:</strong>
+                                    <td>
+                                    <td ng-repeat="inputX in detail.input.x track by $index">
+                                        {{inputX}}
+                                    </td>
+                                </tr>
+
+                            </table>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" >
+        <div class="box col-lg-12">
+            <div class="box-inner">
+                <div class="box-header well">
+                    <h2>C控制图</h2>
+
+                    <div class="box-icon">
+                        <a href="#" class="btn btn-setting-alpha btn-round btn-default"><i
+                                class="glyphicon glyphicon-cog"></i></a>
+                        <a href="#"  class="btn btn-minimize btn-round btn-default"><i
+                                class="glyphicon glyphicon-chevron-up"></i></a>
+                        <a href="#" class="btn btn-close btn-round btn-default"><i
+                                class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                </div>
+                <div class="box-content row" >
+                    <div class="col-lg-12  ">
+                        <div class="panel-heading">
+
+                        </div>
+                        <div class="panel-body"  >
+                            <svg  id="svg1">
+                            </svg>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -191,3 +191,44 @@ footer {
 svg.mc{
     margin-left: 40px;
 }
+
+/* spc控制图的样式 */
+.dot {
+    fill: #fff;
+    stroke: steelblue;
+}
+text.dot {
+    fill: #fff;
+    stroke: black;
+    opacity:0;
+}
+g.dot:hover text.dot{
+    fill: #fff;
+    stroke: black;
+    opacity:1;
+}
+path.line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 3;
+}
+path.line_2 {
+    fill: none;
+    stroke: darkcyan;
+    stroke-width: 3;
+}
+line._0 {
+    fill: none;
+    stroke: orangered ;
+    stroke-width: 3;
+}
+line._1 {
+    fill: none;
+    stroke: yellowgreen;
+    stroke-width: 3;
+}
+line._2 {
+    fill: none;
+    stroke: orangered ;
+    stroke-width: 3;
+}

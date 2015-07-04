@@ -6,8 +6,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.http.HttpStatus;
 
 import cn.edu.buaa.g305.qpm.spc.domain.Spc;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMRIn;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMROut;
 import cn.edu.buaa.g305.qpm.system.domain.Project;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -23,7 +21,7 @@ public class SpcC extends Spc{
 	private Project project;
 	
 	private static String type="spcC";
-	private String stauts="computeFinished";
+
 	private SpcCIn input;
 	private SpcCOut output;
 
@@ -37,18 +35,7 @@ public class SpcC extends Spc{
 
 	public String getType() {
 		return type;
-	}
-
-
-	public String getStauts() {
-		return stauts;
-	}
-
-	public void setStauts(String stauts) {
-		this.stauts = stauts;
-	}
-
-	
+	}	
 
 	public SpcCIn getInput() {
 		return input;
@@ -84,7 +71,6 @@ public class SpcC extends Spc{
 		
 		id=null;
 		name=null;
-		stauts=null;
 		input=null;
 		output=null;
 		project=null;
@@ -99,7 +85,7 @@ public class SpcC extends Spc{
 		String string="{id:"+id+","+
 				       "name:"+ name+","+
 				       "type:"+ type+","+
-				       "stauts:"+       stauts+","+
+				       "stauts:"+
 				       "input:" +   input+","+
 				       "output:" +   output+","+
 				       "project"+project+"}";

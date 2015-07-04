@@ -37,6 +37,7 @@
                             <table class="table" >
                                 <tr>
                                     <th>模拟项（名称）</th>
+                                    <th>所属组织</th>
                                     <th>所属项目</th>
                                     <th>预测变量名</th>
                                 </tr>
@@ -44,6 +45,7 @@
                                     <td >
                                         <input class="col-lg-12"   ng-model="detail.name"/>
                                     </td>
+
                                     <td >
                                         <select class="col-lg-12" ng-model="detail.project.name" style="height: 26px;
                                          " ng-options="project.name as project.name for project in mcG.projectList">

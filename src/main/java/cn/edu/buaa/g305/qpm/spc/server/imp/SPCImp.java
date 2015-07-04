@@ -820,7 +820,6 @@ public class SPCImp implements SPCService{
 		SpcC spcC=getCById(id);
 		if(spcC.getError()==null)
 		{
-			spcC.setStauts("deleted");
 			spccRepository.delete(id);
 		}	
 		return spcC;
@@ -829,10 +828,7 @@ public class SPCImp implements SPCService{
 	@Override
 	public SpcC deleteCByName(String name) {
 		SpcC spcC=getCByName(name);
-		if(spcC.getError()==null)
-		{
-			spcC.setStauts("deleted");
-		}
+
 		if(spcC.getId()!=null)
 		{
 			spccRepository.delete(spcC.getId());
