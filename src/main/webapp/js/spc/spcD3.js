@@ -211,8 +211,6 @@
 
         computeC(spcOutData);
 
-        console.log("timemax",timemax);
-
         var scale= d3.scale.linear()
             .domain([timemin, timemax])
             .range([0, xAxisLength]);
@@ -249,9 +247,6 @@
 
 
         renderXGridlines(yAxisLength);
-
-        console.log("xy  plot");
-
         renderYGridlines(xAxisLength);
         renderXRXYLinesSingle(spcOutData,svg_1,xAxisLength,yAxisLength,margin);
 

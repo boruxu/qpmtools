@@ -153,7 +153,11 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
 
     getDetail();
 
-    spcD3.size(1000,500,50).C($scope.detail.output,"#svg1");
+    if($scope.detail.name!='')
+    {
+        spcD3.size(1000,500,50).C($scope.detail.output,"#svg1");
+    }
+
 
 
 
