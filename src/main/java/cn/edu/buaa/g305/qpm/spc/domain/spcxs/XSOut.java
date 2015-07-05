@@ -2,7 +2,7 @@ package cn.edu.buaa.g305.qpm.spc.domain.spcxs;
 
 import java.util.Arrays;
 
-public class SpcXSOut {
+public class XSOut {
 	
 	private String[] x;
 	private String[] s;

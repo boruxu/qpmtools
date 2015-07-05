@@ -3,8 +3,11 @@
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.http.HttpStatus;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import cn.edu.buaa.g305.qpm.system.domain.ResourceSupportTransientLinks;
 
 @JsonIgnoreProperties("httpStatus")
@@ -20,6 +23,17 @@ public class Spc extends ResourceSupportTransientLinks{
 	@Transient
 	protected  HttpStatus httpStatus;
 	
+	@Indexed(unique=true)
+	protected String name;
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	public String getError() {
 		return error;
 	}

@@ -1,125 +1,124 @@
 package cn.edu.buaa.g305.qpm.spc.server;
 
 import cn.edu.buaa.g305.qpm.spc.domain.*;
-import cn.edu.buaa.g305.qpm.spc.domain.spcc.SpcC;
-import cn.edu.buaa.g305.qpm.spc.domain.spcc.SpcCIn;
-import cn.edu.buaa.g305.qpm.spc.domain.spcc.SpcCOut;
-import cn.edu.buaa.g305.qpm.spc.domain.spcu.SpcU;
-import cn.edu.buaa.g305.qpm.spc.domain.spcu.SpcUIn;
-import cn.edu.buaa.g305.qpm.spc.domain.spcu.SpcUOut;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMR;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMRIn;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMROut;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXRIn;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXROut;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXR;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXS;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXSIn;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXSOut;
-import cn.edu.buaa.g305.qpm.spc.domain.spcz.SpcZ;
-import cn.edu.buaa.g305.qpm.spc.domain.spcz.SpcZIn;
-import cn.edu.buaa.g305.qpm.spc.domain.spcz.SpcZOut;
+import cn.edu.buaa.g305.qpm.spc.domain.spcc.C;
+import cn.edu.buaa.g305.qpm.spc.domain.spcc.CIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcc.COut;
+import cn.edu.buaa.g305.qpm.spc.domain.spcu.U;
+import cn.edu.buaa.g305.qpm.spc.domain.spcu.UIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcu.UOut;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.XmR;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.XmRIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.XmROut;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxr.XRIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxr.XROut;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxr.XR;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxs.XS;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxs.XSIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxs.XSOut;
+import cn.edu.buaa.g305.qpm.spc.domain.spcz.Z;
+import cn.edu.buaa.g305.qpm.spc.domain.spcz.ZIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcz.ZOut;
 
 public interface SPCService {
 	
-	SpcXROut computeXR(SpcXRIn spcxr);
-	SpcXSOut computeXS(SpcXSIn spcxsIn);
-	SpcXMROut computeXMR(SpcXMRIn spcxmrIn);
-	SpcCOut computeC(SpcCIn spccIn);
-	SpcUOut computeU(SpcUIn spcuIn);
-	SpcZOut computeZ(SpcZIn spczIn);
+	XROut computeXR(XRIn spcxr);
+	XSOut computeXS(XSIn spcxsIn);
+	XmROut computeXMR(XmRIn spcxmrIn);
+	COut computeC(CIn spccIn);
+	UOut computeU(UIn spcuIn);
+	ZOut computeZ(ZIn spczIn);
 	
 	//X-R图数据库操作
-	SpcXR getXRByName(String name);
+	XR getXRByName(String name);
 	
-	SpcXR getXRById(String id);
+	XR getXRById(String id);
 	
-	SpcXR deleteXR(String id);
+	XR deleteXR(String id);
 	
-	SpcXR deleteXRByName(String name);
+	XR deleteXRByName(String name);
 	
-	SpcXR update(SpcXR spcXR,String id,String project);
-	SpcXR save(SpcXR spcXR,String project);
+	XR update(XR spcXR,String id,String project);
+	XR save(XR spcXR,String project);
 	
 	SpcList getSpcXRList();
 	SpcList getSpcXRListByProjectName(String name);
 	
 	
 	//X-S图数据库操作
-    SpcXS getXSByName(String name);
+    XS getXSByName(String name);
 	
-	SpcXS getXSById(String id);
+	XS getXSById(String id);
 	
-	SpcXS deleteXS(String id);
+	XS deleteXS(String id);
 	
-	SpcXS deleteXSByName(String name);
+	XS deleteXSByName(String name);
 	
-	SpcXS update(SpcXS spcXS,String id,String project);
-	SpcXS save(SpcXS spcXS,String project);
+	XS update(XS spcXS,String id,String project);
+	XS save(XS spcXS,String project);
 	
 	SpcList getSpcXSList();
 	SpcList getSpcXSListByProjectName(String name);
 	
 	//XMR图数据库操作
-	SpcXMR getXMRByName(String name);
+	XmR getXMRByName(String name);
 	
-	SpcXMR getXMRById(String id);
+	XmR getXMRById(String id);
 	
-	SpcXMR deleteXMR(String id);
+	XmR deleteXMR(String id);
 	
-	SpcXMR deleteXMRByName(String name);
+	XmR deleteXMRByName(String name);
 	
-	SpcXMR update(SpcXMR spcXMR,String id,String project);
-	SpcXMR save(SpcXMR spcXMR,String project);
+	XmR update(XmR spcXMR,String id,String project);
+	XmR save(XmR spcXMR,String project);
 	
 	SpcList getSpcXMRList();
 	SpcList getSpcXMRListByProjectName(String name);
 	
 	//C图数据库操作
-    SpcC getCByName(String name);
+    C getCByName(String name);
 	
-	SpcC getCById(String id);
+	C getCById(String id);
 	
-	SpcC deleteC(String id);
+	C deleteC(String id);
 	
-	SpcC deleteCByName(String name);
+	C deleteCByName(String name);
 	
-	SpcC update(SpcC spcC,String id,String project);
-	SpcC save(SpcC spcC,String project);
+	C update(C spcC,String id,String project);
+	C save(C spcC,String project);
 	
 	SpcList getSpcCList();
 	SpcList getSpcCListByProjectName(String name);
 	
 	//U图数据库操作
-	SpcU getUByName(String name);
+	U getUByName(String name);
 	
-	SpcU getUById(String id);
+	U getUById(String id);
 	
-	SpcU deleteU(String id);
+	U deleteU(String id);
 	
-	SpcU deleteUByName(String name);
+	U deleteUByName(String name);
 	
-	SpcU update(SpcU spcU,String id,String project);
-	SpcU save(SpcU spcU,String project);
+	U update(U spcU,String id,String project);
+	U save(U spcU,String project);
 	
 	SpcList getSpcUList();
 	SpcList getSpcUListByProjectName(String name);
 	
 	//Z图数据库操作
-	SpcZ getZByName(String name);
+	Z getZByName(String name);
 	
-	SpcZ getZById(String id);
+	Z getZById(String id);
 	
-	SpcZ deleteZ(String id);
+	Z deleteZ(String id);
 	
-	SpcZ deleteZByName(String name);
+	Z deleteZByName(String name);
 	
-	SpcZ update(SpcZ spcZ,String id,String project);
-	SpcZ save(SpcZ spcZ,String project);
+	Z update(Z spcZ,String id,String project);
+	Z save(Z spcZ,String project);
 	
 	SpcList getSpcZList();
 	SpcList getSpcZListByProjectName(String name);
 	
 	SpcList getAllSpcListByProject(String name);
-
 }

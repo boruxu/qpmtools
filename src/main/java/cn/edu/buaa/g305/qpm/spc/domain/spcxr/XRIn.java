@@ -1,27 +1,18 @@
-package cn.edu.buaa.g305.qpm.spc.domain.spcxs;
+package cn.edu.buaa.g305.qpm.spc.domain.spcxr;
 
 import java.util.Arrays;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
-@JsonSerialize(include=Inclusion.NON_NULL)
-public class SpcXSIn {
+
+public class XRIn {
+	
 	private String[][] x;
 	private String[] time;
-	private String sigma;
-	
-	
+
 	public String[][] getX() {
 		return x;
 	}
 	public void setX(String[][] x) {
 		this.x = x;
-	}
-	public String getSigma() {
-		return sigma;
-	}
-	public void setSigma(String sigma) {
-		this.sigma = sigma;
 	}
 	public String[] getTime() {
 		return time;
@@ -39,13 +30,17 @@ public class SpcXSIn {
 			xString+=Arrays.toString(x[i])+",";
 		}
 		xString+=Arrays.toString(x[x.length-1])+"]";
-		String spcxsString="{"+"x:"+xString+","+
+		String spcxrString="{"+"x:"+xString+","+
 	                           "time:"+Arrays.toString(time)+","+"}";
-		return spcxsString;
+		return spcxrString;
 	}
 
 	public static String format() {
-		String format="{x:[[],[],[]...],time:[],sigma:''}";
+		String format="{x:[[],[],[]...],time:[]}";
 		return format;
 	}
+	
+	
+	
+	
 }

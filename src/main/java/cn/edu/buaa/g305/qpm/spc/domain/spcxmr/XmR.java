@@ -1,71 +1,49 @@
-﻿package cn.edu.buaa.g305.qpm.spc.domain.spcxr;
+package cn.edu.buaa.g305.qpm.spc.domain.spcxmr;
 
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.http.HttpStatus;
 
+import cn.edu.buaa.g305.qpm.spc.domain.PlotType;
 import cn.edu.buaa.g305.qpm.spc.domain.Spc;
 import cn.edu.buaa.g305.qpm.system.domain.Project;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
 
-
-
 @Document
 @JsonSerialize(include=Inclusion.NON_NULL)
-public class SpcXR extends Spc{
-	
-	
-	
-	@Indexed(unique=true)
-	private String name;
+public class XmR extends Spc{
+
 	@DBRef
 	private Project project;
 	
-	private static String type="spcXR";
-	private String stauts="computeFinished";
-	private SpcXRIn input;
-	private SpcXROut output;
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
+	private static String type=PlotType.XmR.name();
+	private XmRIn input;
+	private XmROut output;
 
 	public String getType() {
 		return type;
 	}
 
-
-	public String getStauts() {
-		return stauts;
-	}
-
-	public void setStauts(String stauts) {
-		this.stauts = stauts;
-	}
-
-	public SpcXRIn getInput() {
+	
+	
+	public XmRIn getInput() {
 		return input;
 	}
 
-	public void setInput(SpcXRIn input) {
+	public void setInput(XmRIn input) {
 		this.input = input;
 	}
 
-	public SpcXROut getOutput() {
+	public XmROut getOutput() {
 		return output;
 	}
 
-	public void setOutput(SpcXROut output) {
+	public void setOutput(XmROut output) {
 		this.output = output;
 	}
-	
+
 	public Project getProject() {
 		return project;
 	}
@@ -80,7 +58,6 @@ public class SpcXR extends Spc{
 		
 		id=null;
 		name=null;
-		stauts=null;
 		input=null;
 		output=null;
 		project=null;
@@ -95,7 +72,6 @@ public class SpcXR extends Spc{
 		String string="{id:"+id+","+
 				       "name:"+ name+","+
 				       "type:"+ type+","+
-				       "stauts:"+       stauts+","+
 				       "input:" +   input+","+
 				       "output:" +   output+","+
 				       "project"+project+"}";
@@ -107,10 +83,10 @@ public class SpcXR extends Spc{
 	{
 		String format="{"+"createFormat:{"+
 			       "name:organizationName.projectName."+type+".name,"+
-			       "inputXR:{" + SpcXRIn.format()+"}},"+
+			       "inputXMR:{" + XmRIn.format()+"}},"+
 			       	"updateFormat:{"	+ 
 			       	"name:organizationName.projectName."+type+".name,"+
-				    "inputXR:{" + SpcXRIn.format()+"}}}";
+				    "inputXMR:{" + XmRIn.format()+"}}}";
 		return format;
 	}
 

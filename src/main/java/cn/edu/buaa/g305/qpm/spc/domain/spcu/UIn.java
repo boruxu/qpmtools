@@ -2,7 +2,7 @@ package cn.edu.buaa.g305.qpm.spc.domain.spcu;
 
 import java.util.Arrays;
 
-public class SpcUIn {
+public class UIn {
 	
 	private String[] x;
 	private String[] time;

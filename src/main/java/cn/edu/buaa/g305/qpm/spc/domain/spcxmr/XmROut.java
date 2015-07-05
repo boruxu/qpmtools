@@ -2,7 +2,7 @@ package cn.edu.buaa.g305.qpm.spc.domain.spcxmr;
 
 import java.util.Arrays;
 
-public class SpcXMROut {
+public class XmROut {
 	
 	private String[] x;
 	private String[] mr;

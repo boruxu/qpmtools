@@ -11,24 +11,24 @@ import org.springframework.stereotype.Component;
 
 import cn.edu.buaa.g305.qpm.spc.dao.*;
 import cn.edu.buaa.g305.qpm.spc.domain.*;
-import cn.edu.buaa.g305.qpm.spc.domain.spcc.SpcC;
-import cn.edu.buaa.g305.qpm.spc.domain.spcc.SpcCIn;
-import cn.edu.buaa.g305.qpm.spc.domain.spcc.SpcCOut;
-import cn.edu.buaa.g305.qpm.spc.domain.spcu.SpcU;
-import cn.edu.buaa.g305.qpm.spc.domain.spcu.SpcUIn;
-import cn.edu.buaa.g305.qpm.spc.domain.spcu.SpcUOut;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMR;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMRIn;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMROut;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXRIn;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXROut;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXR;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXS;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXSIn;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXSOut;
-import cn.edu.buaa.g305.qpm.spc.domain.spcz.SpcZ;
-import cn.edu.buaa.g305.qpm.spc.domain.spcz.SpcZIn;
-import cn.edu.buaa.g305.qpm.spc.domain.spcz.SpcZOut;
+import cn.edu.buaa.g305.qpm.spc.domain.spcc.C;
+import cn.edu.buaa.g305.qpm.spc.domain.spcc.CIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcc.COut;
+import cn.edu.buaa.g305.qpm.spc.domain.spcu.U;
+import cn.edu.buaa.g305.qpm.spc.domain.spcu.UIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcu.UOut;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.XmR;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.XmRIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.XmROut;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxr.XRIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxr.XROut;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxr.XR;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxs.XS;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxs.XSIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxs.XSOut;
+import cn.edu.buaa.g305.qpm.spc.domain.spcz.Z;
+import cn.edu.buaa.g305.qpm.spc.domain.spcz.ZIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcz.ZOut;
 import cn.edu.buaa.g305.qpm.spc.server.SPCService;
 import cn.edu.buaa.g305.qpm.system.dao.ProjectRepository;
 import cn.edu.buaa.g305.qpm.system.domain.Project;
@@ -57,9 +57,9 @@ public class SPCImp implements SPCService{
 	@Autowired
 	private ProjectRepository projectRepository;
 
-	public SpcXROut computeXR(SpcXRIn spcxrIn) {
+	public XROut computeXR(XRIn spcxrIn) {
 		
-		SpcXROut spcxrOut=new SpcXROut();
+		XROut spcxrOut=new XROut();
 		int precision=4;
 		//样本数
 		int n=spcxrIn.getX().length;
@@ -122,8 +122,8 @@ public class SPCImp implements SPCService{
 		return spcxrOut;
 	}
 
-	public SpcXSOut computeXS(SpcXSIn spcxsIn) {
-		SpcXSOut spcxsOut=new SpcXSOut();
+	public XSOut computeXS(XSIn spcxsIn) {
+		XSOut spcxsOut=new XSOut();
 		//样本数
 		int n=spcxsIn.getX().length;
 		//样本内样品数
@@ -205,8 +205,8 @@ public class SPCImp implements SPCService{
 		
 	}
 	
-	public SpcXMROut computeXMR(SpcXMRIn spcxmrIn) {
-		SpcXMROut spcxmrOut=new SpcXMROut();
+	public XmROut computeXMR(XmRIn spcxmrIn) {
+		XmROut spcxmrOut=new XmROut();
 		
 		double[] x= toDouble(spcxmrIn.getX());
 		//样本数
@@ -270,12 +270,12 @@ public class SPCImp implements SPCService{
 		
 	}
 
-	public SpcCOut computeC(SpcCIn spccIn) {
+	public COut computeC(CIn spccIn) {
 		
 		int precision=2;
 		
 		double xAverage=0;
-		SpcCOut spccOut=new SpcCOut();
+		COut spccOut=new COut();
 		for (double x : toDouble(spccIn.getX())) {
 			xAverage+=x;
 		}
@@ -297,7 +297,7 @@ public class SPCImp implements SPCService{
 		
 	}
 	@Override
-	public SpcUOut computeU(SpcUIn spcuIn) {
+	public UOut computeU(UIn spcuIn) {
 		
 		int precision=1;
 		double xAverage=0;
@@ -313,7 +313,7 @@ public class SPCImp implements SPCService{
 		
 		double aSum=0;
 		
-		SpcUOut spcuOut=new SpcUOut();
+		UOut spcuOut=new UOut();
 		
 		for(int i=0;i<length;i++)
 		{
@@ -344,7 +344,7 @@ public class SPCImp implements SPCService{
 		return spcuOut;
 	}
 	@Override
-	public SpcZOut computeZ(SpcZIn spczIn) {
+	public ZOut computeZ(ZIn spczIn) {
 		int precision=1;
 		double xAverage=0;
 		int length=spczIn.getX().length;
@@ -355,7 +355,7 @@ public class SPCImp implements SPCService{
 		double[] z= new double[length];
 		double aSum=0;
 		
-		SpcZOut spczOut=new SpcZOut();
+		ZOut spczOut=new ZOut();
 		
 		for(int i=0;i<length;i++)
 		{
@@ -381,12 +381,12 @@ public class SPCImp implements SPCService{
 
 	
 	
-	public SpcXR getXRByName(String name) {
+	public XR getXRByName(String name) {
 		
-		SpcXR spcXR=spcxrRepository.findByName(name);
+		XR spcXR=spcxrRepository.findByName(name);
 		if(spcXR==null)
 		{
-			spcXR=new SpcXR();
+			spcXR=new XR();
 			//找不到资源，设置错误信息和状态码
 			spcXR.setErrorOutput("名为"+name+"的X-R图资源不存在",HttpStatus.NOT_FOUND);
 			return spcXR;
@@ -399,12 +399,12 @@ public class SPCImp implements SPCService{
 		
 	}
 
-	public SpcXR getXRById(String id) {
+	public XR getXRById(String id) {
 		
-		SpcXR spcXR=spcxrRepository.findOne(id);
+		XR spcXR=spcxrRepository.findOne(id);
 		if(spcXR==null)
 		{
-			spcXR=new SpcXR();
+			spcXR=new XR();
 			spcXR.setErrorOutput("id为"+id+"的X-R图资源不存在",HttpStatus.NOT_FOUND);
 			return spcXR;
 		}
@@ -414,26 +414,21 @@ public class SPCImp implements SPCService{
 		}
 		
 	}
-	public SpcXR deleteXR(String id) {
+	public XR deleteXR(String id) {
 		
-		SpcXR spcXR=getXRById(id);
+		XR spcXR=getXRById(id);
 		if(spcXR.getError()==null)
 		{
-			spcXR.setStauts("deleted");
 			spcxrRepository.delete(id);
 		}
 		
 		return spcXR;
 		
 	}
-	public SpcXR deleteXRByName(String name) {
+	public XR deleteXRByName(String name) {
 		
-		SpcXR spcXR=getXRByName(name);
+		XR spcXR=getXRByName(name);
 		if(spcXR.getError()==null)
-		{
-			spcXR.setStauts("deleted");
-		}
-		if(spcXR.getId()!=null)
 		{
 			spcxrRepository.delete(spcXR.getId());
 		}	
@@ -442,7 +437,7 @@ public class SPCImp implements SPCService{
 	}
 	
 	
-	public SpcXR save(SpcXR spcXR,String project) {
+	public XR save(XR spcXR,String project) {
 
 		Project projectO=systemFind.findProductAffiliation(project);
 		spcXR.setProject(projectO);
@@ -464,9 +459,9 @@ public class SPCImp implements SPCService{
 		return spcXR;
 	    
 	}
-	public SpcXR update(SpcXR spcXR,String id,String project){
+	public XR update(XR spcXR,String id,String project){
 		
-		SpcXR spcXRt=getXRById(id);
+		XR spcXRt=getXRById(id);
 		if(spcXRt.getError()==null)
 		{
 			spcXR.setId(id);
@@ -486,7 +481,7 @@ public class SPCImp implements SPCService{
 		}
 	}
 	public SpcList getSpcXRList() {
-		List<SpcXR> spcXRList= (List<SpcXR>) spcxrRepository.findAll();
+		List<XR> spcXRList= (List<XR>) spcxrRepository.findAll();
 		SpcList spcList=new SpcList();
 		spcList.setList(spcXRList);
 		spcList.setHttpStatus(HttpStatus.OK);
@@ -512,12 +507,12 @@ public class SPCImp implements SPCService{
 	}
 	
 	//X-S图
-	public SpcXS getXSByName(String name) {
+	public XS getXSByName(String name) {
 		
-		SpcXS spcXS=spcxsRepository.findByName(name);
+		XS spcXS=spcxsRepository.findByName(name);
 		if(spcXS==null)
 		{
-			spcXS=new SpcXS();
+			spcXS=new XS();
 			//找不到资源，设置错误信息和状态码
 			spcXS.setErrorOutput("名为"+name+"的X-R图资源不存在",HttpStatus.NOT_FOUND);
 			return spcXS;
@@ -530,12 +525,12 @@ public class SPCImp implements SPCService{
 		
 	}
 
-	public SpcXS getXSById(String id) {
+	public XS getXSById(String id) {
 		
-		SpcXS spcXS=spcxsRepository.findOne(id);
+		XS spcXS=spcxsRepository.findOne(id);
 		if(spcXS==null)
 		{
-			spcXS=new SpcXS();
+			spcXS=new XS();
 			spcXS.setErrorOutput("id为"+id+"的X-R图资源不存在",HttpStatus.NOT_FOUND);
 			return spcXS;
 		}
@@ -545,26 +540,21 @@ public class SPCImp implements SPCService{
 		}
 		
 	}
-	public SpcXS deleteXS(String id) {
+	public XS deleteXS(String id) {
 		
-		SpcXS spcXS=getXSById(id);
+		XS spcXS=getXSById(id);
 		if(spcXS.getError()==null)
 		{
-			spcXS.setStauts("deleted");
 			spcxsRepository.delete(id);
 		}
 		
 		return spcXS;
 		
 	}
-	public SpcXS deleteXSByName(String name) {
+	public XS deleteXSByName(String name) {
 		
-		SpcXS spcXS=getXSByName(name);
+		XS spcXS=getXSByName(name);
 		if(spcXS.getError()==null)
-		{
-			spcXS.setStauts("deleted");
-		}
-		if(spcXS.getId()!=null)
 		{
 			spcxsRepository.delete(spcXS.getId());
 		}	
@@ -573,7 +563,7 @@ public class SPCImp implements SPCService{
 	}
 	
 	
-	public SpcXS save(SpcXS spcXS,String project) {
+	public XS save(XS spcXS,String project) {
 		Project projectO=systemFind.findProductAffiliation(project);
 		spcXS.setProject(projectO);
 
@@ -596,9 +586,9 @@ public class SPCImp implements SPCService{
 		return spcXS;
 	    
 	}
-	public SpcXS update(SpcXS spcXS,String id,String project){
+	public XS update(XS spcXS,String id,String project){
 		
-		SpcXS spcXSt=getXSById(id);
+		XS spcXSt=getXSById(id);
 		if(spcXSt.getError()==null)
 		{
 			spcXS.setId(id);
@@ -619,7 +609,7 @@ public class SPCImp implements SPCService{
 	}
 
 	public SpcList getSpcXSList() {
-		List<SpcXS> spcXSList= (List<SpcXS>) spcxsRepository.findAll();
+		List<XS> spcXSList= (List<XS>) spcxsRepository.findAll();
 		SpcList spcList=new SpcList();
 		spcList.setList(spcXSList);
 		spcList.setHttpStatus(HttpStatus.OK);
@@ -648,12 +638,12 @@ public class SPCImp implements SPCService{
 	//XMR图数据库操作
 
 	@Override
-	public SpcXMR getXMRByName(String name) {
+	public XmR getXMRByName(String name) {
 		
-		SpcXMR spcXMR=spcxmrRepository.findByName(name);
+		XmR spcXMR=spcxmrRepository.findByName(name);
 		if(spcXMR==null)
 		{
-			spcXMR=new SpcXMR();
+			spcXMR=new XmR();
 			//找不到资源，设置错误信息和状态码
 			spcXMR.setErrorOutput("名为"+name+"的XMR图资源不存在",HttpStatus.NOT_FOUND);
 			return spcXMR;
@@ -665,12 +655,12 @@ public class SPCImp implements SPCService{
 	}
 
 	@Override
-	public SpcXMR getXMRById(String id) {
+	public XmR getXMRById(String id) {
 		
-		SpcXMR spcXMR=spcxmrRepository.findOne(id);
+		XmR spcXMR=spcxmrRepository.findOne(id);
 		if(spcXMR==null)
 		{
-			spcXMR=new SpcXMR();
+			spcXMR=new XmR();
 			spcXMR.setErrorOutput("id为"+id+"的XMR图资源不存在",HttpStatus.NOT_FOUND);
 			return spcXMR;
 		}
@@ -682,24 +672,19 @@ public class SPCImp implements SPCService{
 	}
 
 	@Override
-	public SpcXMR deleteXMR(String id) {
-		SpcXMR spcXMR=getXMRById(id);
+	public XmR deleteXMR(String id) {
+		XmR spcXMR=getXMRById(id);
 		if(spcXMR.getError()==null)
 		{
-			spcXMR.setStauts("deleted");
 			spcxmrRepository.delete(id);
 		}	
 		return spcXMR;
 	}
 
 	@Override
-	public SpcXMR deleteXMRByName(String name) {
-		SpcXMR spcXMR=getXMRByName(name);
+	public XmR deleteXMRByName(String name) {
+		XmR spcXMR=getXMRByName(name);
 		if(spcXMR.getError()==null)
-		{
-			spcXMR.setStauts("deleted");
-		}
-		if(spcXMR.getId()!=null)
 		{
 			spcxmrRepository.delete(spcXMR.getId());
 		}	
@@ -707,8 +692,8 @@ public class SPCImp implements SPCService{
 	}
 
 	@Override
-	public SpcXMR update(SpcXMR spcXMR, String id, String project) {
-		SpcXMR spcXMRdb=getXMRById(id);
+	public XmR update(XmR spcXMR, String id, String project) {
+		XmR spcXMRdb=getXMRById(id);
 		if(spcXMRdb.getError()==null)
 		{
 			spcXMR.setId(id);
@@ -729,7 +714,7 @@ public class SPCImp implements SPCService{
 	}
 
 	@Override
-	public SpcXMR save(SpcXMR spcXMR, String project) {
+	public XmR save(XmR spcXMR, String project) {
 		Project projectO=systemFind.findProductAffiliation(project);
 		spcXMR.setProject(projectO);
 
@@ -755,7 +740,7 @@ public class SPCImp implements SPCService{
 
 	@Override
 	public SpcList getSpcXMRList() {
-		List<SpcXMR> spcXMRList= (List<SpcXMR>) spcxmrRepository.findAll();
+		List<XmR> spcXMRList= (List<XmR>) spcxmrRepository.findAll();
 		SpcList spcList=new SpcList();
 		spcList.setList(spcXMRList);
 		spcList.setHttpStatus(HttpStatus.OK);
@@ -783,12 +768,12 @@ public class SPCImp implements SPCService{
 	
 	//C图数据库操作
 	@Override
-	public SpcC getCByName(String name) {
+	public C getCByName(String name) {
 		
-		SpcC spcC=spccRepository.findByName(name);
+		C spcC=spccRepository.findByName(name);
 		if(spcC==null)
 		{
-			spcC=new SpcC();
+			spcC=new C();
 			//找不到资源，设置错误信息和状态码
 			spcC.setErrorOutput("名为"+name+"的C图资源不存在",HttpStatus.NOT_FOUND);
 			return spcC;
@@ -800,11 +785,11 @@ public class SPCImp implements SPCService{
 	}
 
 	@Override
-	public SpcC getCById(String id) {
-		SpcC spcC=spccRepository.findOne(id);
+	public C getCById(String id) {
+		C spcC=spccRepository.findOne(id);
 		if(spcC==null)
 		{
-			spcC=new SpcC();
+			spcC=new C();
 			spcC.setErrorOutput("id为"+id+"的C图资源不存在",HttpStatus.NOT_FOUND);
 			return spcC;
 		}
@@ -815,9 +800,9 @@ public class SPCImp implements SPCService{
 	}
 
 	@Override
-	public SpcC deleteC(String id) {
+	public C deleteC(String id) {
 		
-		SpcC spcC=getCById(id);
+		C spcC=getCById(id);
 		if(spcC.getError()==null)
 		{
 			spccRepository.delete(id);
@@ -826,8 +811,8 @@ public class SPCImp implements SPCService{
 	}
 
 	@Override
-	public SpcC deleteCByName(String name) {
-		SpcC spcC=getCByName(name);
+	public C deleteCByName(String name) {
+		C spcC=getCByName(name);
 
 		if(spcC.getId()!=null)
 		{
@@ -837,8 +822,8 @@ public class SPCImp implements SPCService{
 	}
 
 	@Override
-	public SpcC update(SpcC spcC, String id, String project) {
-		SpcC spcCdb=getCById(id);
+	public C update(C spcC, String id, String project) {
+		C spcCdb=getCById(id);
 		if(spcCdb.getError()==null)
 		{
 			spcC.setId(id);
@@ -859,7 +844,7 @@ public class SPCImp implements SPCService{
 	}
 
 	@Override
-	public SpcC save(SpcC spcC, String project) {
+	public C save(C spcC, String project) {
 		Project projectO=systemFind.findProductAffiliation(project);
 		spcC.setProject(projectO);
 
@@ -884,7 +869,7 @@ public class SPCImp implements SPCService{
 
 	@Override
 	public SpcList getSpcCList() {
-		List<SpcC> spcCList= (List<SpcC>) spccRepository.findAll();
+		List<C> spcCList= (List<C>) spccRepository.findAll();
 		SpcList spcList=new SpcList();
 		spcList.setList(spcCList);
 		spcList.setHttpStatus(HttpStatus.OK);
@@ -913,11 +898,11 @@ public class SPCImp implements SPCService{
 	//U图数据库操作
 	
 	@Override
-	public SpcU getUByName(String name) {
-		SpcU spcU=spcuRepository.findByName(name);
+	public U getUByName(String name) {
+		U spcU=spcuRepository.findByName(name);
 		if(spcU==null)
 		{
-			spcU=new SpcU();
+			spcU=new U();
 			//找不到资源，设置错误信息和状态码
 			spcU.setErrorOutput("名为"+name+"的U图资源不存在",HttpStatus.NOT_FOUND);
 			return spcU;
@@ -929,11 +914,11 @@ public class SPCImp implements SPCService{
 	}
 
 	@Override
-	public SpcU getUById(String id) {
-		SpcU spcU=spcuRepository.findOne(id);
+	public U getUById(String id) {
+		U spcU=spcuRepository.findOne(id);
 		if(spcU==null)
 		{
-			spcU=new SpcU();
+			spcU=new U();
 			spcU.setErrorOutput("id为"+id+"的U图资源不存在",HttpStatus.NOT_FOUND);
 			return spcU;
 		}
@@ -944,33 +929,28 @@ public class SPCImp implements SPCService{
 	}
 
 	@Override
-	public SpcU deleteU(String id) {
-		SpcU spcU=getUById(id);
+	public U deleteU(String id) {
+		U spcU=getUById(id);
 		if(spcU.getError()==null)
 		{
-			spcU.setStauts("deleted");
 			spcuRepository.delete(id);
 		}	
 		return spcU;
 	}
 
 	@Override
-	public SpcU deleteUByName(String name) {
-		SpcU spcU=getUByName(name);
+	public U deleteUByName(String name) {
+		U spcU=getUByName(name);
 		if(spcU.getError()==null)
 		{
-			spcU.setStauts("deleted");
-		}
-		if(spcU.getId()!=null)
-		{
 			spcuRepository.delete(spcU.getId());
-		}	
+		}
 		return spcU;
 	}
 
 	@Override
-	public SpcU update(SpcU spcU, String id, String project) {
-		SpcU spcUdb=getUById(id);
+	public U update(U spcU, String id, String project) {
+		U spcUdb=getUById(id);
 		if(spcUdb.getError()==null)
 		{
 			spcU.setId(id);
@@ -991,7 +971,7 @@ public class SPCImp implements SPCService{
 	}
 
 	@Override
-	public SpcU save(SpcU spcU, String project) {
+	public U save(U spcU, String project) {
 		Project projectO=systemFind.findProductAffiliation(project);
 		spcU.setProject(projectO);
 
@@ -1016,7 +996,7 @@ public class SPCImp implements SPCService{
 
 	@Override
 	public SpcList getSpcUList() {
-		List<SpcU> spcUList= (List<SpcU>) spcuRepository.findAll();
+		List<U> spcUList= (List<U>) spcuRepository.findAll();
 		SpcList spcList=new SpcList();
 		spcList.setList(spcUList);
 		spcList.setHttpStatus(HttpStatus.OK);
@@ -1043,11 +1023,11 @@ public class SPCImp implements SPCService{
 
 	//Z图数据库操作
 	@Override
-	public SpcZ getZByName(String name) {
-		SpcZ spcZ=spczRepository.findByName(name);
+	public Z getZByName(String name) {
+		Z spcZ=spczRepository.findByName(name);
 		if(spcZ==null)
 		{
-			spcZ=new SpcZ();
+			spcZ=new Z();
 			//找不到资源，设置错误信息和状态码
 			spcZ.setErrorOutput("名为"+name+"的Z图资源不存在",HttpStatus.NOT_FOUND);
 			return spcZ;
@@ -1059,11 +1039,11 @@ public class SPCImp implements SPCService{
 	}
 
 	@Override
-	public SpcZ getZById(String id) {
-		SpcZ spcZ=spczRepository.findOne(id);
+	public Z getZById(String id) {
+		Z spcZ=spczRepository.findOne(id);
 		if(spcZ==null)
 		{
-			spcZ=new SpcZ();
+			spcZ=new Z();
 			spcZ.setErrorOutput("id为"+id+"的Z图资源不存在",HttpStatus.NOT_FOUND);
 			return spcZ;
 		}
@@ -1074,24 +1054,19 @@ public class SPCImp implements SPCService{
 	}
 
 	@Override
-	public SpcZ deleteZ(String id) {
-		SpcZ spcZ=getZById(id);
+	public Z deleteZ(String id) {
+		Z spcZ=getZById(id);
 		if(spcZ.getError()==null)
 		{
-			spcZ.setStauts("deleted");
 			spczRepository.delete(id);
 		}	
 		return spcZ;
 	}
 
 	@Override
-	public SpcZ deleteZByName(String name) {
-		SpcZ spcZ=getZByName(name);
+	public Z deleteZByName(String name) {
+		Z spcZ=getZByName(name);
 		if(spcZ.getError()==null)
-		{
-			spcZ.setStauts("deleted");
-		}
-		if(spcZ.getId()!=null)
 		{
 			spczRepository.delete(spcZ.getId());
 		}	
@@ -1099,8 +1074,8 @@ public class SPCImp implements SPCService{
 	}
 
 	@Override
-	public SpcZ update(SpcZ spcZ, String id, String project) {
-		SpcZ spcZdb=getZById(id);
+	public Z update(Z spcZ, String id, String project) {
+		Z spcZdb=getZById(id);
 		if(spcZdb.getError()==null)
 		{
 			spcZ.setId(id);
@@ -1121,7 +1096,7 @@ public class SPCImp implements SPCService{
 	}
 
 	@Override
-	public SpcZ save(SpcZ spcZ, String project) {
+	public Z save(Z spcZ, String project) {
 		Project projectO=systemFind.findProductAffiliation(project);
 		spcZ.setProject(projectO);
 
@@ -1146,7 +1121,7 @@ public class SPCImp implements SPCService{
 
 	@Override
 	public SpcList getSpcZList() {
-		List<SpcZ> spcZList= (List<SpcZ>) spczRepository.findAll();
+		List<Z> spcZList= (List<Z>) spczRepository.findAll();
 		SpcList spcList=new SpcList();
 		spcList.setList(spcZList);
 		spcList.setHttpStatus(HttpStatus.OK);

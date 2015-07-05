@@ -3,7 +3,7 @@ package cn.edu.buaa.g305.qpm.spc.domain.spcu;
 import java.util.Arrays;
 
 
-public class SpcUOut {
+public class UOut {
 	
 	private String[] x;
 	private String[] time;

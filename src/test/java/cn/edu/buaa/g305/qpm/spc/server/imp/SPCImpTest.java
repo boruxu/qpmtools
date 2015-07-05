@@ -14,8 +14,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import cn.edu.buaa.g305.qpm.spc.dao.SpcXRRepository;
 import cn.edu.buaa.g305.qpm.spc.domain.*;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXRIn;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXR;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxr.XRIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxr.XR;
 import cn.edu.buaa.g305.qpm.system.server.SystemFind;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -31,8 +31,8 @@ public class SPCImpTest {
 	public void testDBCreate() {
 		
 		SPCImp  spcImp=new SPCImp();
-		SpcXR spcXR=new SpcXR();
-		SpcXRIn spcxrIn=new SpcXRIn();
+		XR spcXR=new XR();
+		XRIn spcxrIn=new XRIn();
 		
 		String[] time=new String[25];
 		for (int i = 0; i < time.length; i++) {
@@ -82,7 +82,7 @@ public class SPCImpTest {
 		links=null;
 		
 	    spcxrRepository.save(spcXR);	
-		SpcXR spcXR2=spcxrRepository.save(spcXR);
+		XR spcXR2=spcxrRepository.save(spcXR);
 		System.out.println(spcXR2);
 	
 	}

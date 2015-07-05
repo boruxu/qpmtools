@@ -1,11 +1,11 @@
 package cn.edu.buaa.g305.qpm.spc.controller;
 
-import cn.edu.buaa.g305.qpm.spc.domain.spcc.SpcCIn;
-import cn.edu.buaa.g305.qpm.spc.domain.spcu.SpcUIn;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMRIn;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXRIn;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXSIn;
-import cn.edu.buaa.g305.qpm.spc.domain.spcz.SpcZIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcc.CIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcu.UIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.XmRIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxr.XRIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxs.XSIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcz.ZIn;
 
 /**
  * 用于接受前端传来的数据，使用spring MVC-jackson进行数据绑定
@@ -23,23 +23,23 @@ public class SpcVO {
 	
 	//不同输入有不同的input输入，具体参见具体spc类的format
 	//X-R图
-	private SpcXRIn inputXR;
+	private XRIn inputXR;
 	//X-S图
-	private SpcXSIn inputXS;
+	private XSIn inputXS;
 	//XMR图
-	private SpcXMRIn inputXMR;
+	private XmRIn inputXMR;
 	//C图
-	private SpcCIn inputC;
+	private CIn inputC;
 	//U图
-	private SpcUIn inputU;
+	private UIn inputU;
 	//Z图
-	private SpcZIn inputZ;
+	private ZIn inputZ;
 
-	public SpcXMRIn getInputXMR() {
+	public XmRIn getInputXMR() {
 		return inputXMR;
 	}
 
-	public void setInputXMR(SpcXMRIn inputXMR) {
+	public void setInputXMR(XmRIn inputXMR) {
 		this.inputXMR = inputXMR;
 	}
 
@@ -59,19 +59,19 @@ public class SpcVO {
 		this.name = name;
 	}
 
-	public SpcXRIn getInputXR() {
+	public XRIn getInputXR() {
 		return inputXR;
 	}
 
-	public void setInputXR(SpcXRIn inputXR) {
+	public void setInputXR(XRIn inputXR) {
 		this.inputXR = inputXR;
 	}
 
-	public SpcXSIn getInputXS() {
+	public XSIn getInputXS() {
 		return inputXS;
 	}
 
-	public void setInputXS(SpcXSIn inputXS) {
+	public void setInputXS(XSIn inputXS) {
 		this.inputXS = inputXS;
 	}
 
@@ -83,27 +83,27 @@ public class SpcVO {
 		this.project = project;
 	}
 
-	public SpcCIn getInputC() {
+	public CIn getInputC() {
 		return inputC;
 	}
 
-	public void setInputC(SpcCIn inputC) {
+	public void setInputC(CIn inputC) {
 		this.inputC = inputC;
 	}
 
-	public SpcUIn getInputU() {
+	public UIn getInputU() {
 		return inputU;
 	}
 
-	public void setInputU(SpcUIn inputU) {
+	public void setInputU(UIn inputU) {
 		this.inputU = inputU;
 	}
 
-	public SpcZIn getInputZ() {
+	public ZIn getInputZ() {
 		return inputZ;
 	}
 
-	public void setInputZ(SpcZIn inputZ) {
+	public void setInputZ(ZIn inputZ) {
 		this.inputZ = inputZ;
 	}
 	

@@ -3,7 +3,7 @@ package cn.edu.buaa.g305.qpm.spc.domain.spcz;
 import java.util.Arrays;
 
 
-public class SpcZOut {
+public class ZOut {
 	
 	private String[] x;
 	private String[] time;

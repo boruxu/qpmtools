@@ -16,8 +16,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
             controller:'SPCHomeController'
         })
         .state('spc.detail', {
-            url: '/detail/{id}',
+            url: '/detail/{type}/{id}',
             templateUrl: 'spc/detail.html',
+            controller:'SPCDetailController'
+        })
+        .state('spc.edit', {
+            url: '/edit/{id}',
+            templateUrl: 'spc/edit.html',
             controller:'SPCDetailController'
         });
 
@@ -36,7 +41,8 @@ app.controller('SPCHomeController',['$scope','RestServerce'
             selectProject:'',
             spcList:[],
             message:'',
-            state:'null'
+            state:'null',
+            plotTypeList:[]
         };
 
         //页面加载的时候获取组织列表
@@ -93,6 +99,21 @@ app.controller('SPCHomeController',['$scope','RestServerce'
         };
 
 
+        var getPlotTypeList=function()
+        {
+
+            RestServerce.get("api/spc/help/plotTypeList").then(
+                function(data){
+                    $scope.spc.plotTypeList=data;
+                },function(error){
+                    $scope.spc.plotTypeList=[];
+                    console.log(error);
+                });
+        };
+
+        getPlotTypeList();
+
+
 
 
 
@@ -132,31 +153,36 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
 
     var getDetail=function()
     {
-
-        if(typeof($scope.spc.spcList)!='undefined')
+        if(typeof($scope.spc.spcList)!='undefined'&&$scope.spc.spcList.length!=0)
         {
-
             $scope.spc.spcList.forEach(
                 function(d){
                     if(d.id==$stateParams.id)
                     {
                         $scope.detail=angular.copy(d);
-
                     }
 
                 }
             );
+            spcD3.size(1000,500,50).C($scope.detail.output,"#svg1");
 
+        }
+        //单独刷新时，spcList无内容，直接访问数据
+        else
+        {
+            RestServerce.get("api/spc/"+$stateParams.type+"/"+$stateParams.id).then(
+                function(data){
+                    $scope.detail=data;
+                    spcD3.size(1000,500,50).C($scope.detail.output,"#svg1");
+                },function(error){
+                    console.log(error);
+                });
         }
 
     };
 
     getDetail();
 
-    if($scope.detail.name!='')
-    {
-        spcD3.size(1000,500,50).C($scope.detail.output,"#svg1");
-    }
 
 
 
@@ -247,10 +273,3 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
 
 }]);
 
-
-app.filter('spcTypeFormat',function(){
-    return function(e){
-
-        return e.substring(3);
-    }
-});

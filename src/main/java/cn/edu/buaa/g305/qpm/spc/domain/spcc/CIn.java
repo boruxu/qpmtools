@@ -2,12 +2,12 @@ package cn.edu.buaa.g305.qpm.spc.domain.spcc;
 
 import java.util.Arrays;
 
-public class SpcCIn {
+public class CIn {
 	
 	private String[]x;
 	private String xName;
 	private String[] time;
-	private String[] timeName;
+	private String timeName;
 	
 	public String getxName() {
 		return xName;
@@ -15,10 +15,11 @@ public class SpcCIn {
 	public void setxName(String xName) {
 		this.xName = xName;
 	}
-	public String[] getTimeName() {
+	
+	public String getTimeName() {
 		return timeName;
 	}
-	public void setTimeName(String[] timeName) {
+	public void setTimeName(String timeName) {
 		this.timeName = timeName;
 	}
 	public String[] getX() {

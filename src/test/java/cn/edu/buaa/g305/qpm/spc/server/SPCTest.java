@@ -5,18 +5,18 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import cn.edu.buaa.g305.qpm.spc.domain.*;
-import cn.edu.buaa.g305.qpm.spc.domain.spcc.SpcCIn;
-import cn.edu.buaa.g305.qpm.spc.domain.spcc.SpcCOut;
-import cn.edu.buaa.g305.qpm.spc.domain.spcu.SpcUIn;
-import cn.edu.buaa.g305.qpm.spc.domain.spcu.SpcUOut;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMRIn;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.SpcXMROut;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXRIn;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxr.SpcXROut;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXSIn;
-import cn.edu.buaa.g305.qpm.spc.domain.spcxs.SpcXSOut;
-import cn.edu.buaa.g305.qpm.spc.domain.spcz.SpcZIn;
-import cn.edu.buaa.g305.qpm.spc.domain.spcz.SpcZOut;
+import cn.edu.buaa.g305.qpm.spc.domain.spcc.CIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcc.COut;
+import cn.edu.buaa.g305.qpm.spc.domain.spcu.UIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcu.UOut;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.XmRIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxmr.XmROut;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxr.XRIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxr.XROut;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxs.XSIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcxs.XSOut;
+import cn.edu.buaa.g305.qpm.spc.domain.spcz.ZIn;
+import cn.edu.buaa.g305.qpm.spc.domain.spcz.ZOut;
 import cn.edu.buaa.g305.qpm.spc.server.imp.SPCImp;
 import cn.edu.buaa.g305.qpm.system.DoublePrecisonArrayToStringArray;
 import static cn.edu.buaa.g305.qpm.system.DoublePrecisonArrayToStringArray.*;
@@ -26,7 +26,7 @@ public class SPCTest {
 	@Test
 	public void testXR() {
 		SPCImp spc=new SPCImp();
-		SpcXRIn spcxrIn=new SpcXRIn();
+		XRIn spcxrIn=new XRIn();
 		String[] time=new String[25];
 		for (int i = 0; i < time.length; i++) {
 			time[i]=i+1+"";
@@ -60,7 +60,7 @@ public class SPCTest {
 				                    };
 	    spcxrIn.setX(toStringPrecision(x,2));
 	    System.out.println(spcxrIn);
-	    SpcXROut spcxrOut=spc.computeXR(spcxrIn);
+	    XROut spcxrOut=spc.computeXR(spcxrIn);
 	    System.out.println(spcxrOut);
 	    String[] expecteds=new String[]{"10.9837","10.9502","10.9168","0.1226","0.0580","0.0000"};
 	    String[] actuals=new String[]{spcxrOut.getxUCL(),spcxrOut.getxCL(),spcxrOut.getxLCL(),
@@ -71,7 +71,7 @@ public class SPCTest {
 	@Test
 	public void testXS() {
 		SPCImp spc=new SPCImp();
-		SpcXSIn spcxsIn=new SpcXSIn();
+		XSIn spcxsIn=new XSIn();
 		String[] time=new String[4];
 		for (int i = 0; i < time.length; i++) {
 			time[i]=i+1+"";
@@ -87,7 +87,7 @@ public class SPCTest {
 			                         72.2,9.2,33.1,20.5,33.5,25.3}
 				                    };
 	    spcxsIn.setX(toStringPrecision(x,1));
-	    SpcXSOut spcxsOut=spc.computeXS(spcxsIn);
+	    XSOut spcxsOut=spc.computeXS(spcxsIn);
 	    System.out.println("spcxsOut:"+spcxsOut);
 	    String[] expecteds=new String[]{"72.94","50.30","27.65","45.14","28.72","12.29"};
 	    String[] actuals=new String[]{spcxsOut.getxUCL(),spcxsOut.getxCL(),spcxsOut.getxLCL(),
@@ -99,7 +99,7 @@ public class SPCTest {
 	@Test
 	public void testXMR() {
 		SPCImp spc=new SPCImp();
-		SpcXMRIn spcxmrIn=new SpcXMRIn();
+		XmRIn spcxmrIn=new XmRIn();
 		String[] time=new String[80];
 		for (int i = 0; i < time.length; i++) {
 			time[i]=i+1+"";
@@ -115,7 +115,7 @@ public class SPCTest {
 				                50,46.2,47.4,42.2,47,47.3,49.7,48,42,41
 				                };
 	    spcxmrIn.setX(toStringPrecision(x, 1));
-	    SpcXMROut spcxmrOut=spc.computeXMR(spcxmrIn);
+	    XmROut spcxmrOut=spc.computeXMR(spcxmrIn);
 	    System.out.println("spcxmr:"+spcxmrIn);
 	    System.out.println(spcxmrOut);
 	    String[] expecteds=new String[]{"54.07","45.05","36.03","11.08","3.39","0"};
@@ -128,7 +128,7 @@ public class SPCTest {
 	@Test
 	public void testC() {
 		SPCImp spc=new SPCImp();
-		SpcCIn spccIn=new SpcCIn();
+		CIn spccIn=new CIn();
 		String[] time=new String[21];
 		for (int i = 0; i < time.length; i++) {
 			time[i]=i+1+"";
@@ -141,7 +141,7 @@ public class SPCTest {
 				                0
 				                };
 	    spccIn.setX(toStringPrecision(x, 0));
-	    SpcCOut spccOut=spc.computeC(spccIn);
+	    COut spccOut=spc.computeC(spccIn);
 	    String[] expecteds=new String[]{"0.62","2.98","0.00"};
 	    String[] actuals=new String[]{spccOut.getcCL(),spccOut.getcUCL(),spccOut.getcLCL()};
 	    
@@ -151,7 +151,7 @@ public class SPCTest {
 	@Test
 	public void testU() {
 		SPCImp spc=new SPCImp();
-		SpcUIn spcuIn=new SpcUIn();
+		UIn spcuIn=new UIn();
 		String[] time=new String[26];
 		for (int i = 0; i < time.length; i++) {
 			time[i]=i+1+"";
@@ -171,7 +171,7 @@ public class SPCTest {
                 };
 	    spcuIn.setX(toStringPrecision(x, 0));
 	    spcuIn.setA(toStringPrecision(a, 3));
-	    SpcUOut spcuOut=spc.computeU(spcuIn);
+	    UOut spcuOut=spc.computeU(spcuIn);
 	    String[] expecteds=new String[]{"20.8"};
 	    String[] actuals=new String[]{spcuOut.getuCL()};
 	    
@@ -181,7 +181,7 @@ public class SPCTest {
 	@Test
 	public void testZ() {
 		SPCImp spc=new SPCImp();
-		SpcZIn spczIn=new SpcZIn();
+		ZIn spczIn=new ZIn();
 		String[] time=new String[26];
 		for (int i = 0; i < time.length; i++) {
 			time[i]=i+1+"";
@@ -201,7 +201,7 @@ public class SPCTest {
                 };
 	    spczIn.setX(toStringPrecision(x, 0));
 	    spczIn.setA(toStringPrecision(a, 3));
-	    SpcZOut spczOut=spc.computeZ(spczIn);
+	    ZOut spczOut=spc.computeZ(spczIn);
 	    System.out.println(spczOut);
 	   
 	}

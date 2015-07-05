@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
 
 @JsonSerialize(include=Inclusion.NON_NULL)
-public class SpcXROut {
+public class XROut {
 	
 	private String[] x;
 	private String[] r;

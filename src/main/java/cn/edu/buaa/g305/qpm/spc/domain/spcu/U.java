@@ -1,10 +1,10 @@
-package cn.edu.buaa.g305.qpm.spc.domain.spcc;
+package cn.edu.buaa.g305.qpm.spc.domain.spcu;
 
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.http.HttpStatus;
 
+import cn.edu.buaa.g305.qpm.spc.domain.PlotType;
 import cn.edu.buaa.g305.qpm.spc.domain.Spc;
 import cn.edu.buaa.g305.qpm.system.domain.Project;
 
@@ -13,48 +13,38 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
 
 @Document
 @JsonSerialize(include=Inclusion.NON_NULL)
-public class SpcC extends Spc{
+public class U extends Spc{
 	
-	@Indexed(unique=true)
-	private String name;
 	@DBRef
 	private Project project;
 	
-	private static String type="spcC";
+	private static String type=PlotType.U.name();
+	private UIn input;
+	private UOut output;
 
-	private SpcCIn input;
-	private SpcCOut output;
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
 
 	public String getType() {
 		return type;
-	}	
+	}
 
-	public SpcCIn getInput() {
+	public UIn getInput() {
 		return input;
 	}
 
-	public void setInput(SpcCIn input) {
+	public void setInput(UIn input) {
 		this.input = input;
 	}
 
-	public SpcCOut getOutput() {
+	public UOut getOutput() {
 		return output;
 	}
 
-	public void setOutput(SpcCOut output) {
+	public void setOutput(UOut output) {
 		this.output = output;
 	}
 
 	public static void setType(String type) {
-		SpcC.type = type;
+		U.type = type;
 	}
 
 	public Project getProject() {
@@ -85,7 +75,6 @@ public class SpcC extends Spc{
 		String string="{id:"+id+","+
 				       "name:"+ name+","+
 				       "type:"+ type+","+
-				       "stauts:"+
 				       "input:" +   input+","+
 				       "output:" +   output+","+
 				       "project"+project+"}";
@@ -97,10 +86,10 @@ public class SpcC extends Spc{
 	{
 		String format="{"+"createFormat:{"+
 			       "name:organizationName.projectName."+type+".name,"+
-			       "inputC:{" + SpcC.format()+"}},"+
+			       "inputU:{" + UIn.format()+"}},"+
 			       	"updateFormat:{"	+ 
 			       	"name:organizationName.projectName."+type+".name,"+
-				    "inputC:{" + SpcC.format()+"}}}";
+				    "inputU:{" + UIn.format()+"}}}";
 		return format;
 	}
 
