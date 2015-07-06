@@ -196,7 +196,8 @@
     //画出spc中C图
     spcD3.C=function(spcOutData,svgX){
 
-        svg_1 = d3.select("svg")
+
+        svg_1 = d3.select(svgX)
             .attr("class", "axis")
             .attr("width", spcD3.width)
             .attr("height", spcD3.height)

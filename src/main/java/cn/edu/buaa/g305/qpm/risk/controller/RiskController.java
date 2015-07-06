@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cn.edu.buaa.g305.qpm.risk.domain.Risk;
 import cn.edu.buaa.g305.qpm.risk.domain.RiskList;
-import cn.edu.buaa.g305.qpm.risk.domain.RiskTrack;
 import cn.edu.buaa.g305.qpm.risk.server.RiskServer;
 
 

@@ -3,8 +3,6 @@ package cn.edu.buaa.g305.qpm.risk.controller;
 import cn.edu.buaa.g305.qpm.risk.domain.RiskApproval;
 import cn.edu.buaa.g305.qpm.risk.domain.RiskPlanMeasure;
 import cn.edu.buaa.g305.qpm.risk.domain.RiskTrack;
-import cn.edu.buaa.g305.qpm.risk.domain.RiskType;
-import cn.edu.buaa.g305.qpm.system.domain.Project;
 
 public class RiskVO {
 	

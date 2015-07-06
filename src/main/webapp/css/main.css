@@ -192,6 +192,7 @@ svg.mc{
     margin-left: 40px;
 }
 
+
 /* spc控制图的样式 */
 .dot {
     fill: #fff;
@@ -232,3 +233,23 @@ line._2 {
     stroke: orangered ;
     stroke-width: 3;
 }
+
+.panel-body .table label{
+    float: left;
+}
+
+.gridStyle {
+    border: 1px solid rgb(212,212,212);
+    width: 400px;
+    height: 300px
+}
+
+.plotInput th,.plotInput td{
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+}
+.plotInput {
+    margin: auto;
+}
+

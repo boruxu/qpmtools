@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.http.HttpStatus;
 
-import cn.edu.buaa.g305.qpm.system.domain.Project;
 import cn.edu.buaa.g305.qpm.system.domain.ResourceSupportTransientLinks;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

@@ -2,7 +2,7 @@
  * Created by BoruXU on 2015/2/19
  * 本文件为spc工具angular路由js文件
  */
-var app=angular.module('qpmtools.spc.app',['ngAnimate','ui.router','qpmtools.systemRest']);
+var app=angular.module('qpmtools.spc.app',['ngAnimate','ui.router','qpmtools.systemRest','ngGrid']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
 
@@ -21,7 +21,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
             controller:'SPCDetailController'
         })
         .state('spc.edit', {
-            url: '/edit/{id}',
+            url: '/edit/{type}/{id}',
             templateUrl: 'spc/edit.html',
             controller:'SPCDetailController'
         });
@@ -150,8 +150,14 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
         output:{}
 
     };
+    $scope.number="";
+    $scope.numberArray=[];
 
-    var getDetail=function()
+
+    //跟新页面的状态信息
+    $scope.spc.state=$state.current.name;
+
+    var start=function()
     {
         if(typeof($scope.spc.spcList)!='undefined'&&$scope.spc.spcList.length!=0)
         {
@@ -164,24 +170,50 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
 
                 }
             );
+
             spcD3.size(1000,500,50).C($scope.detail.output,"#svg1");
 
+            if($scope.spc.state=="spc.edit")
+            {
+                $scope.number=$scope.detail.input.x.length;
+                $scope.numberArray.length=$scope.number;
+            }
+
+            $scope.changeNumber=function(){
+                if($scope.number>=0)
+                {
+                    $scope.numberArray.length=$scope.number;
+                    if($scope.number<$scope.detail.input.time.length)
+                    {
+                        $scope.detail.input.time=$scope.detail.input.time.slice(0,$scope.number);
+                        $scope.detail.input.x=$scope.detail.input.x.slice(0,$scope.number);
+                    }
+                }
+                else{
+                    alert("数组数为正数");
+                }
+
+            };
+
+
         }
-        //单独刷新时，spcList无内容，直接访问数据
+        //单独刷新时，返回上一级
         else
         {
-            RestServerce.get("api/spc/"+$stateParams.type+"/"+$stateParams.id).then(
-                function(data){
-                    $scope.detail=data;
-                    spcD3.size(1000,500,50).C($scope.detail.output,"#svg1");
-                },function(error){
-                    console.log(error);
-                });
+            $state.go("spc");
         }
 
     };
 
-    getDetail();
+    start();
+
+
+
+
+
+
+
+
 
 
 

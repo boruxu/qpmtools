@@ -1,5 +1,5 @@
 <!--SPC管理主页面-->
-<div>
+<div ui-view>
     <div class="row">
         <div class="box col-lg-12">
             <div class="box-inner">
@@ -24,7 +24,7 @@
         </div>
 
     </div>
-    <div ui-view>
+    <div >
         <div class="row">
             <div class="box col-lg-12">
                 <div class="box-inner">
@@ -64,7 +64,7 @@
                                                 <span class="glyphicon glyphicon-eye-open"></span> 查看
                                             </button>
                                             <button type="button" class="btn btn-warning btn-xs"
-                                                    ui-sref="spc.edit({id:spc.id})">
+                                                    ui-sref="spc.edit({type:spcItem.type,id:spcItem.id})">
                                                 <span class="glyphicon glyphicon-edit "></span> 编辑
                                             </button>
                                             <button type="button" class="btn btn-danger btn-xs" ng-click="spcG.remove(spc.id)">

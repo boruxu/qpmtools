@@ -13,7 +13,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import cn.edu.buaa.g305.qpm.spc.dao.SpcXRRepository;
-import cn.edu.buaa.g305.qpm.spc.domain.*;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxr.XRIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxr.XR;
 import cn.edu.buaa.g305.qpm.system.server.SystemFind;

@@ -6,8 +6,6 @@ import cn.edu.buaa.g305.qpm.risk.domain.RiskList;
 import cn.edu.buaa.g305.qpm.risk.domain.RiskTrack;
 import cn.edu.buaa.g305.qpm.risk.domain.RiskType;
 import cn.edu.buaa.g305.qpm.risk.domain.RiskTypeList;
-import cn.edu.buaa.g305.qpm.system.domain.Organization;
-import cn.edu.buaa.g305.qpm.system.domain.ProjectList;
 
 public interface RiskServer {
 	

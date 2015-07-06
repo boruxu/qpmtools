@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import cn.edu.buaa.g305.qpm.spc.domain.*;
 import cn.edu.buaa.g305.qpm.spc.domain.spcc.CIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcc.COut;
 import cn.edu.buaa.g305.qpm.spc.domain.spcu.UIn;
@@ -18,7 +17,6 @@ import cn.edu.buaa.g305.qpm.spc.domain.spcxs.XSOut;
 import cn.edu.buaa.g305.qpm.spc.domain.spcz.ZIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcz.ZOut;
 import cn.edu.buaa.g305.qpm.spc.server.imp.SPCImp;
-import cn.edu.buaa.g305.qpm.system.DoublePrecisonArrayToStringArray;
 import static cn.edu.buaa.g305.qpm.system.DoublePrecisonArrayToStringArray.*;
 
 public class SPCTest {
