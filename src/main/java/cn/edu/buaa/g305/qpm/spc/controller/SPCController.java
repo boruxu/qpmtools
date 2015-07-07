@@ -36,61 +36,56 @@ public class SPCController {
 
 	public  Spc create(@PathVariable PlotType plotType,@RequestBody SpcVO spcVO)
 	{
-		Spc spc=new Spc();
-		spc.setName(spcVO.getName());
 		switch(plotType)
-		{	    
+		{
+		    
 			case XR:
 				{
-					XR spcXR=new XR();					
+					XR spcXR=new XR();
 					spcXR.setInput(spcVO.getInputXR());
-					spcXR=spcService.save(spcXR,spcVO.getProject());
-					spc=spcXR;
-			        break;       				
+					spcXR.setName(spcVO.getName());
+					return spcService.save(spcXR, spcVO.getProject());     				
 				}
 			case XS:
 			{
 				XS spcXS=new XS();
 				spcXS.setInput(spcVO.getInputXS());
-				spcXS=spcService.save(spcXS,spcVO.getProject());
-				spc=spcXS;
-		        break;       				
+				spcXS.setName(spcVO.getName());
+				return spcService.save(spcXS,spcVO.getProject());      				
 			}
 			case XmR:
 			{
 				XmR spcXMR=new XmR();
-				spcXMR.setInput(spcVO.getInputXMR());
-				spcXMR=spcService.save(spcXMR,spcVO.getProject());
-				spc=spcXMR;
-		        break;       				
+				spcXMR.setInput(spcVO.getInputXmR());
+				spcXMR.setName(spcVO.getName());
+				return spcService.save(spcXMR, spcVO.getProject());      				
 			}
 			case C:
 			{
 				C spcC=new C();
 				spcC.setInput(spcVO.getInputC());
-				spcC=spcService.save(spcC,spcVO.getProject());
-				spc=spcC;
-		        break;       				
+				spcC.setName(spcVO.getName());
+				return spcService.save(spcC, spcVO.getProject());     				
 			}
 			case U:
 			{
 				U spcU=new U();
 				spcU.setInput(spcVO.getInputU());
-				spcU=spcService.save(spcU,spcVO.getProject());
-				spc=spcU;
-		        break;       				
+				spcU.setName(spcVO.getName());
+				return spcService.save(spcU, spcVO.getProject());
+       				
 			}
 			case Z:
 			{
 				Z spcZ=new Z();
 				spcZ.setInput(spcVO.getInputZ());
-				spcZ=spcService.save(spcZ,spcVO.getProject());
-				spc=spcZ;
-		        break;       				
+				spcZ.setName(spcVO.getName());
+				return spcService.save(spcZ, spcVO.getProject());
+      				
 			}
+
 		}
-							
-		return spc;	
+		return null;	
 		 
 	}
 	
@@ -99,8 +94,6 @@ public class SPCController {
 	public  Spc updateXR(@PathVariable PlotType plotType,
 			@PathVariable String id,@RequestBody SpcVO spcVO)
 	{
-		Spc spc=new Spc();
-		spc.setName(spcVO.getName());
 		switch(plotType)
 		{
 		    
@@ -108,54 +101,50 @@ public class SPCController {
 				{
 					XR spcXR=new XR();
 					spcXR.setInput(spcVO.getInputXR());
-					spcXR=spcService.update(spcXR, id,spcVO.getProject());
-					spc=spcXR;
-			        break;       				
+					spcXR.setName(spcVO.getName());
+					return spcService.update(spcXR, id,spcVO.getProject());     				
 				}
 			case XS:
 			{
 				XS spcXS=new XS();
 				spcXS.setInput(spcVO.getInputXS());
-				spcXS=spcService.update(spcXS, id,spcVO.getProject());
-				spc=spcXS;
-		        break;       				
+				spcXS.setName(spcVO.getName());
+				return spcService.update(spcXS, id,spcVO.getProject());      				
 			}
 			case XmR:
 			{
 				XmR spcXMR=new XmR();
-				spcXMR.setInput(spcVO.getInputXMR());
-				spcXMR=spcService.update(spcXMR, id,spcVO.getProject());
-				spc=spcXMR;
-		        break;       				
+				spcXMR.setInput(spcVO.getInputXmR());
+				spcXMR.setName(spcVO.getName());
+				return spcService.update(spcXMR, id,spcVO.getProject());      				
 			}
 			case C:
 			{
 				C spcC=new C();
 				spcC.setInput(spcVO.getInputC());
-				spcC=spcService.update(spcC, id,spcVO.getProject());
-				spc=spcC;
-		        break;       				
+				spcC.setName(spcVO.getName());
+				return spcService.update(spcC, id,spcVO.getProject());     				
 			}
 			case U:
 			{
 				U spcU=new U();
 				spcU.setInput(spcVO.getInputU());
-				spcU=spcService.update(spcU, id,spcVO.getProject());
-				spc=spcU;
-		        break;       				
+				spcU.setName(spcVO.getName());
+				return spcService.update(spcU, id,spcVO.getProject());
+       				
 			}
 			case Z:
 			{
 				Z spcZ=new Z();
 				spcZ.setInput(spcVO.getInputZ());
-				spcZ=spcService.update(spcZ, id,spcVO.getProject());
-				spc=spcZ;
-		        break;       				
+				spcZ.setName(spcVO.getName());
+				return spcService.update(spcZ, id,spcVO.getProject());
+      				
 			}
 
 		}
-		
-		return spc;	
+		return null;
+
 	}
 	
 	@RequestMapping(value="/{plotType}/{id}",method=RequestMethod.DELETE)

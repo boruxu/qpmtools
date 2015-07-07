@@ -237,19 +237,23 @@ line._2 {
 .panel-body .table label{
     float: left;
 }
-
-.gridStyle {
-    border: 1px solid rgb(212,212,212);
-    width: 400px;
-    height: 300px
-}
-
 .plotInput th,.plotInput td{
     padding: 0px;
     margin: 0px;
     text-align: center;
 }
-.plotInput {
-    margin: auto;
+.plotInput td input,.plotInput td strong{
+    width: 50px;
+    display: inline-table;
 }
+.plotInput ,.plotDetail{
+    display: block;
+    margin: auto;
+    width: 1051px;
+    overflow-x: auto;
+}
+.plotDetail td{
+    width: 50px;
+}
+
 

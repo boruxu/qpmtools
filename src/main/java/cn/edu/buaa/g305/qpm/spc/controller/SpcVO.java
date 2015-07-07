@@ -27,7 +27,7 @@ public class SpcVO {
 	//X-S图
 	private XSIn inputXS;
 	//XMR图
-	private XmRIn inputXMR;
+	private XmRIn inputXmR;
 	//C图
 	private CIn inputC;
 	//U图
@@ -35,12 +35,12 @@ public class SpcVO {
 	//Z图
 	private ZIn inputZ;
 
-	public XmRIn getInputXMR() {
-		return inputXMR;
+	public XmRIn getInputXmR() {
+		return inputXmR;
 	}
 
-	public void setInputXMR(XmRIn inputXMR) {
-		this.inputXMR = inputXMR;
+	public void setInputXmR(XmRIn inputXmR) {
+		this.inputXmR = inputXmR;
 	}
 
 	public String getId() {

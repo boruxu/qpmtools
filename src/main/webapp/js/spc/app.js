@@ -117,14 +117,14 @@ app.controller('SPCHomeController',['$scope','RestServerce'
 
 
 
-     /*   $scope.spc.tips=function(message){
+        $scope.spc.tips=function(message){
             $scope.spc.message=message;
             setTimeout(function(){
                 $scope.spc.message="";
                 $scope.$apply($scope.spc.message);
             },2000);
         };
-
+         /*
         $scope.spc.remove=function(id){
             RestServerce.remove("api/mc/"+id).then(
                 function(data){
@@ -208,39 +208,38 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
     start();
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-   /* var rest=function(url,message){
-
-
-        RestServerce.post(url+$scope.detail.id,$scope.detail).then(
+    var rest=function(message){
+        var postJSON={
+            id:'',
+            name:'',
+            project:'',
+            inputC:''
+        };
+        postJSON.id=$scope.detail.id;
+        postJSON.name=$scope.detail.name;
+        postJSON.project=$scope.spc.selectProject.name;
+        if($stateParams.type=="C")
+        {
+            console.log("type selec");
+            postJSON.inputC=$scope.detail.input;
+        }
+        RestServerce.post("api/spc/"+$stateParams.type+"/"+$scope.detail.id,postJSON).then(
             function(data){
 
-                $scope.mcG.getMCListByProject();
-                $scope.mcG.tips(message);
+                $scope.spc.getSPCListByProject();
+                $scope.spc.tips(message);
                 $scope.detail=angular.copy(data);
-                mcD3.size(1000,500).compute($scope.detail.result,$scope.detail.mcParam.simulationNumber);
+                spcD3.size(1000,500,50).C($scope.detail.output,"#svg1");
             },function(error){
-                alert(error.error);
+                $scope.spc.tips(error.error);
             });
 
     };
 
     $scope.update=function(){
-
-        rest("api/mc/","更新成功!");
+        rest("更新成功!");
     };
-
+   /*
     //获取mc模拟数据
     $scope.get=function(){
 
