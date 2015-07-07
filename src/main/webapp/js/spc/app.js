@@ -2,7 +2,7 @@
  * Created by BoruXU on 2015/2/19
  * 本文件为spc工具angular路由js文件
  */
-var app=angular.module('qpmtools.spc.app',['ngAnimate','ui.router','qpmtools.systemRest','ngGrid']);
+var app=angular.module('qpmtools.spc.app',['ngAnimate','ui.router','qpmtools.systemRest']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
 
