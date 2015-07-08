@@ -48,7 +48,7 @@
                                         <th>控制分析图名</th>
                                         <th>控制图类型</th>
                                         <th>操作
-                                            <button class="btn btn-success btn-xs" ui-sref="spc.create">
+                                            <button class="btn btn-success btn-xs" ng-click="selectType()">
                                                 <span class="glyphicon glyphicon-plus "></span>新建
                                             </button>
 
@@ -90,5 +90,24 @@
             </div>
         </div>
     </div>
+
+    <div class="md-modal md-effect-1" id="spcTypeSelect">
+        <div class="md-content">
+            <h3>控制图类型</h3>
+            <div class="col-lg-12 box">
+
+                    <button ui-sref-active="active" ui-sref="risk.identify" class="btn btn-primary">XR</button>
+                <button ui-sref-active="active" ui-sref="risk.identify" class="btn btn-primary">XS</button>
+                <button ui-sref-active="active" ui-sref="risk.identify" class="btn btn-primary">XmR</button>
+                <button ui-sref-active="active" ui-sref="risk.identify" class="btn btn-primary">C</button>
+                <button ui-sref-active="active" ui-sref="risk.identify" class="btn btn-primary">U</button>
+                <button ui-sref-active="active" ui-sref="risk.identify" class="btn btn-primary">Z</button>
+
+
+                <button class="md-close" ng-click="closeSelectType()">关闭</button>
+            </div>
+        </div>
+    </div>
+    <div class="md-overlay"></div>
 
 </div>

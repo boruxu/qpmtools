@@ -137,6 +137,14 @@ app.controller('SPCHomeController',['$scope','RestServerce'
                 });
         };*/
 
+        $scope.selectType=function(){
+            $("#spcTypeSelect").addClass("md-show");
+        };
+        $scope.closeSelectType=function(){
+            $("#spcTypeSelect").removeClass("md-show");
+        };
+
+
     }]);
 
 
