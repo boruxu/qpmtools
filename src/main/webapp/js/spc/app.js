@@ -184,7 +184,11 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
 
                 }
             );
-            spcD3.size(1000,500,50).C($scope.detail.output,"#svg1");
+            //spcD3.size(1000,500,50).C($scope.detail.output,"#svg1");
+
+            controlPlot($scope.detail.name,$scope.detail.output.time,$scope.detail.input.timeName
+                ,$scope.detail.output.x,$scope.detail.input.xName,$scope.detail.output.cUCL,
+                $scope.detail.output.cCL,$scope.detail.output.cLCL,$scope.detail.type,"controlPlot");
 
 
         }
@@ -207,6 +211,7 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
         else
         {
             $state.go("spc");
+            return ;
         }
 
         $scope.number=$scope.detail.input.x.length;
@@ -268,7 +273,9 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
                     $scope.spc.getSPCListByProject();
                     $scope.spc.tips(message);
                     $scope.detail=angular.copy(data);
-                    spcD3.size(1000,500,50).C($scope.detail.output,"#svg1");
+                    controlPlot($scope.detail.name,$scope.detail.output.time,$scope.detail.input.timeName
+                        ,$scope.detail.output.x,$scope.detail.input.xName,$scope.detail.output.cUCL,
+                        $scope.detail.output.cCL,$scope.detail.output.cLCL,$scope.detail.type,"controlPlot");
                 }
             },function(error){
                 $scope.spc.tips(error);
@@ -283,56 +290,185 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
     $scope.create=function(){
         rest("新建成功!","create");
     };
-   /*
-    //获取mc模拟数据
-    $scope.get=function(){
+    function controlPlot(name,x,xname,y,yname,ucl,cl,lcl,type,divid){
+        var myChart = echarts.init(document.getElementById(divid));
 
-        RestServerce.get("api/mc/"+$scope.detail.id).then(
-            function(data){
-                $scope.detail=angular.copy(data);
-                mcD3.size(1000,500).compute($scope.detail.result,$scope.detail.mcParam.simulationNumber);
-            },function(error){
-                alert(error.error);
-            });
-    };
+        var xlength = x.length;
 
+        var uclA=[];
+        var clA=[];
+        var lclA=[];
 
-
-    $scope.addN=function(){
-        var mcN={
-            name:"",
-            value:""
-        };
-        if(typeof($scope.detail.mcParam.mcNormalParamList)=='undefined')
+      /*  for(var i=0;i<xlength;i++)
         {
-            $scope.detail.mcParam.mcNormalParamList=[];
-        }
-        $scope.detail.mcParam.mcNormalParamList.push(mcN);
+            uclA.push(ucl);
+            clA.push(cl);
+            lclA.push(lcl);
+        }*/
 
-    };
-    $scope.removeN=function(index){
+        var option={
+            title : {
+                text: name,
+                subtext:  type+"控制图"
+            },
+            toolbox: {
+                show : true,
+                feature : {
+                    dataView : {show: true},
+                    saveAsImage : {show: true}
+                }
+            },
+            legend: {
+                orient: 'horizontal', // 'vertical'
+                x: 'center', // 'center' | 'left' | {number},
+                y: 'top', // 'center' | 'bottom' | {number}
+                backgroundColor: '#eee',
+                borderWidth: 2,
+                padding: 10,    // [5, 10, 15, 20]
+                itemGap: 20,
+                data: [
+                    yname,
+                    'UCL','CL', 'LCL'
+                ]
+            },
+            tooltip : {
+                trigger: 'item '
+            },
+            xAxis : [
+                {
+                    type : 'category',
+                    data :  x
+                }
+            ],
+            yAxis : [
+                {
+                    type : 'value'
+                }
+            ],
+            symbolList:
+                [
+                'circle', '', '', ''
+                ]
+             ,
+            series : [
+                {
+                    name: yname,
+                    type:'line',
+                    data:y
+                }
+               ,
+                {
+                    name: "UCL",
+                    type: 'line',
+                    data:uclA,
+                    markLine: {
 
-        $scope.detail.mcParam.mcNormalParamList.splice(index,1);
+                        data: [
+                            [
+                                { value: ucl, xAxis: -1, yAxis: ucl},
+                                { xAxis: xlength , yAxis: ucl}
+                            ]
 
-    };
-    $scope.addA=function(){
-        var mcA={
-            name:"",
-            type:"",
-            distributionParam:[0,0,0]
+                        ]
+
+                    }
+                }
+                ,
+                {
+                    name: "CL",
+                    type: 'line',
+                    data:clA,
+                    markLine: {
+                        itemStyle: {
+                            normal: {
+                                lineStyle: {
+                                    type: "solid"
+                                }
+                            }
+                        },
+                        data: [
+                            [
+                                { value: cl, xAxis: -1, yAxis: cl},
+                                { xAxis: xlength , yAxis: cl}
+                            ]
+                        ]
+
+                    }
+                },
+
+                {
+                    name: "LCL",
+                    type: 'line',
+                    data:lclA,
+                    markLine: {
+                        data: [
+                            [
+                                { value: lcl, xAxis: -1, yAxis: lcl},
+                                { xAxis: xlength, yAxis: lcl}
+                            ]
+                        ]
+
+                    }
+                }
+
+            ]
         };
-        if(typeof($scope.detail.mcParam.mcNormalParamList)=='undefined')
-        {
-            $scope.detail.mcParam.mcNormalParamList=[];
-        }
-        $scope.detail.mcParam.mcAssumptionParamList.push(mcA);
 
-    };
-    $scope.removeA=function(index){
+        // 为echarts对象加载数据
+        myChart.setOption(option);
 
-        $scope.detail.mcParam.mcAssumptionParamList.splice(index,1);
+    }
 
-    };*/
+    /*
+     //获取mc模拟数据
+     $scope.get=function(){
+
+         RestServerce.get("api/mc/"+$scope.detail.id).then(
+             function(data){
+                 $scope.detail=angular.copy(data);
+                 mcD3.size(1000,500).compute($scope.detail.result,$scope.detail.mcParam.simulationNumber);
+             },function(error){
+                 alert(error.error);
+             });
+     };
+
+
+
+     $scope.addN=function(){
+         var mcN={
+             name:"",
+             value:""
+         };
+         if(typeof($scope.detail.mcParam.mcNormalParamList)=='undefined')
+         {
+             $scope.detail.mcParam.mcNormalParamList=[];
+         }
+         $scope.detail.mcParam.mcNormalParamList.push(mcN);
+
+     };
+     $scope.removeN=function(index){
+
+         $scope.detail.mcParam.mcNormalParamList.splice(index,1);
+
+     };
+     $scope.addA=function(){
+         var mcA={
+             name:"",
+             type:"",
+             distributionParam:[0,0,0]
+         };
+         if(typeof($scope.detail.mcParam.mcNormalParamList)=='undefined')
+         {
+             $scope.detail.mcParam.mcNormalParamList=[];
+         }
+         $scope.detail.mcParam.mcAssumptionParamList.push(mcA);
+
+     };
+     $scope.removeA=function(index){
+
+         $scope.detail.mcParam.mcAssumptionParamList.splice(index,1);
+
+     };*/
 
 }]);
 
