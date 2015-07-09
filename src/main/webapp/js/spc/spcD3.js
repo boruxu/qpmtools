@@ -45,6 +45,9 @@
 
         var timeArray=stringArrayToNumberArray(spcOutData.time);
         var xArray=stringArrayToNumberArray(spcOutData.x);
+        spcOutData.cLCL=spcOutData.cLCL-0;
+        spcOutData.CL=spcOutData.CL-0;
+        spcOutData.cUCL=spcOutData.cUCL-0;
 
 		timemin=d3.min(timeArray)-1;
 		timemax=d3.max(timeArray)+1;
@@ -196,7 +199,6 @@
     //画出spc中C图
     spcD3.C=function(spcOutData,svgX){
 
-
         svg_1 = d3.select(svgX)
             .attr("class", "axis")
             .attr("width", spcD3.width)
@@ -295,11 +297,7 @@ var scaley_1= d3.scale.linear()
                     .domain([svg_1_xmax, svg_1_xmin])
                     .range([0, yAxisLength]);
 
-			
-			
-				
-		var c_lineDataset_1=[["UCL",spcOutData.cUCL],["CL",spcOutData.cCL],["LCL",spcOutData.cLCL]];
-	
+    var c_lineDataset_1=[["UCL",spcOutData.cUCL],["CL",spcOutData.cCL],["LCL",spcOutData.cLCL]];
 
 	   //画控制限
 		var lineEnter_1=svg_1.selectAll("g.control")
@@ -324,7 +322,8 @@ var scaley_1= d3.scale.linear()
 			 .attr("x1",0)
 			 .attr("y1",function(d){  return scaley_1(d[1]);})
 			 .attr("x2",xAxisLength)
-			 .attr("y2",function(d){return scaley_1(d[1]);});
+			 .attr("y2",function(d){
+                return scaley_1(d[1]);});
 			 
 		  svg_1.selectAll("text.control_line")
                 .data(c_lineDataset_1)

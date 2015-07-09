@@ -24,6 +24,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/edit/{type}/{id}',
             templateUrl: 'spc/edit.html',
             controller:'SPCDetailController'
+        })
+        .state('spc.create', {
+            url: '/create/{type}',
+            templateUrl: 'spc/edit.html',
+            controller:'SPCDetailController'
         });
 
 
@@ -124,18 +129,18 @@ app.controller('SPCHomeController',['$scope','RestServerce'
                 $scope.$apply($scope.spc.message);
             },2000);
         };
-         /*
-        $scope.spc.remove=function(id){
-            RestServerce.remove("api/mc/"+id).then(
+
+        $scope.remove=function(type,id){
+            RestServerce.remove("api/spc/"+type+"/"+id).then(
                 function(data){
 
-                    $scope.spc.getspcListByProject();
+                    $scope.spc.getSPCListByProject();
                     $scope.spc.tips("删除成功！");
 
                 },function(error){
-                    alert(error);
+                    $scope.spc.tips(error);
                 });
-        };*/
+        };
 
         $scope.selectType=function(){
             $("#spcTypeSelect").addClass("md-show");
@@ -167,7 +172,8 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
 
     var start=function()
     {
-        if(typeof($scope.spc.spcList)!='undefined'&&$scope.spc.spcList.length!=0)
+        if(typeof($scope.spc.spcList)!='undefined'&&$scope.spc.spcList.length!=0
+            &&($scope.spc.state=="spc.edit"||$scope.spc.state=="spc.detail"))
         {
             $scope.spc.spcList.forEach(
                 function(d){
@@ -178,45 +184,55 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
 
                 }
             );
-
             spcD3.size(1000,500,50).C($scope.detail.output,"#svg1");
-
-            if($scope.spc.state=="spc.edit")
-            {
-                $scope.number=$scope.detail.input.x.length;
-                $scope.numberArray.length=$scope.number;
-            }
-
-            $scope.changeNumber=function(){
-                if($scope.number>=0)
-                {
-                    $scope.numberArray.length=$scope.number;
-                    if($scope.number<$scope.detail.input.time.length)
-                    {
-                        $scope.detail.input.time=$scope.detail.input.time.slice(0,$scope.number);
-                        $scope.detail.input.x=$scope.detail.input.x.slice(0,$scope.number);
-                    }
-                }
-                else{
-                    alert("数组数为正数");
-                }
-
-            };
 
 
         }
         //单独刷新时，返回上一级
+        else if($scope.spc.state=="spc.create")
+        {
+            //初始化c图数据格式
+            $scope.detail={
+                name:'',
+                input:{
+                    x:[],
+                    xName:'',
+                    time:[],
+                    timeName:[]
+                }
+            }
+
+
+        }
         else
         {
             $state.go("spc");
         }
 
+        $scope.number=$scope.detail.input.x.length;
+        $scope.numberArray.length=$scope.number;
+
     };
 
     start();
 
+    $scope.changeNumber=function(){
+        if($scope.number>=0)
+        {
+            $scope.numberArray.length=$scope.number;
+            if($scope.number<$scope.detail.input.time.length)
+            {
+                $scope.detail.input.time=$scope.detail.input.time.slice(0,$scope.number);
+                $scope.detail.input.x=$scope.detail.input.x.slice(0,$scope.number);
+            }
+        }
+        else{
+            alert("数组数为正数");
+        }
 
-    var rest=function(message){
+    };
+
+    var rest=function(message,postOrCreate){
         var postJSON={
             id:'',
             name:'',
@@ -226,26 +242,46 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
         postJSON.id=$scope.detail.id;
         postJSON.name=$scope.detail.name;
         postJSON.project=$scope.spc.selectProject.name;
+        if(postJSON.name==''||typeof (postJSON.project)=='undefined')
+        {
+            $scope.spc.tips("提交失败，请填写完整信息！");
+            return ;
+        }
         if($stateParams.type=="C")
         {
             console.log("type selec");
             postJSON.inputC=$scope.detail.input;
         }
-        RestServerce.post("api/spc/"+$stateParams.type+"/"+$scope.detail.id,postJSON).then(
-            function(data){
+        var url="";
+        if(postOrCreate=="edit")
+        {
+            url="/"+$scope.detail.id;
+        }
 
-                $scope.spc.getSPCListByProject();
-                $scope.spc.tips(message);
-                $scope.detail=angular.copy(data);
-                spcD3.size(1000,500,50).C($scope.detail.output,"#svg1");
+        RestServerce.post("api/spc/"+$stateParams.type+url,postJSON).then(
+            function(data){
+                if(typeof(data.error)!='undefined')
+                {
+                    $scope.spc.tips(data.error);
+                }
+                else{
+                    $scope.spc.getSPCListByProject();
+                    $scope.spc.tips(message);
+                    $scope.detail=angular.copy(data);
+                    spcD3.size(1000,500,50).C($scope.detail.output,"#svg1");
+                }
             },function(error){
-                $scope.spc.tips(error.error);
+                $scope.spc.tips(error);
             });
 
     };
 
     $scope.update=function(){
-        rest("更新成功!");
+        rest("更新成功!","edit");
+    };
+
+    $scope.create=function(){
+        rest("新建成功!","create");
     };
    /*
     //获取mc模拟数据
@@ -260,19 +296,7 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
             });
     };
 
-    $scope.create=function(){
 
-        RestServerce.post("api/mc",$scope.detail).then(
-            function(data){
-
-                $scope.mcG.getMCListByProject();
-                $scope.mcG.tips("创建成功!");
-
-            },function(error){
-                alert(error.error);
-            });
-
-    };
 
     $scope.addN=function(){
         var mcN={
