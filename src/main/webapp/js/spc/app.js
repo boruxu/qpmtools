@@ -186,9 +186,7 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
             );
             //spcD3.size(1000,500,50).C($scope.detail.output,"#svg1");
 
-            controlPlot($scope.detail.name,$scope.detail.output.time,$scope.detail.input.timeName
-                ,$scope.detail.output.x,$scope.detail.input.xName,$scope.detail.output.cUCL,
-                $scope.detail.output.cCL,$scope.detail.output.cLCL,$scope.detail.type,"controlPlot");
+            controlPlotByType();
 
 
         }
@@ -205,7 +203,6 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
                     timeName:[]
                 }
             }
-
 
         }
         else
@@ -241,8 +238,7 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
         var postJSON={
             id:'',
             name:'',
-            project:'',
-            inputC:''
+            project:''
         };
         postJSON.id=$scope.detail.id;
         postJSON.name=$scope.detail.name;
@@ -252,11 +248,13 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
             $scope.spc.tips("提交失败，请填写完整信息！");
             return ;
         }
-        if($stateParams.type=="C")
+       /* if($stateParams.type=="C")
         {
-            console.log("type selec");
             postJSON.inputC=$scope.detail.input;
-        }
+        }*/
+
+        postJSON["input"+$stateParams.type]=$scope.detail.input;
+
         var url="";
         if(postOrCreate=="edit")
         {
@@ -273,9 +271,8 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
                     $scope.spc.getSPCListByProject();
                     $scope.spc.tips(message);
                     $scope.detail=angular.copy(data);
-                    controlPlot($scope.detail.name,$scope.detail.output.time,$scope.detail.input.timeName
-                        ,$scope.detail.output.x,$scope.detail.input.xName,$scope.detail.output.cUCL,
-                        $scope.detail.output.cCL,$scope.detail.output.cLCL,$scope.detail.type,"controlPlot");
+                    controlPlotByType();
+
                 }
             },function(error){
                 $scope.spc.tips(error);
@@ -290,6 +287,23 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
     $scope.create=function(){
         rest("新建成功!","create");
     };
+    function controlPlotByType(){
+        if($stateParams.type=="C")
+        {
+            controlPlot($scope.detail.name,$scope.detail.output.time,$scope.detail.input.timeName
+                ,$scope.detail.output.x,$scope.detail.input.xName,$scope.detail.output.cUCL,
+                $scope.detail.output.cCL,$scope.detail.output.cLCL,$scope.detail.type,"controlPlot");
+        }
+        else if($stateParams.type=="XmR")
+        {
+            controlPlot($scope.detail.name,$scope.detail.output.time,$scope.detail.input.timeName
+                ,$scope.detail.output.x,$scope.detail.input.xName,$scope.detail.output.xUCL,
+                $scope.detail.output.xCL,$scope.detail.output.xLCL,$scope.detail.type+"单值","controlPlot");
+            controlPlot($scope.detail.name,$scope.detail.output.time,$scope.detail.input.timeName
+                ,$scope.detail.output.mr,$scope.detail.input.mrName,$scope.detail.output.mrUCL,
+                $scope.detail.output.mrCL,$scope.detail.output.mrLCL,$scope.detail.type+"移动极差","controlPlot2");
+        }
+    }
     function controlPlot(name,x,xname,y,yname,ucl,cl,lcl,type,divid){
         var myChart = echarts.init(document.getElementById(divid));
 
@@ -314,7 +328,34 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
             toolbox: {
                 show : true,
                 feature : {
-                    dataView : {show: true},
+                    dataView : {show: true,
+                        lang: ['<strong>'+name+'——数据视图</strong>', '关闭'],
+                        readOnly:true,
+                        optionToContent: function(opt) {
+                            var axisData = opt.xAxis[0].data;
+                            var name= opt.xAxis[0].name;
+                            var series = opt.series;
+                            var table='<p><strong>UCL:</strong>' +ucl+'<br/>'+
+                                '<strong>CL:</strong>' +cl +'<br/>'+
+                                '<strong>LCL:</strong>' +lcl +
+                                '</p>';
+                            table += '<table style="width:100%;text-align:center"><tbody><tr>'
+                                + '<td><strong>'+name+'</strong></td>'
+                                + '<td><strong>' + series[0].name + '</strong></td>'
+                                + '</tr>';
+                            for (var i = 0, l = axisData.length; i < l; i++) {
+                                table += '<tr>'
+                                    + '<td>' + axisData[i] + '</td>'
+                                    + '<td>' + series[0].data[i] + '</td>'
+                                    + '</tr>';
+                            }
+                            table += '</tbody></table>';
+
+                            return table;
+                        }
+
+
+                    },
                     saveAsImage : {show: true}
                 }
             },
@@ -336,13 +377,16 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
             },
             xAxis : [
                 {
+                    name:xname,
                     type : 'category',
                     data :  x
                 }
             ],
             yAxis : [
                 {
-                    type : 'value'
+                    name:yname,
+                    type : 'value',
+                    scale: true
                 }
             ],
             symbolList:

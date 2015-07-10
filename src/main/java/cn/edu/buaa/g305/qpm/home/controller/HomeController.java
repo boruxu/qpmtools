@@ -40,6 +40,11 @@ public class HomeController {
 	{
 		return "mc/"+name;
 	}
+	@RequestMapping("/asset/{name}")
+	public String assetPage(@PathVariable String name)
+	{
+		return "asset/"+name;
+	}
 	
 	//主页
 	@RequestMapping("/test/angular-spc")
