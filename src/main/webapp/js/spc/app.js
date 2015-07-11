@@ -303,6 +303,13 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
                 ,$scope.detail.output.mr,$scope.detail.input.mrName,$scope.detail.output.mrUCL,
                 $scope.detail.output.mrCL,$scope.detail.output.mrLCL,$scope.detail.type+"移动极差","controlPlot2");
         }
+        else if($stateParams.type=="Z")
+        {
+           /* controlPlot($scope.detail.name,$scope.detail.output.time,$scope.detail.input.timeName
+                ,$scope.detail.output.x,$scope.detail.input.xName+"的离度（以西格玛单位）",$scope.detail.output.xUCL,
+                $scope.detail.output.xCL,$scope.detail.output.xLCL,$scope.detail.type+"单值","controlPlot");
+*/
+        }
     }
     function controlPlot(name,x,xname,y,yname,ucl,cl,lcl,type,divid){
         var myChart = echarts.init(document.getElementById(divid));

@@ -246,15 +246,25 @@ line._2 {
     width: 50px;
     display: inline-table;
 }
-.plotInput ,.plotDetail{
+.plotInput {
     display: block;
     margin: auto;
     width: 1051px;
     overflow-x: auto;
 }
-.plotDetail td{
-    width: 50px;
+.plotDetail{
+    width:100%;
+    text-align:center;
+    margin: auto;
+
 }
+.overflowframe{
+    display:block;
+    height: 400px;
+    overflow-y: auto;
+}
+
+
 
 /*弹窗*/
 .md-modal {

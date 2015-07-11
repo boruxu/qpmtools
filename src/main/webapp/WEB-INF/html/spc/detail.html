@@ -38,25 +38,34 @@
                                     </td>
                                 </tr>
                             </table>
+                            <div class="overflowframe">
                             <table class="plotDetail" >
                                 <tr  >
                                     <td>
-                                        {{detail.input.timeName}}:
+                                        <strong>{{detail.input.timeName}}</strong>
+                                    </td>
                                     <td>
-                                    <td ng-repeat="inputTime in detail.input.time track by $index">
+                                        <strong>{{detail.input.xName}}</strong>
+                                    </td>
+                                    <td ng-if="detail.type=='Z'||detail.type=='U'">
+                                        <strong>{{detail.input.aName}}</strong>
+                                    </td>
+
+                                </tr>
+                                <tr ng-repeat="inputTime in detail.input.time track by $index">
+                                    <td >
                                         {{inputTime}}
                                     </td>
-                                </tr>
-                                <tr  >
-                                    <td>
-                                        {{detail.input.xName}}:
-                                    <td>
-                                    <td ng-repeat="inputX in detail.input.x track by $index">
-                                        {{inputX}}
+                                    <td >
+                                        {{detail.input.x[$index]}}
+                                    </td>
+                                    <td ng-if="detail.type=='Z'||detail.type=='U'">
+                                        {{detail.input.a[$index]}}
                                     </td>
                                 </tr>
 
                             </table>
+                            </div>
 
 
 

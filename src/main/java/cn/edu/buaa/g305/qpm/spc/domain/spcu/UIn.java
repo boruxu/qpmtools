@@ -8,7 +8,28 @@ public class UIn {
 	private String[] time;
 	//机会域
 	private String[] a;
+	private String xName;
+	private String timeName;
+	private String aName;
 	
+	public String getxName() {
+		return xName;
+	}
+	public void setxName(String xName) {
+		this.xName = xName;
+	}
+	public String getTimeName() {
+		return timeName;
+	}
+	public void setTimeName(String timeName) {
+		this.timeName = timeName;
+	}
+	public String getaName() {
+		return aName;
+	}
+	public void setaName(String aName) {
+		this.aName = aName;
+	}
 	public String[] getX() {
 		return x;
 	}

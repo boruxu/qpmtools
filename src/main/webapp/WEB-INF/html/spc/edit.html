@@ -63,6 +63,9 @@
                                     <th>
                                         <strong>纵轴名:&nbsp</strong>
                                     </th>
+                                    <th ng-if="detail.type=='Z'||detail.type=='U'">
+                                        <strong>机会域名:&nbsp</strong>
+                                    </th>
                                     <th>
                                         <strong>输入的数据组数:&nbsp</strong>
                                     </th>
@@ -73,6 +76,9 @@
                                     </td>
                                     <td>
                                         <input type="text" ng-model="detail.input.xName" class="col-lg-12" />
+                                    </td>
+                                    <td ng-if="detail.type=='Z'||detail.type=='U'">
+                                        <input type="text" ng-model="detail.input.aName" class="col-lg-12" />
                                     </td>
                                     <td>
                                        <input type="number" ng-model="number" class="col-lg-10"/>
@@ -97,15 +103,15 @@
                                         <input type="text" ng-model="detail.input.x[$index]" />
                                     </td>
                                </tr>
-                              <!--  <tr  ng-repeat="inputTime in numberArray track by $index">
+                              <tr  ng-repeat="inputTime in numberArray track by $index">
+                                   <td>
+                                        <strong>机会域：</strong>
+                                    </td>
                                     <td >
-                                        <input type="text" ng-model="detail.input.time[$index]" />
+                                        <input type="text" ng-model="detail.input.a[$index]" />
                                     </td>
 
-                                    <td>
-                                        <input type="text" ng-model="detail.input.x[$index]"/>
-                                    </td>
-                                </tr>-->
+                                </tr>
 
 
                             </table>
