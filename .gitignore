@@ -9,3 +9,4 @@ release.properties
 /.project
 /src/main/webapp/.idea/
 /.externalToolBuilders
+/src/main/webapp/projectFilesBackup

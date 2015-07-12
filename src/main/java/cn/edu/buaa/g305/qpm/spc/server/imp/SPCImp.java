@@ -27,7 +27,6 @@ import cn.edu.buaa.g305.qpm.spc.domain.spcxs.XS;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxs.XSIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxs.XSOut;
 import cn.edu.buaa.g305.qpm.spc.domain.spcz.Z;
-import cn.edu.buaa.g305.qpm.spc.domain.spcz.ZIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcz.ZOut;
 import cn.edu.buaa.g305.qpm.spc.server.SPCService;
 import cn.edu.buaa.g305.qpm.system.dao.ProjectRepository;
@@ -344,7 +343,7 @@ public class SPCImp implements SPCService{
 		return spcuOut;
 	}
 	@Override
-	public ZOut computeZ(ZIn spczIn) {
+	public ZOut computeZ(UIn spczIn) {
 		int precision=1;
 		double xAverage=0;
 		int length=spczIn.getX().length;

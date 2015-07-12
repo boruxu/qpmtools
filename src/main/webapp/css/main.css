@@ -246,6 +246,10 @@ line._2 {
     width: 50px;
     display: inline-table;
 }
+.plotInput td.title strong{
+    width: 100px;
+    display: inline-table;
+}
 .plotInput {
     display: block;
     margin: auto;

@@ -166,11 +166,16 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
     $scope.number="";
     $scope.numberArray=[];
 
+    //整个页面的类型
+    $scope.type=$stateParams.type;
+
 
     //跟新页面的状态信息
     $scope.spc.state=$state.current.name;
 
-    var start=function()
+    start();
+
+    function start()
     {
         if(typeof($scope.spc.spcList)!='undefined'&&$scope.spc.spcList.length!=0
             &&($scope.spc.state=="spc.edit"||$scope.spc.state=="spc.detail"))
@@ -184,26 +189,37 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
 
                 }
             );
-            //spcD3.size(1000,500,50).C($scope.detail.output,"#svg1");
-
             controlPlotByType();
-
-
         }
         //单独刷新时，返回上一级
         else if($scope.spc.state=="spc.create")
         {
             //初始化c图数据格式
-            $scope.detail={
-                name:'',
-                input:{
-                    x:[],
-                    xName:'',
-                    time:[],
-                    timeName:[]
+            if($scope.type=="Z"||$scope.type=="U")
+            {
+                $scope.detail={
+                    name:'',
+                    input:{
+                        x:[],
+                        xName:'',
+                        time:[],
+                        timeName:[],
+                        aName:'',
+                        a:[]
+                    }
                 }
             }
-
+            else{
+                $scope.detail={
+                    name:'',
+                    input:{
+                        x:[],
+                        xName:'',
+                        time:[],
+                        timeName:[]
+                    }
+                }
+            }
         }
         else
         {
@@ -214,9 +230,8 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
         $scope.number=$scope.detail.input.x.length;
         $scope.numberArray.length=$scope.number;
 
-    };
+    }
 
-    start();
 
     $scope.changeNumber=function(){
         if($scope.number>=0)
@@ -253,7 +268,7 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
             postJSON.inputC=$scope.detail.input;
         }*/
 
-        postJSON["input"+$stateParams.type]=$scope.detail.input;
+        postJSON["input"+ $scope.type]=$scope.detail.input;
 
         var url="";
         if(postOrCreate=="edit")
@@ -261,7 +276,7 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
             url="/"+$scope.detail.id;
         }
 
-        RestServerce.post("api/spc/"+$stateParams.type+url,postJSON).then(
+        RestServerce.post("api/spc/"+ $scope.type+url,postJSON).then(
             function(data){
                 if(typeof(data.error)!='undefined')
                 {
@@ -288,30 +303,30 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
         rest("新建成功!","create");
     };
     function controlPlotByType(){
-        if($stateParams.type=="C")
+        if( $scope.type=="C")
         {
             controlPlot($scope.detail.name,$scope.detail.output.time,$scope.detail.input.timeName
                 ,$scope.detail.output.x,$scope.detail.input.xName,$scope.detail.output.cUCL,
-                $scope.detail.output.cCL,$scope.detail.output.cLCL,$scope.detail.type,"controlPlot");
+                $scope.detail.output.cCL,$scope.detail.output.cLCL,$scope.detail.type,'',"controlPlot");
         }
-        else if($stateParams.type=="XmR")
+        else if( $scope.type=="XmR")
         {
             controlPlot($scope.detail.name,$scope.detail.output.time,$scope.detail.input.timeName
                 ,$scope.detail.output.x,$scope.detail.input.xName,$scope.detail.output.xUCL,
-                $scope.detail.output.xCL,$scope.detail.output.xLCL,$scope.detail.type+"单值","controlPlot");
+                $scope.detail.output.xCL,$scope.detail.output.xLCL,$scope.detail.type,"单值","controlPlot");
             controlPlot($scope.detail.name,$scope.detail.output.time,$scope.detail.input.timeName
                 ,$scope.detail.output.mr,$scope.detail.input.mrName,$scope.detail.output.mrUCL,
-                $scope.detail.output.mrCL,$scope.detail.output.mrLCL,$scope.detail.type+"移动极差","controlPlot2");
+                $scope.detail.output.mrCL,$scope.detail.output.mrLCL,$scope.detail.type,"移动极差","controlPlot2");
         }
-        else if($stateParams.type=="Z")
+        else if( $scope.type=="Z")
         {
-           /* controlPlot($scope.detail.name,$scope.detail.output.time,$scope.detail.input.timeName
-                ,$scope.detail.output.x,$scope.detail.input.xName+"的离度（以西格玛单位）",$scope.detail.output.xUCL,
-                $scope.detail.output.xCL,$scope.detail.output.xLCL,$scope.detail.type+"单值","controlPlot");
-*/
+            controlPlot($scope.detail.name,$scope.detail.output.time,$scope.detail.input.timeName
+                ,$scope.detail.output.x,$scope.detail.input.xName+"的离度（以西格玛单位）","",
+                "","",$scope.detail.type,"","controlPlot");
+
         }
     }
-    function controlPlot(name,x,xname,y,yname,ucl,cl,lcl,type,divid){
+    function controlPlot(name,x,xname,y,yname,ucl,cl,lcl,type,typeSub,divid){
         var myChart = echarts.init(document.getElementById(divid));
 
         var xlength = x.length;
@@ -330,7 +345,7 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
         var option={
             title : {
                 text: name,
-                subtext:  type+"控制图"
+                subtext:  type+typeSub+"控制图"
             },
             toolbox: {
                 show : true,
@@ -465,61 +480,90 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
             ]
         };
 
+        var optionZ=angular.copy(option);
+        optionZ.toolbox.feature.dataView= {
+            show: true,
+            lang: ['<strong>' + name + '——数据视图</strong>', '关闭'],
+            readOnly: true,
+            optionToContent: function (opt) {
+                var axisData = opt.xAxis[0].data;
+                var name = opt.xAxis[0].name;
+                var series = opt.series;
+                var table = '<table style="width:100%;text-align:center"><tbody><tr>'
+                    + '<td><strong>' + name + '</strong></td>'
+                    + '<td><strong>' + series[0].name + '</strong></td>'
+                    + '</tr>';
+                for (var i = 0, l = axisData.length; i < l; i++) {
+                    table += '<tr>'
+                        + '<td>' + axisData[i] + '</td>'
+                        + '<td>' + series[0].data[i] + '</td>'
+                        + '</tr>';
+                }
+                table += '</tbody></table>';
+
+                return table;
+            }
+        };
+        /*optionZ.yAxis.scale=false;*/
+        optionZ.legend.data=[
+                yname,
+                '西格玛单位控制线'
+            ];
+
+        optionZ.series=[
+            {
+                name: yname,
+                type:'line',
+                data:y
+            }
+            ,
+            {
+                name: "西格玛单位控制线",
+                type: 'line',
+                data:[],
+                markLine: {
+
+                    data:(function(){
+                        //动态生成相应的控制线
+                        var tempArray=[];
+                        y.forEach(function(e){
+                            //利用js的弱类型转化
+                            tempArray.push(e-0);
+                        });
+                        Array.prototype.max = function(){
+                            return Math.max.apply({},this)
+                        };
+                        Array.prototype.min = function(){
+                            return Math.min.apply({},this)
+                        };
+                        var data=[];
+                        for(var i=Math.floor(tempArray.min());i<=Math.ceil(tempArray.max());i++)
+                        {
+                            var dataItem=[
+                                { value: '', xAxis: -1, yAxis: ''},
+                                { xAxis: xlength , yAxis: ''}
+                            ];
+
+                            dataItem[0].value=i;
+                            dataItem[0].yAxis=i;
+                            dataItem[1].yAxis=i;
+                            data.push(dataItem);
+                        }
+                        return data;
+
+                    })()
+                }
+            }
+        ];
         // 为echarts对象加载数据
-        myChart.setOption(option);
 
+        if(type=="Z")
+        {
+            myChart.setOption(optionZ);
+        }
+        else{
+            myChart.setOption(option);
+        }
     }
-
-    /*
-     //获取mc模拟数据
-     $scope.get=function(){
-
-         RestServerce.get("api/mc/"+$scope.detail.id).then(
-             function(data){
-                 $scope.detail=angular.copy(data);
-                 mcD3.size(1000,500).compute($scope.detail.result,$scope.detail.mcParam.simulationNumber);
-             },function(error){
-                 alert(error.error);
-             });
-     };
-
-
-
-     $scope.addN=function(){
-         var mcN={
-             name:"",
-             value:""
-         };
-         if(typeof($scope.detail.mcParam.mcNormalParamList)=='undefined')
-         {
-             $scope.detail.mcParam.mcNormalParamList=[];
-         }
-         $scope.detail.mcParam.mcNormalParamList.push(mcN);
-
-     };
-     $scope.removeN=function(index){
-
-         $scope.detail.mcParam.mcNormalParamList.splice(index,1);
-
-     };
-     $scope.addA=function(){
-         var mcA={
-             name:"",
-             type:"",
-             distributionParam:[0,0,0]
-         };
-         if(typeof($scope.detail.mcParam.mcNormalParamList)=='undefined')
-         {
-             $scope.detail.mcParam.mcNormalParamList=[];
-         }
-         $scope.detail.mcParam.mcAssumptionParamList.push(mcA);
-
-     };
-     $scope.removeA=function(index){
-
-         $scope.detail.mcParam.mcAssumptionParamList.splice(index,1);
-
-     };*/
-
 }]);
 

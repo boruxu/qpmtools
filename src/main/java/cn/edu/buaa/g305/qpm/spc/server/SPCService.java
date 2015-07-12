@@ -17,7 +17,6 @@ import cn.edu.buaa.g305.qpm.spc.domain.spcxs.XS;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxs.XSIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxs.XSOut;
 import cn.edu.buaa.g305.qpm.spc.domain.spcz.Z;
-import cn.edu.buaa.g305.qpm.spc.domain.spcz.ZIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcz.ZOut;
 
 public interface SPCService {
@@ -27,7 +26,7 @@ public interface SPCService {
 	XmROut computeXMR(XmRIn spcxmrIn);
 	COut computeC(CIn spccIn);
 	UOut computeU(UIn spcuIn);
-	ZOut computeZ(ZIn spczIn);
+	ZOut computeZ(UIn spczIn);
 	
 	//X-R图数据库操作
 	XR getXRByName(String name);

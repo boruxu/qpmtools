@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 
 import cn.edu.buaa.g305.qpm.spc.domain.PlotType;
 import cn.edu.buaa.g305.qpm.spc.domain.Spc;
+import cn.edu.buaa.g305.qpm.spc.domain.spcu.UIn;
 import cn.edu.buaa.g305.qpm.system.domain.Project;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -19,20 +20,21 @@ public class Z extends Spc{
 	private Project project;
 	
 	private static String type=PlotType.Z.name();
-	private ZIn input;
+	//Z的输入与U完全一致，应该使用UIn，以保证U改动后，z也改动
+	private UIn input;
 	private ZOut output;
 
 	public String getType() {
 		return type;
 	}	
-
-	public ZIn getInput() {
+	public UIn getInput() {
 		return input;
 	}
-
-	public void setInput(ZIn input) {
+	public void setInput(UIn input) {
 		this.input = input;
 	}
+
+
 
 	public ZOut getOutput() {
 		return output;
@@ -85,10 +87,10 @@ public class Z extends Spc{
 	{
 		String format="{"+"createFormat:{"+
 			       "name:organizationName.projectName."+type+".name,"+
-			       "inputZ:{" + ZIn.format()+"}},"+
+			       "inputZ:{" + UIn.format()+"}},"+
 			       	"updateFormat:{"	+ 
 			       	"name:organizationName.projectName."+type+".name,"+
-				    "inputZ:{" + ZIn.format()+"}}}";
+				    "inputZ:{" + UIn.format()+"}}}";
 		return format;
 	}
 

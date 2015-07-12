@@ -14,7 +14,6 @@ import cn.edu.buaa.g305.qpm.spc.domain.spcxr.XRIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxr.XROut;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxs.XSIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxs.XSOut;
-import cn.edu.buaa.g305.qpm.spc.domain.spcz.ZIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcz.ZOut;
 import cn.edu.buaa.g305.qpm.spc.server.imp.SPCImp;
 import static cn.edu.buaa.g305.qpm.system.DoublePrecisonArrayToStringArray.*;
@@ -179,7 +178,7 @@ public class SPCTest {
 	@Test
 	public void testZ() {
 		SPCImp spc=new SPCImp();
-		ZIn spczIn=new ZIn();
+		UIn spczIn=new UIn();
 		String[] time=new String[26];
 		for (int i = 0; i < time.length; i++) {
 			time[i]=i+1+"";
