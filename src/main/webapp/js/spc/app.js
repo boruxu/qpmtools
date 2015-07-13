@@ -325,6 +325,12 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
                 "","",$scope.detail.type,"","controlPlot");
 
         }
+        else if($scope.type=="U")
+        {
+            controlPlot($scope.detail.name,$scope.detail.output.time,$scope.detail.input.timeName
+                ,$scope.detail.output.x,$scope.detail.input.xName,$scope.detail.output.uUCL,
+                $scope.detail.output.uCL,$scope.detail.output.uLCL,$scope.detail.type,"","controlPlot");
+        }
     }
     function controlPlot(name,x,xname,y,yname,ucl,cl,lcl,type,typeSub,divid){
         var myChart = echarts.init(document.getElementById(divid));
@@ -332,7 +338,6 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
         var xlength = x.length;
 
         var uclA=[];
-        var clA=[];
         var lclA=[];
 
       /*  for(var i=0;i<xlength;i++)
@@ -341,6 +346,50 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
             clA.push(cl);
             lclA.push(lcl);
         }*/
+        Array.prototype.max = function(){
+            return Math.max.apply({},this)
+        };
+        Array.prototype.min = function(){
+            return Math.min.apply({},this)
+        };
+
+        var tempArray=[];
+        y.forEach(function(e){
+            //利用js的弱类型转化
+            tempArray.push(e-0);
+        });
+        y=tempArray;
+        var max='';
+        var min='';
+        if(type=="U")
+        {
+
+            ucl.forEach(function(e){
+                //利用js的弱类型转化
+                uclA.push(e-0);
+            });
+            lcl.forEach(function(e){
+                //利用js的弱类型转化
+                lclA.push(e-0);
+            });
+
+            max=Math.ceil(Math.max(uclA.max(),y.max()));
+            min=Math.floor(Math.min(lclA.min(),y.min()));
+
+
+        }
+        else if(type=="Z")
+        {
+            max=Math.ceil( y.max());
+            min=Math.floor(y.min());
+        }
+        else
+        {
+            max=Math.ceil(Math.max(ucl, y.max()));
+            min=Math.floor(Math.min(lcl, y.min()));
+        }
+
+
 
         var option={
             title : {
@@ -378,6 +427,13 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
 
 
                     },
+                    dataZoom : {
+                        show : true,
+                        title : {
+                            dataZoom : '区域缩放',
+                            dataZoomReset : '区域缩放-后退'
+                        }
+                    },
                     saveAsImage : {show: true}
                 }
             },
@@ -408,7 +464,9 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
                 {
                     name:yname,
                     type : 'value',
-                    scale: true
+                    scale: true,
+                    min:min,
+                    max:max
                 }
             ],
             symbolList:
@@ -426,7 +484,7 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
                 {
                     name: "UCL",
                     type: 'line',
-                    data:uclA,
+                    data:[],
                     markLine: {
 
                         data: [
@@ -443,7 +501,7 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
                 {
                     name: "CL",
                     type: 'line',
-                    data:clA,
+                    data:[],
                     markLine: {
                         itemStyle: {
                             normal: {
@@ -465,7 +523,7 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
                 {
                     name: "LCL",
                     type: 'line',
-                    data:lclA,
+                    data:[],
                     markLine: {
                         data: [
                             [
@@ -480,86 +538,264 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
             ]
         };
 
-        var optionZ=angular.copy(option);
-        optionZ.toolbox.feature.dataView= {
-            show: true,
-            lang: ['<strong>' + name + '——数据视图</strong>', '关闭'],
-            readOnly: true,
-            optionToContent: function (opt) {
-                var axisData = opt.xAxis[0].data;
-                var name = opt.xAxis[0].name;
-                var series = opt.series;
-                var table = '<table style="width:100%;text-align:center"><tbody><tr>'
-                    + '<td><strong>' + name + '</strong></td>'
-                    + '<td><strong>' + series[0].name + '</strong></td>'
-                    + '</tr>';
-                for (var i = 0, l = axisData.length; i < l; i++) {
-                    table += '<tr>'
-                        + '<td>' + axisData[i] + '</td>'
-                        + '<td>' + series[0].data[i] + '</td>'
-                        + '</tr>';
-                }
-                table += '</tbody></table>';
-
-                return table;
-            }
-        };
-        /*optionZ.yAxis.scale=false;*/
-        optionZ.legend.data=[
-                yname,
-                '西格玛单位控制线'
-            ];
-
-        optionZ.series=[
-            {
-                name: yname,
-                type:'line',
-                data:y
-            }
-            ,
-            {
-                name: "西格玛单位控制线",
-                type: 'line',
-                data:[],
-                markLine: {
-
-                    data:(function(){
-                        //动态生成相应的控制线
-                        var tempArray=[];
-                        y.forEach(function(e){
-                            //利用js的弱类型转化
-                            tempArray.push(e-0);
-                        });
-                        Array.prototype.max = function(){
-                            return Math.max.apply({},this)
-                        };
-                        Array.prototype.min = function(){
-                            return Math.min.apply({},this)
-                        };
-                        var data=[];
-                        for(var i=Math.floor(tempArray.min());i<=Math.ceil(tempArray.max());i++)
-                        {
-                            var dataItem=[
-                                { value: '', xAxis: -1, yAxis: ''},
-                                { xAxis: xlength , yAxis: ''}
-                            ];
-
-                            dataItem[0].value=i;
-                            dataItem[0].yAxis=i;
-                            dataItem[1].yAxis=i;
-                            data.push(dataItem);
-                        }
-                        return data;
-
-                    })()
-                }
-            }
-        ];
         // 为echarts对象加载数据
 
         if(type=="Z")
         {
+            var optionZ=angular.copy(option);
+            optionZ.toolbox.feature.dataView= {
+                show: true,
+                lang: ['<strong>' + name + '——数据视图</strong>', '关闭'],
+                readOnly: true,
+                optionToContent: function (opt) {
+                    var axisData = opt.xAxis[0].data;
+                    var name = opt.xAxis[0].name;
+                    var series = opt.series;
+                    var table = '<table style="width:100%;text-align:center"><tbody><tr>'
+                        + '<td><strong>' + name + '</strong></td>'
+                        + '<td><strong>' + series[0].name + '</strong></td>'
+                        + '</tr>';
+                    for (var i = 0, l = axisData.length; i < l; i++) {
+                        table += '<tr>'
+                            + '<td>' + axisData[i] + '</td>'
+                            + '<td>' + series[0].data[i] + '</td>'
+                            + '</tr>';
+                    }
+                    table += '</tbody></table>';
+
+                    return table;
+                }
+            };
+            /*optionZ.yAxis.scale=false;*/
+            optionZ.legend.data=[
+                yname,
+                '西格玛单位控制线'
+            ];
+
+            optionZ.series=[
+                {
+                    name: yname,
+                    type:'line',
+                    data:y
+                }
+                ,
+                {
+                    name: "西格玛单位控制线",
+                    type: 'line',
+                    data:[],
+                    markLine: {
+
+                        data:(function(){
+                            //动态生成相应的控制线
+                            var data=[];
+                            for(var i=Math.ceil(Math.max(-3,min));i<=Math.floor(Math.min(3,max));i++)
+                            {
+                                var dataItem=[
+                                    { value: '', xAxis: -1, yAxis: ''},
+                                    { xAxis: xlength , yAxis: ''}
+                                ];
+
+                                dataItem[0].value=i;
+                                dataItem[0].yAxis=i;
+                                dataItem[1].yAxis=i;
+                                data.push(dataItem);
+                            }
+                            return data;
+
+                        })()
+                    }
+                }
+            ];
             myChart.setOption(optionZ);
+        }
+        else if(type=="U")
+        {
+            var optionU=angular.copy(option);
+            optionU.toolbox.feature.dataView= {
+                show: true,
+                lang: ['<strong>' + name + '——数据视图</strong>', '关闭'],
+                readOnly: true,
+                optionToContent: function (opt) {
+                    var axisData = opt.xAxis[0].data;
+                    var name = opt.xAxis[0].name;
+                    var series = opt.series;
+                    var table='<p>'+
+                        '<strong>CL:</strong>' +cl +'<br/>'+
+                        '</p>';
+                    table += '<table style="width:100%;text-align:center"><tbody><tr>'
+                        + '<td><strong>' + name + '</strong></td>'
+                        + '<td><strong>' + series[0].name + '</strong></td>'
+                        + '<td><strong>' + 'UCL' + '</strong></td>'
+                        + '<td><strong>' + 'LCL' + '</strong></td>'
+                        + '</tr>';
+                    for (var i = 0, l = axisData.length; i < l; i++) {
+                        table += '<tr>'
+                            + '<td>' + axisData[i] + '</td>'
+                            + '<td>' + series[0].data[i] + '</td>'
+                            + '<td>' + ucl[i] + '</td>'
+                            + '<td>' + lcl[i] + '</td>'
+                            + '</tr>';
+                    }
+                    table += '</tbody></table>';
+
+                    return table;
+                }
+            };
+            optionU.series=[
+                {
+                    name: yname,
+                    type:'line',
+                    data:y
+                }
+                ,
+                {
+                    name: "UCL",
+                    type: 'line',
+                    data:[],
+                    tooltip : {
+                        trigger: 'item '
+                    },
+                    markLine: {
+                        itemStyle: {
+                            normal: {
+                                lineStyle: {
+                                    type: "solid"
+                                },
+                                label:{
+                                    show: false
+                                }
+                            }
+
+                        },
+                        symbol: [
+                            'circle', 'circle'
+                        ],
+                        symbolSize:0.5,
+                   /*     large:true,*/
+                        data: (function(){
+
+                            var data=[];
+                            for(var i=0;i<xlength;i++)
+                            {
+                                var dataItem=[
+                                    { value: '', xAxis: '', yAxis: ''},
+                                    { xAxis: '' , yAxis: ''}
+                                ];
+                                var dataItem2=[
+                                    { value: '', xAxis: '', yAxis: ''},
+                                    { xAxis: '' , yAxis: ''}
+                                ];
+
+                                dataItem[0].value=ucl[i];
+                                dataItem[0].xAxis=i-0.5;
+                                dataItem[0].yAxis=ucl[i];
+                                dataItem[1].xAxis=i+0.5;
+                                dataItem[1].yAxis=ucl[i];
+                                data.push(dataItem);
+
+                                if((i+1)<xlength)
+                                {
+                                    dataItem2[0].value="";
+                                    dataItem2[0].xAxis=i+0.5;
+                                    dataItem2[0].yAxis=ucl[i];
+                                    dataItem2[1].xAxis=i+0.5;
+                                    dataItem2[1].yAxis=ucl[i+1];
+                                    data.push(dataItem2);
+
+                                }
+
+                            }
+                            return data;
+
+                        })()
+
+                    }
+                }
+                ,
+                {
+                    name: "CL",
+                    type: 'line',
+                    data:[],
+                    markLine: {
+                        itemStyle: {
+                            normal: {
+                                lineStyle: {
+                                    type: "solid"
+                                }
+                            }
+                        },
+                        data: [
+                            [
+                                { value: cl, xAxis: -1, yAxis: cl},
+                                { xAxis: xlength , yAxis: cl}
+                            ]
+                        ]
+
+                    }
+                },
+
+                {
+                    name: "LCL",
+                    type: 'line',
+                    data:[],
+                    markLine: {
+                        itemStyle: {
+                            normal: {
+                                lineStyle: {
+                                    type: "solid"
+                                },
+                                label:{
+                                    show: false
+                                }
+                            }
+
+                        },
+                        symbol: [
+                            'circle', 'circle'
+                        ],
+                        symbolSize:0.5,
+                        data: (function(){
+
+                            var data=[];
+                            for(var i=0;i<xlength;i++)
+                            {
+                                var dataItem=[
+                                    { value: '', xAxis: '', yAxis: ''},
+                                    { xAxis: '' , yAxis: ''}
+                                ];
+                                var dataItem2=[
+                                    { value: '', xAxis: '', yAxis: ''},
+                                    { xAxis: '' , yAxis: ''}
+                                ];
+
+                                dataItem[0].value=lcl[i];
+                                dataItem[0].xAxis=i-0.5;
+                                dataItem[0].yAxis=lcl[i];
+                                dataItem[1].xAxis=i+0.5;
+                                dataItem[1].yAxis=lcl[i];
+                                data.push(dataItem);
+
+                                if((i+1)<xlength)
+                                {
+                                    dataItem2[0].value="";
+                                    dataItem2[0].xAxis=i+0.5;
+                                    dataItem2[0].yAxis=lcl[i];
+                                    dataItem2[1].xAxis=i+0.5;
+                                    dataItem2[1].yAxis=lcl[i+1];
+                                    data.push(dataItem2);
+
+                                }
+
+                            }
+                            return data;
+
+                        })()
+
+                    }
+                }
+
+            ];
+            myChart.setOption(optionU);
         }
         else{
             myChart.setOption(option);
