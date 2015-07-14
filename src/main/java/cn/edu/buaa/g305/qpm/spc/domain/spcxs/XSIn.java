@@ -10,7 +10,25 @@ public class XSIn {
 	private String[] time;
 	private String sigma;
 	
+	private String xName;
+	private String timeName;
+	private final String rName="极差";
 	
+	public String getrName() {
+		return rName;
+	}
+	public String getxName() {
+		return xName;
+	}
+	public void setxName(String xName) {
+		this.xName = xName;
+	}
+	public String getTimeName() {
+		return timeName;
+	}
+	public void setTimeName(String timeName) {
+		this.timeName = timeName;
+	}
 	public String[][] getX() {
 		return x;
 	}

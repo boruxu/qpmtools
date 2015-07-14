@@ -40,7 +40,7 @@
                                     <th>
                                         <strong>所属项目:&nbsp</strong>
                                     </th>
-                                    <th ng-if="type=='Z'||type=='U'">
+                                    <th ng-if="type!='XmR'">
 
                                     </th>
                                 </tr>
@@ -58,7 +58,7 @@
                                             <option value="">-- 请选择所属项目 --</option>
                                         </select>
                                     </td>
-                                    <td ng-if="type=='Z'||type=='U'">
+                                    <td ng-if="type!='XmR'">
 
                                     </td>
                                 </tr>
@@ -71,6 +71,9 @@
                                     </th>
                                     <th ng-if="type=='Z'||type=='U'">
                                         <strong>机会域名:&nbsp</strong>
+                                    </th>
+                                    <th ng-if="type=='XS'||type=='XR'">
+                                        <strong>输入的数据子组数:&nbsp</strong>
                                     </th>
                                     <th>
                                         <strong>输入的数据组数:&nbsp</strong>
@@ -86,13 +89,18 @@
                                     <td ng-if="type=='Z'||type=='U'">
                                         <input type="text" ng-model="detail.input.aName" class="col-lg-12" />
                                     </td>
+                                    <td ng-show="type=='XR'||type=='XS'">
+                                        <input type="number" ng-model="subNumber" class="col-lg-10" />
+                                        <input type="button"  ng-click="changeSubNumber()" class="col-lg-2" value="确定"/>
+                                    </td>
                                     <td>
                                        <input type="number" ng-model="number" class="col-lg-10"/>
                                        <input type="button"  ng-click="changeNumber()" class="col-lg-2" value="确定"/>
                                     </td>
                                 </tr>
                             </table>
-                            <table class="plotInput"  >
+
+                            <table class="plotInput"  ng-if="type!='XS'&&type!='XR'">
                                <tr  >
                                     <td class="title">
                                         <strong>横轴：</strong>
@@ -120,9 +128,30 @@
                                 </tr>
 
                             </table>
+                            <table class="plotInput"  ng-if="type=='XS'||type=='XR'" style="max-height: 300px;overflow: auto">
+                                <tr  >
+                                    <td class="title">
+                                        <strong>横轴\子组数</strong>
+                                    </td>
+                                    <td ng-repeat="inputTime in subNumberArray track by $index">
+                                        <strong>{{$index+1}}</strong>
+                                    </td>
+                                </tr>
+                                <tr ng-repeat="inputTime in numberArray track by $index">
+                                    <td class="hidden">
+                                        <strong ng-bind="fatherIndex=$index"></strong>
+                                    </td>
+                                    <td>
+                                        <input type="text" ng-model="detail.input.time[$index]" />
+                                    </td>
+                                    <td ng-repeat="inputTime in subNumberArray track by $index">
+                                        <input type="text" ng-model="detail.input.x[fatherIndex][$index]" />
+                                    </td>
+                                </tr>
 
 
-
+                            </table>
+                           
                         </div>
                     </div>
                 </div>

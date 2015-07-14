@@ -56,8 +56,11 @@
                                     <td >
                                         {{inputTime}}
                                     </td>
-                                    <td >
+                                    <td ng-if="type!='XS'&&type!='XR'">
                                         {{detail.input.x[$index]}}
+                                    </td>
+                                    <td ng-if="type=='XS'||type=='XR'">
+                                        {{detail.input.x[$index]|arrayDisplay}}
                                     </td>
                                     <td ng-if="detail.type=='Z'||detail.type=='U'">
                                         {{detail.input.a[$index]}}

@@ -264,7 +264,7 @@ line._2 {
 }
 .overflowframe{
     display:block;
-    height: 400px;
+    max-heigh: 400px;
     overflow-y: auto;
 }
 

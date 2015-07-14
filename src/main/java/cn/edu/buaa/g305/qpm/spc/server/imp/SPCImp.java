@@ -443,7 +443,7 @@ public class SPCImp implements SPCService{
 		try {
 			spcXR.setOutput(computeXR(spcXR.getInput()));
 		} catch (Exception e) {
-			spcXR.setErrorOutput(e.getMessage(), HttpStatus.BAD_REQUEST);
+			spcXR.setErrorOutput("数据输入错误！", HttpStatus.BAD_REQUEST);
 			return spcXR;
 		}
 
