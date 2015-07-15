@@ -449,20 +449,20 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
                 lclA.push(e-0);
             });
 
-            max=Math.ceil(Math.max(uclA.max(),y.max()));
-            min=Math.floor(Math.min(lclA.min(),y.min()));
+            max=Math.max(uclA.max(),y.max());
+            min=Math.min(lclA.min(),y.min());
 
 
         }
         else if(type=="Z")
         {
-            max=Math.ceil( y.max());
-            min=Math.floor(y.min());
+            max=y.max();
+            min=y.min();
         }
         else
         {
-            max=Math.ceil(Math.max(ucl, y.max()));
-            min=Math.floor(Math.min(lcl, y.min()));
+            max=Math.max(ucl, y.max());
+            min=Math.min(lcl, y.min());
         }
 
 
@@ -664,7 +664,7 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
                         data:(function(){
                             //动态生成相应的控制线
                             var data=[];
-                            for(var i=Math.ceil(Math.max(-3,min));i<=Math.floor(Math.min(3,max));i++)
+                            for(var i=parseInt(Math.max(-3,min));i<=parseInt(Math.min(3,max));i++)
                             {
                                 var dataItem=[
                                     { value: '', xAxis: -1, yAxis: ''},
