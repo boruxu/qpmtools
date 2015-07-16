@@ -168,6 +168,23 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
     $scope.numberArray=[];
     $scope.subNumberArray=[];
 
+
+    $scope.sigmaSet=false;
+    $scope.sigmaSetValue='设置系统标准差';
+    $scope.sigmaSetF=function(){
+        if($scope.sigmaSet==false)
+        {
+            $scope.sigmaSet=true;
+            $scope.sigmaSetValue='取消设置系统标准差';
+        }
+        else
+        {
+            $scope.sigmaSet=false;
+            $scope.detail.input.sigma=null;
+            $scope.sigmaSetValue='设置系统标准差';
+        }
+    };
+
     //整个页面的类型
     $scope.type=$stateParams.type;
 
@@ -187,10 +204,15 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
                     if(d.id==$stateParams.id)
                     {
                         $scope.detail=angular.copy(d);
+                        if(typeof ($scope.detail.input.sigma)!='undefined'&&$scope.detail.input.sigma!=null)
+                        {
+                            $scope.sigmaSet=true;
+                            $scope.sigmaSetValue='取消设置系统标准差';
+                        }
                     }
-
                 }
             );
+
             controlPlotByType();
         }
         //单独刷新时，返回上一级
@@ -399,13 +421,21 @@ app.controller('SPCDetailController',['$scope','$stateParams','RestServerce','$s
                 ,$scope.detail.output.x,$scope.detail.input.xName,$scope.detail.output.uUCL,
                 $scope.detail.output.uCL,$scope.detail.output.uLCL,$scope.detail.type,"","controlPlot");
         }
-        else{
+        else if($scope.type=="XR"){
             controlPlot($scope.detail.name,$scope.detail.output.time,$scope.detail.input.timeName
                 ,$scope.detail.output.x,$scope.detail.input.xName,$scope.detail.output.xUCL,
                 $scope.detail.output.xCL,$scope.detail.output.xLCL,$scope.detail.type,"单值","controlPlot");
             controlPlot($scope.detail.name,$scope.detail.output.time,$scope.detail.input.timeName
                 ,$scope.detail.output.r,$scope.detail.input.rName,$scope.detail.output.rUCL,
-                $scope.detail.output.rCL,$scope.detail.output.rLCL,$scope.detail.type,"极差","controlPlot2");
+                $scope.detail.output.rCL,$scope.detail.output.rLCL,$scope.detail.type,$scope.detail.input.rName,"controlPlot2");
+        }
+        else{
+            controlPlot($scope.detail.name,$scope.detail.output.time,$scope.detail.input.timeName
+                ,$scope.detail.output.x,$scope.detail.input.xName,$scope.detail.output.xUCL,
+                $scope.detail.output.xCL,$scope.detail.output.xLCL,$scope.detail.type,"单值","controlPlot");
+            controlPlot($scope.detail.name,$scope.detail.output.time,$scope.detail.input.timeName
+                ,$scope.detail.output.s,$scope.detail.input.sName,$scope.detail.output.sUCL,
+                $scope.detail.output.sCL,$scope.detail.output.sLCL,$scope.detail.type,$scope.detail.input.sName,"controlPlot2");
         }
     }
     function controlPlot(name,x,xname,y,yname,ucl,cl,lcl,type,typeSub,divid){

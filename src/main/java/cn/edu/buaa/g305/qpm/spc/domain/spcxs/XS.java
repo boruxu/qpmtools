@@ -41,11 +41,6 @@ public class XS extends Spc{
 		this.output = output;
 	}
 
-	public static void setType(String type) {
-		XS.type = type;
-	}
-	
-
 	public Project getProject() {
 		return project;
 	}

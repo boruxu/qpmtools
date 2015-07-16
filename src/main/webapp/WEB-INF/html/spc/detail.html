@@ -37,6 +37,11 @@
                                         <strong>所属项目:&nbsp</strong>{{detail.project.name}}
                                     </td>
                                 </tr>
+                                <tr ng-if="typeof(detail.input.sigma)!='undefined'&&detail.input.sigma!=null">
+                                    <td >
+                                        <strong>标准差（Sigma）:&nbsp</strong>{{detail.input.sigma}}
+                                    </td>
+                                </tr>
                             </table>
                             <div class="overflowframe">
                             <table class="plotDetail" >
@@ -82,7 +87,7 @@
         <div class="box col-lg-12">
             <div class="box-inner">
                 <div class="box-header well">
-                    <h2>C控制图</h2>
+                    <h2>{{type}}控制图</h2>
 
                     <div class="box-icon">
                         <a href="#" class="btn btn-setting-alpha btn-round btn-default"><i

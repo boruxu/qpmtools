@@ -8,14 +8,15 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
 public class XSIn {
 	private String[][] x;
 	private String[] time;
-	private String sigma;
+	private String sigma=null;
 	
 	private String xName;
 	private String timeName;
-	private final String rName="极差";
+	private final String sName="标准偏差";
 	
-	public String getrName() {
-		return rName;
+	
+	public String getsName() {
+		return sName;
 	}
 	public String getxName() {
 		return xName;

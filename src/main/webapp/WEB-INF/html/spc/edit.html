@@ -62,6 +62,23 @@
 
                                     </td>
                                 </tr>
+                                <tr ng-show="type=='XS'||type=='XmR'">
+                                    <td>
+                                        <input type="button" ng-model="sigmaSet" ng-click="sigmaSetF()" ng-value="sigmaSetValue"/>
+                                    </td>
+
+                                    <td  ng-if="sigmaSet">
+                                        <input type="text" ng-model="detail.input.sigma" class="col-lg-12"/>
+                                    </td>
+                                    <td ng-if="!sigmaSet">
+
+                                    </td>
+                                    <td >
+                                    </td>
+                                    <td ng-if="type!='XmR'">
+
+                                    </td>
+                                </tr>
                                 <tr>
                                     <th>
                                         <strong>横轴名:&nbsp</strong>
