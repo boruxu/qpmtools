@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
 @JsonSerialize(include=Inclusion.NON_NULL)
 public class AbnormalPoint {
 	//8条规则对应的异常点数
-	private String[][][] abnormalPoint;
+	private String[][] abnormalPoint;
 	
 	private static String[] description={"1个点，距离中心线大于K个标准差",
 										 "连续K点在中心线同一侧",
@@ -22,14 +22,12 @@ public class AbnormalPoint {
 	//具体使用哪个判别方法，默认使用第一点规则
 	private boolean[] check={true,false,false,false,false,false,false,false};
 
-	
-
-	public String[][][] getAbnormalPoint() {
+	public String[][] getAbnormalPoint() {
 		return abnormalPoint;
 	}
 
 
-	public void setAbnormalPoint(String[][][] abnormalPoint) {
+	public void setAbnormalPoint(String[][] abnormalPoint) {
 		this.abnormalPoint = abnormalPoint;
 	}
 
