@@ -2,6 +2,8 @@ package cn.edu.buaa.g305.qpm.spc.domain.spcu;
 
 import java.util.Arrays;
 
+import cn.edu.buaa.g305.qpm.spc.domain.AbnormalPoint;
+
 public class UIn {
 	
 	private String[] x;
@@ -11,6 +13,17 @@ public class UIn {
 	private String xName;
 	private String timeName;
 	private String aName;
+	private AbnormalPoint abnormalPoint;	
+	
+    public AbnormalPoint getAbnormalPoint() {
+		return abnormalPoint;
+	}
+
+
+
+	public void setAbnormalPoint(AbnormalPoint abnormalPoint) {
+		this.abnormalPoint = abnormalPoint;
+	}
 	
 	public String getxName() {
 		return xName;

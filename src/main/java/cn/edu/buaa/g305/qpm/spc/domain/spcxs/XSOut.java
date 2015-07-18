@@ -2,6 +2,8 @@ package cn.edu.buaa.g305.qpm.spc.domain.spcxs;
 
 import java.util.Arrays;
 
+import cn.edu.buaa.g305.qpm.spc.domain.AbnormalPoint;
+
 public class XSOut {
 	
 	private String[] x;
@@ -13,7 +15,29 @@ public class XSOut {
 	private String sUCL;
 	private String sCL;
 	private String sLCL;
-	
+	private AbnormalPoint abnormalPointX;
+	private AbnormalPoint abnormalPointS;
+		
+	public AbnormalPoint getAbnormalPointX() {
+		return abnormalPointX;
+	}
+
+
+	public void setAbnormalPointX(AbnormalPoint abnormalPointX) {
+		this.abnormalPointX = abnormalPointX;
+	}
+
+
+	public AbnormalPoint getAbnormalPointS() {
+		return abnormalPointS;
+	}
+
+
+	public void setAbnormalPointS(AbnormalPoint abnormalPointS) {
+		this.abnormalPointS = abnormalPointS;
+	}
+
+
 	public String[] getX() {
 		return x;
 	}

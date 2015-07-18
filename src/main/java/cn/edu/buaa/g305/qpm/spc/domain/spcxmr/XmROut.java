@@ -2,6 +2,8 @@ package cn.edu.buaa.g305.qpm.spc.domain.spcxmr;
 
 import java.util.Arrays;
 
+import cn.edu.buaa.g305.qpm.spc.domain.AbnormalPoint;
+
 public class XmROut {
 	
 	private String[] x;
@@ -13,7 +15,25 @@ public class XmROut {
 	private String mrUCL;
 	private String mrCL;
 	private final String mrLCL="0";
+	private AbnormalPoint abnormalPointX;
+	private AbnormalPoint abnormalPointMR;	
 	
+	public AbnormalPoint getAbnormalPointX() {
+		return abnormalPointX;
+	}
+
+	public void setAbnormalPointX(AbnormalPoint abnormalPointX) {
+		this.abnormalPointX = abnormalPointX;
+	}
+
+	public AbnormalPoint getAbnormalPointMR() {
+		return abnormalPointMR;
+	}
+
+	public void setAbnormalPointMR(AbnormalPoint abnormalPointMR) {
+		this.abnormalPointMR = abnormalPointMR;
+	}
+
 	public String[] getX() {
 		return x;
 	}

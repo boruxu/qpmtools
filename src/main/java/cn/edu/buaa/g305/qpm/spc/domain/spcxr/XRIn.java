@@ -2,6 +2,8 @@ package cn.edu.buaa.g305.qpm.spc.domain.spcxr;
 
 import java.util.Arrays;
 
+import cn.edu.buaa.g305.qpm.spc.domain.AbnormalPoint;
+
 
 public class XRIn {
 	
@@ -11,7 +13,14 @@ public class XRIn {
 	private String timeName;
 	private final String rName="极差";
 	
-	
+	private AbnormalPoint abnormalPoint;
+		
+	public AbnormalPoint getAbnormalPoint() {
+		return abnormalPoint;
+	}
+	public void setAbnormalPoint(AbnormalPoint abnormalPoint) {
+		this.abnormalPoint = abnormalPoint;
+	}
 	public String getrName() {
 		return rName;
 	}

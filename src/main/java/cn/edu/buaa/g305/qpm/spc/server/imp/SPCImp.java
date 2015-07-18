@@ -28,6 +28,7 @@ import cn.edu.buaa.g305.qpm.spc.domain.spcxs.XSIn;
 import cn.edu.buaa.g305.qpm.spc.domain.spcxs.XSOut;
 import cn.edu.buaa.g305.qpm.spc.domain.spcz.Z;
 import cn.edu.buaa.g305.qpm.spc.domain.spcz.ZOut;
+import cn.edu.buaa.g305.qpm.spc.server.JudgeAbnormal8;
 import cn.edu.buaa.g305.qpm.spc.server.SPCService;
 import cn.edu.buaa.g305.qpm.system.dao.ProjectRepository;
 import cn.edu.buaa.g305.qpm.system.domain.Project;
@@ -55,6 +56,8 @@ public class SPCImp implements SPCService{
 	private SystemFind systemFind;
 	@Autowired
 	private ProjectRepository projectRepository;
+	@Autowired
+	private JudgeAbnormal8 judgeAbnormal8;
 
 	public XROut computeXR(XRIn spcxrIn) {
 		
@@ -101,21 +104,26 @@ public class SPCImp implements SPCService{
 		
 		xSumAverage=xSumAverage/n;
 		rAverage=rAverage/n;
-		//计算X图的UCL和LCL，设置X图输出
-
 		spcxrOut.setX(toStringPrecision(xAverage, precision));
 		spcxrOut.setxCL(toStringPrecision(xSumAverage, precision));
 		spcxrOut.setxUCL(toStringPrecision(xSumAverage+computeA2(group_n)*rAverage,  precision));
 		spcxrOut.setxLCL(toStringPrecision(xSumAverage-computeA2(group_n)*rAverage,  precision));
+		spcxrOut.setAbnormalPointX(
+				judgeAbnormal8.JudgeAbnormalPoints(xAverage, xSumAverage, computeA2(group_n)*rAverage/3,
+						spcxrIn.getAbnormalPoint()));
 		
 		//计算R图的UCL和LCL，设置R图输出
-
 		spcxrOut.setR(toStringPrecision(r,precision));
 		spcxrOut.setrCL(toStringPrecision(rAverage, 4));
 		spcxrOut.setrUCL(toStringPrecision(rAverage*computeD4(group_n), 4));
 		spcxrOut.setrLCL(toStringPrecision(rAverage*computeD3(group_n), 4));
+		spcxrOut.setAbnormalPointR(
+				judgeAbnormal8.JudgeAbnormalPoints(r, rAverage, (rAverage*computeD4(group_n)-rAverage)/3,
+						spcxrIn.getAbnormalPoint()));
 		
 		spcxrOut.setTime(spcxrIn.getTime());
+		
+		spcxrOut.setAbnormalPointX(new AbnormalPoint());
 		
 	
 		return spcxrOut;
@@ -167,16 +175,24 @@ public class SPCImp implements SPCService{
 
 		if(spcxsIn.getSigma()==null)
 		{
+
 			spcxsOut.setX(toStringPrecision(xAverage,precision));
 			spcxsOut.setxCL(toStringPrecision(xSumAverage, precision));
 			spcxsOut.setxUCL(toStringPrecision(xSumAverage+computeA3(group_n)*sAverage, precision));
 			spcxsOut.setxLCL(toStringPrecision(xSumAverage-computeA3(group_n)*sAverage, precision));
+			
+			spcxsOut.setAbnormalPointX(
+					judgeAbnormal8.JudgeAbnormalPoints(xAverage, xSumAverage, computeA3(group_n)*sAverage/3,
+							spcxsIn.getAbnormalPoint()));
 			//计算S图的UCL和LCL，设置S图输出
 	      
 			spcxsOut.setS(toStringPrecision(s,precision));
 			spcxsOut.setsCL(toStringPrecision(sAverage, precision));
 			spcxsOut.setsUCL(toStringPrecision(sAverage*computeB4(group_n), precision));
 			spcxsOut.setsLCL(toStringPrecision(sAverage*computeB3(group_n), precision));
+			spcxsOut.setAbnormalPointS(
+					judgeAbnormal8.JudgeAbnormalPoints(s, sAverage, (sAverage*computeB4(group_n)-sAverage)/3,
+							spcxsIn.getAbnormalPoint()));
 			
 			spcxsOut.setTime(spcxsIn.getTime());
 			return spcxsOut;
@@ -188,12 +204,18 @@ public class SPCImp implements SPCService{
 			spcxsOut.setxCL(toStringPrecision(xSumAverage, precision));
 			spcxsOut.setxUCL(toStringPrecision(xSumAverage+sigma*3, precision));
 			spcxsOut.setxLCL(toStringPrecision(xSumAverage-sigma*3, precision));
+			spcxsOut.setAbnormalPointX(
+					judgeAbnormal8.JudgeAbnormalPoints(xAverage, xSumAverage, sigma,
+							spcxsIn.getAbnormalPoint()));
 			//计算S图的UCL和LCL，设置S图输出
 	      
 			spcxsOut.setS(toStringPrecision(s,precision));
 			spcxsOut.setsCL(toStringPrecision(computeC4(group_n)*sigma, precision));
 			spcxsOut.setsUCL(toStringPrecision(sigma*computeB6(group_n), precision));
 			spcxsOut.setsLCL(toStringPrecision(sigma*computeB5(group_n), precision));
+			spcxsOut.setAbnormalPointS(
+					judgeAbnormal8.JudgeAbnormalPoints(s, computeC4(group_n)*sigma, sigma,
+							spcxsIn.getAbnormalPoint()));
 			
 			spcxsOut.setTime(spcxsIn.getTime());
 			
@@ -237,12 +259,17 @@ public class SPCImp implements SPCService{
 			spcxmrOut.setxCL(toStringPrecision(xAverage, precision));
 			spcxmrOut.setxUCL(toStringPrecision(xAverage+2.66*mRAverage,precision));
 			spcxmrOut.setxLCL(toStringPrecision(xAverage-2.66*mRAverage,precision));
+			spcxmrOut.setAbnormalPointX(
+					judgeAbnormal8.JudgeAbnormalPoints(x, xAverage, 2.66*mRAverage/3,
+							spcxmrIn.getAbnormalPoint()));
 			//计算MR图的UCL，设置S图输出
 	      
 			spcxmrOut.setMr(toStringPrecision(mR,precision));
 			spcxmrOut.setMrCL(toStringPrecision(mRAverage, precision));
 			spcxmrOut.setMrUCL(toStringPrecision(mRAverage*computeD4(2), precision));
-			
+			spcxmrOut.setAbnormalPointMR(
+					judgeAbnormal8.JudgeAbnormalPoints(mR, mRAverage, (mRAverage*computeD4(2)-mRAverage)/3,
+							spcxmrIn.getAbnormalPoint()));
 			
 			spcxmrOut.setTime(spcxmrIn.getTime());
 			return spcxmrOut;
@@ -254,12 +281,17 @@ public class SPCImp implements SPCService{
 			spcxmrOut.setxCL(toStringPrecision(xAverage, precision));
 			spcxmrOut.setxUCL(toStringPrecision(xAverage+3*sigma,precision));
 			spcxmrOut.setxLCL(toStringPrecision(xAverage-3*sigma,precision));
+			spcxmrOut.setAbnormalPointX(
+					judgeAbnormal8.JudgeAbnormalPoints(x, xAverage, sigma,
+							spcxmrIn.getAbnormalPoint()));
 			//计算MR图的UCL，设置S图输出
 	      
 			spcxmrOut.setMr(toStringPrecision(mR,precision));
 			spcxmrOut.setMrCL(toStringPrecision(1.13*sigma, precision));
 			spcxmrOut.setMrUCL(toStringPrecision(3.69*sigma, precision));
-			
+			spcxmrOut.setAbnormalPointMR(
+					judgeAbnormal8.JudgeAbnormalPoints(mR,1.13*sigma, sigma,
+							spcxmrIn.getAbnormalPoint()));
 			
 			spcxmrOut.setTime(spcxmrIn.getTime());
 			return spcxmrOut;
@@ -291,6 +323,9 @@ public class SPCImp implements SPCService{
 		}
 		spccOut.setX(spccIn.getX());
 		spccOut.setTime(spccIn.getTime());
+		spccOut.setAbnormalPoint(
+				judgeAbnormal8.JudgeAbnormalPoints(toDouble(spccIn.getX()), xAverage, sigma3/3,
+						spccIn.getAbnormalPoint()));
 		
 		return spccOut;
 		
@@ -339,6 +374,9 @@ public class SPCImp implements SPCService{
 		
 		spcuOut.setX(toStringPrecision(u, precision));
 		spcuOut.setTime(spcuIn.getTime());
+		spcuOut.setAbnormalPoint(
+				judgeAbnormal8.JudgeAbnormalPoints(toDouble(spcuIn.getX()), xAverage, 0,
+						spcuIn.getAbnormalPoint()));
 		
 		return spcuOut;
 	}
@@ -373,6 +411,9 @@ public class SPCImp implements SPCService{
 		
 		spczOut.setX(toStringPrecision(z, precision));
 		spczOut.setTime(spczIn.getTime());
+		spczOut.setAbnormalPoint(
+				judgeAbnormal8.JudgeAbnormalPoints(z, 0, 1,
+						spczIn.getAbnormalPoint()));
 		
 		return spczOut;
 	}

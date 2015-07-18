@@ -2,6 +2,8 @@ package cn.edu.buaa.g305.qpm.spc.domain.spcc;
 
 import java.util.Arrays;
 
+import cn.edu.buaa.g305.qpm.spc.domain.AbnormalPoint;
+
 
 public class COut {
 	
@@ -10,8 +12,21 @@ public class COut {
 	private String cCL;
 	private String cUCL;
 	private String cLCL;
+	private AbnormalPoint abnormalPoint;	
 	
-    public String[] getX() {
+    public AbnormalPoint getAbnormalPoint() {
+		return abnormalPoint;
+	}
+
+
+
+	public void setAbnormalPoint(AbnormalPoint abnormalPoint) {
+		this.abnormalPoint = abnormalPoint;
+	}
+
+
+
+	public String[] getX() {
 		return x;
 	}
 

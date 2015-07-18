@@ -2,6 +2,8 @@ package cn.edu.buaa.g305.qpm.spc.domain.spcxmr;
 
 import java.util.Arrays;
 
+import cn.edu.buaa.g305.qpm.spc.domain.AbnormalPoint;
+
 public class XmRIn {
 	
 	private String[]x;
@@ -10,7 +12,14 @@ public class XmRIn {
 	private String xName;
 	private String timeName;
 	private final String mrName="移动极差";
+	private AbnormalPoint abnormalPoint;	
 		
+	public AbnormalPoint getAbnormalPoint() {
+		return abnormalPoint;
+	}
+	public void setAbnormalPoint(AbnormalPoint abnormalPoint) {
+		this.abnormalPoint = abnormalPoint;
+	}
 	public String getxName() {
 		return xName;
 	}

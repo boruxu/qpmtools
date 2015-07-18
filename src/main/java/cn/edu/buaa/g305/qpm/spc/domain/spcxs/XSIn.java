@@ -2,6 +2,8 @@ package cn.edu.buaa.g305.qpm.spc.domain.spcxs;
 
 import java.util.Arrays;
 
+import cn.edu.buaa.g305.qpm.spc.domain.AbnormalPoint;
+
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
 @JsonSerialize(include=Inclusion.NON_NULL)
@@ -13,6 +15,16 @@ public class XSIn {
 	private String xName;
 	private String timeName;
 	private final String sName="标准偏差";
+	
+	private AbnormalPoint abnormalPoint;	
+	
+    public AbnormalPoint getAbnormalPoint() {
+		return abnormalPoint;
+	}
+
+	public void setAbnormalPoint(AbnormalPoint abnormalPoint) {
+		this.abnormalPoint = abnormalPoint;
+	}
 	
 	
 	public String getsName() {

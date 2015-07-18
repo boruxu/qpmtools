@@ -2,6 +2,8 @@ package cn.edu.buaa.g305.qpm.spc.domain.spcxr;
 
 import java.util.Arrays;
 
+import cn.edu.buaa.g305.qpm.spc.domain.AbnormalPoint;
+
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize.Inclusion;
 
@@ -18,6 +20,33 @@ public class XROut {
 	private String rCL;
 	private String rLCL;
 	
+	private AbnormalPoint abnormalPointX;
+	private AbnormalPoint abnormalPointR;
+
+	public AbnormalPoint getAbnormalPointX() {
+		return abnormalPointX;
+	}
+
+
+
+	public void setAbnormalPointX(AbnormalPoint abnormalPointX) {
+		this.abnormalPointX = abnormalPointX;
+	}
+
+
+
+	public AbnormalPoint getAbnormalPointR() {
+		return abnormalPointR;
+	}
+
+
+
+	public void setAbnormalPointR(AbnormalPoint abnormalPointR) {
+		this.abnormalPointR = abnormalPointR;
+	}
+
+
+
 	private String error; 
 	
 	

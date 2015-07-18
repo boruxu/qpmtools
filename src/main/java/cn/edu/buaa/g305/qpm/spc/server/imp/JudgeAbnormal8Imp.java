@@ -5,11 +5,12 @@ import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
+
+import org.springframework.stereotype.Component;
 
 import cn.edu.buaa.g305.qpm.spc.domain.AbnormalPoint;
 import cn.edu.buaa.g305.qpm.spc.server.JudgeAbnormal8;
-
+@Component
 public class JudgeAbnormal8Imp implements JudgeAbnormal8{
 
 	@Override
