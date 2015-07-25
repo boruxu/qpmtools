@@ -116,8 +116,8 @@ public class MCServerImp implements MCServer{
 
 	@Override
 	public List<MC> getAllList() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return (List<MC>) mcRepository.findAll();
 	}
 
 	@Override
