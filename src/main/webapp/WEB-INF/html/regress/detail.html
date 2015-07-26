@@ -1,0 +1,253 @@
+<!--detail.html-->
+<div >
+    <div class="row">
+        <div class="box col-lg-12">
+            <div class="box-inner">
+                <div class="box-header well">
+                    <h2>线性回归</h2>
+                    <div class="box-icon">
+                        <a href="#" class="btn btn-setting-alpha btn-round btn-default"><i
+                                class="glyphicon glyphicon-cog"></i></a>
+                        <a href="#"  class="btn btn-minimize btn-round btn-default"><i
+                                class="glyphicon glyphicon-chevron-up"></i></a>
+                        <a href="#" class="btn btn-close btn-round btn-default"><i
+                                class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                </div>
+                <div class="box-content row" >
+                    <div class="col-lg-12  ">
+                        <div class="panel-heading">
+                            <button class="btn btn-default btn-xs" ui-sref="regress">
+                                <span class="glyphicon glyphicon-backward"></span> 返回</button>
+                        </div>
+                        <div class="panel-body" >
+                            <table class="table" >
+                                <tr>
+                                    <td >
+                                        <strong>回归名称:&nbsp</strong>{{detail.name}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td >
+                                        <strong>所属组织:&nbsp</strong>{{detail.project.organization.name}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td >
+                                        <strong>所属项目:&nbsp</strong>{{detail.project.name}}
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="overflowframe">
+                            <table class="plotDetail" >
+                                <tr  >
+                                    <td>
+                                        <strong>{{detail.input.yName}}</strong>
+                                    </td>
+                                    <td>
+                                        <strong>{{detail.input.xName |arrayDisplay}}</strong>
+                                    </td>
+
+
+                                </tr>
+                                <tr ng-repeat="inputTime in detail.input.y track by $index">
+
+                                    <td >
+                                        {{detail.input.y[$index]}}
+                                    </td>
+                                    <td >
+                                        {{detail.input.x[$index]|arrayDisplay}}
+                                    </td>
+
+                                </tr>
+
+                            </table>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" >
+        <div class="box col-lg-12">
+            <div class="box-inner">
+                <div class="box-header well">
+                    <h2>回归结果</h2>
+
+                    <div class="box-icon">
+                        <a href="#" class="btn btn-setting-alpha btn-round btn-default"><i
+                                class="glyphicon glyphicon-cog"></i></a>
+                        <a href="#"  class="btn btn-minimize btn-round btn-default"><i
+                                class="glyphicon glyphicon-chevron-up"></i></a>
+                        <a href="#" class="btn btn-close btn-round btn-default"><i
+                                class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                </div>
+                <div class="box-content row" >
+                    <div class="col-lg-12  ">
+                        <div class="panel-heading">
+
+                        </div>
+                        <div class="panel-body"  >
+                            <table class="table" >
+                                <tr>
+                                    <td colspan="6">
+                                        <strong>回归方程:&nbsp</strong>{{detail.output.regressFunction}}
+                                    </td>
+                                </tr>
+
+
+
+                                <tr>
+                                    <td colspan="2">
+                                        <strong>自变量</strong>
+                                    </td>
+                                    <td >
+                                        <strong>系数</strong>
+                                    </td>
+                                    <td >
+                                        <strong>系数标准误</strong>
+                                    </td>
+                                    <td >
+                                        <strong>T</strong>
+                                    </td>
+                                    <td >
+                                        <strong>P</strong>
+                                    </td>
+                                </tr>
+                                <tr ng-repeat=" ra in detail.output.regressAnalysis">
+                                    <td colspan="2">
+                                        {{ra.name}}
+                                    </td>
+                                    <td >
+                                        {{ra.beta}}
+                                    </td>
+                                    <td >
+                                        {{ra.sigma}}
+                                    </td>
+                                    <td >
+                                        {{ra.t}}
+                                    </td>
+                                    <td >
+                                        {{ra.p}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td >
+                                        S={{detail.output.s}}
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td >
+                                        R-Sq={{detail.output.r_sq}}
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td >
+                                        R-Sq(调整)={{detail.output.r_sq_ad}}
+                                    </td>
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="6">
+                                        <strong>方差分析&nbsp</strong>
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>来源</strong>
+                                    </td>
+                                    <td >
+                                        <strong>自由度</strong>
+                                    </td>
+                                    <td >
+                                        <strong>SS</strong>
+                                    </td>
+                                    <td >
+                                        <strong>MS</strong>
+                                    </td>
+                                    <td >
+                                        <strong>F</strong>
+                                    </td>
+                                    <td >
+                                        <strong>P</strong>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        回归
+                                    </td>
+                                    <td >
+                                        {{detail.output.dfr}}
+                                    </td>
+                                    <td >
+                                        {{detail.output.ssr}}
+                                    </td>
+                                    <td >
+                                        {{detail.output.msr}}
+                                    </td>
+                                    <td >
+                                        {{detail.output.f}}
+                                    </td>
+                                    <td >
+                                        {{detail.output.p}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        残差误差
+                                    </td>
+                                    <td >
+                                        {{detail.output.dfe}}
+                                    </td>
+                                    <td >
+                                        {{detail.output.sse}}
+                                    </td>
+                                    <td >
+                                        {{detail.output.mse}}
+                                    </td>
+                                    <td >
+
+                                    </td>
+                                    <td >
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        合计
+                                    </td>
+                                    <td >
+                                        {{detail.output.dft}}
+                                    </td>
+                                    <td >
+                                        {{detail.output.sst}}
+                                    </td>
+                                    <td >
+
+                                    </td>
+                                    <td >
+
+                                    </td>
+                                    <td >
+
+                                    </td>
+                                </tr>
+                            </table>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

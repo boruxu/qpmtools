@@ -12,7 +12,7 @@ public interface RegressServer{
 	Regress getById(String id);
 	Regress delete(String id);
 	Regress deleteByName(String name);
-	Regress save(Regress mc);
+	Regress save(Regress regress);
 	Regress update(Regress mc,String id);
 	
 	//返回的MC不包含返回的随机数result，通过get请求在单独获得（考虑到传输性能）

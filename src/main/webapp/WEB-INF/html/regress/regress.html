@@ -1,0 +1,96 @@
+<!--regress管理主页面-->
+<div ui-view>
+    <div class="row">
+        <div class="box col-lg-12">
+            <div class="box-inner">
+                <div class="box-header well">
+                    <h2><i class="glyphicon glyphicon-globe"></i>线性回归工具</h2>
+                    <div class="box-icon">
+                        <a href="#"  class="btn btn-minimize btn-round btn-default"><i
+                                class="glyphicon glyphicon-chevron-up"></i></a>
+                    </div>
+                </div>
+                <div class="box-content row" >
+                    <div class="col-lg-12 box">
+                        <select ng-change="choseO()" ng-model="regress.selectOrganization" ng-options="organization.name for organization in regress.organizationList">
+                            <option value="">-- 请选择所属组织 --</option>
+                        </select>
+                        <select ng-change="choseP()" ng-model="regress.selectProject" ng-options="project.name for project in regress.projectList">
+                            <option value="">-- 请选择所属项目 --</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div >
+        <div class="row">
+            <div class="box col-lg-12">
+                <div class="box-inner">
+                    <div class="box-header well">
+                        <h2><i class="glyphicon glyphicon-list"></i>线性回归列表</h2>
+                        <div class="box-icon">
+                            <a href="#" class="btn btn-setting-alpha btn-round btn-default"><i
+                                    class="glyphicon glyphicon-cog"></i></a>
+                            <a href="#"  class="btn btn-minimize btn-round btn-default"><i
+                                    class="glyphicon glyphicon-chevron-up"></i></a>
+                            <a href="#" class="btn btn-close btn-round btn-default"><i
+                                    class="glyphicon glyphicon-remove"></i></a>
+                        </div>
+                    </div>
+                    <div class="box-content row" >
+                        <div class="col-lg-12  ">
+                            <div class="panel-body"  >
+                                <table class="table" >
+                                    <div class="alert-danger" ng-if="regress.message!=''">{{regress.message}}</div>
+                                    <tr>
+                                        <th>线性回归名</th>
+
+                                        <th>操作
+                                            <button class="btn btn-success btn-xs" ng-click="selectType()">
+                                                <span class="glyphicon glyphicon-plus "></span>新建
+                                            </button>
+
+                                        </th>
+                                    </tr>
+                                    <tr ng-repeat="regressItem in regress.regressList">
+                                        <td>{{regressItem.name}}</td>
+
+
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-primary btn-xs"
+                                                    ui-sref="regress.detail({id:regressItem.id})">
+                                                <span class="glyphicon glyphicon-eye-open"></span> 查看
+                                            </button>
+                                            <button type="button" class="btn btn-warning btn-xs"
+                                                    ui-sref="regress.edit({id:regressItem.id})">
+                                                <span class="glyphicon glyphicon-edit "></span> 编辑
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="remove(regressItem.id)">
+                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                            </button>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th>共{{regress.regressList.length}}条</th>
+                                        <td></td>
+                                    </tr>
+
+                                </table>
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

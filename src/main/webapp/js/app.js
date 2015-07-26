@@ -3,7 +3,7 @@
  * qpmtools Angular前端框架主js
  */
 var app=angular.module('qpmtools',['ui.router','qpmtools.home','qpmtools.spc.app',
-'qpmtools.risk.app','qpmtools.mc.app','qpmtools.asset.app','kendo.directives']);
+'qpmtools.risk.app','qpmtools.mc.app','qpmtools.asset.app','qpmtools.regress.app','kendo.directives']);
 
 app.config(function($stateProvider, $urlRouterProvider){
 

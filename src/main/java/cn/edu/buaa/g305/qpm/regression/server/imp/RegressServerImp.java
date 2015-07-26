@@ -7,6 +7,7 @@ import org.apache.commons.math3.distribution.TDistribution;
 import org.apache.commons.math3.stat.regression.OLSMultipleLinearRegression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.stereotype.Component;
 
 import cn.edu.buaa.g305.qpm.regression.dao.RegressRepository;
 import cn.edu.buaa.g305.qpm.regression.domain.Regress;
@@ -17,7 +18,7 @@ import static cn.edu.buaa.g305.qpm.system.DoublePrecisonArrayToStringArray.*;
 import static cn.edu.buaa.g305.qpm.system.StringArrayToDoubleArray.*;
 import cn.edu.buaa.g305.qpm.system.domain.Project;
 import cn.edu.buaa.g305.qpm.system.server.SystemFind;
-
+@Component
 public class RegressServerImp implements RegressServer{
 	
 	@Autowired
@@ -53,6 +54,7 @@ public class RegressServerImp implements RegressServer{
 		
 		regress.setId(null);
 		regress.setProject(systemFind.findProductAffiliation(regress.getProject().getName()));
+		regress=computer(regress);
 		try{
 			regress=regressRepository.save(regress);
 		}
@@ -72,7 +74,7 @@ public class RegressServerImp implements RegressServer{
 		
 		mc.setId(id);
 		mc.setProject(systemFind.findProductAffiliation(mc.getProject().getName()));
-		
+		mc=computer(mc);
 		try{
 			mc=regressRepository.save(mc);
 		}
@@ -82,7 +84,7 @@ public class RegressServerImp implements RegressServer{
 			return mc;
 		}
 		
-		mc=computer(mc);
+		
 		return mc;
 				
 	}

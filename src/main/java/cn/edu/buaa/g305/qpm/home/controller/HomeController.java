@@ -45,6 +45,11 @@ public class HomeController {
 	{
 		return "asset/"+name;
 	}
+	@RequestMapping("/regress/{name}")
+	public String regressPage(@PathVariable String name)
+	{
+		return "regress/"+name;
+	}
 	
 	//主页
 	@RequestMapping("/test/angular-spc")
