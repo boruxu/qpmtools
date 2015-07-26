@@ -104,6 +104,7 @@ app.controller('regressHomeController',['$scope','RestServerce'
         };
 
         $scope.regress.tips=function(message){
+            console.log(message);
             $scope.regress.message=message;
             setTimeout(function(){
                 $scope.regress.message="";
@@ -283,7 +284,7 @@ app.controller('regressDetailController',['$scope','$stateParams','RestServerce'
 
         RestServerce.post("api/regress/"+url,postJSON).then(
             function(data){
-                if(typeof(data.error)!='undefined')
+                if(typeof(data.error)!='undefined'&&data.error!=null)
                 {
                     $scope.regress.tips(data.error);
                 }
