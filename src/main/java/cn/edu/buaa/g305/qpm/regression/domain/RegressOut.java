@@ -30,7 +30,22 @@ public class RegressOut {
 	//方差检验P
 	private String p;
 	
+	//不显示给用户，用来显示图形的数据，使用精确的double，不截断
+	private double[] residual;
+	private double[] yEstimate;
 	
+	public double[] getResidual() {
+		return residual;
+	}
+	public void setResidual(double[] residual) {
+		this.residual = residual;
+	}
+	public double[] getyEstimate() {
+		return yEstimate;
+	}
+	public void setyEstimate(double[] yEstimate) {
+		this.yEstimate = yEstimate;
+	}
 	public String getRegressFunction() {
 		return regressFunction;
 	}

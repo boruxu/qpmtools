@@ -228,13 +228,14 @@ public class RegressServerImp implements RegressServer{
 		regressOut.setP(toStringPrecision(p_f, precision));
 		regressOut.setRegressFunction(regressFunction);
 		
+		regressOut.setyEstimate(ols.calculateHat().operate(y));
+		regressOut.setResidual(ols.estimateResiduals());
+		
 		regress.setOutput(regressOut);
 
 		return regress;
 	}
 
 	
-	
-
 
 }
