@@ -27,9 +27,6 @@ public class Tag extends AbstractDocument {
     public  Tag(String error) {    	
     	this.error=error;		
 	}
-	
-	//产生的随机数不存入数据库
-	@Transient
 
 	public String getName() {
 		return name;

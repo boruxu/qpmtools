@@ -7,8 +7,8 @@ public interface TagServer {
 	
 	Tag getByName(String name);
 	Tag getById(String id);
-	Tag delete(String id);
-	Tag deleteByName(String name);
+	void delete(String id);
+    void deleteByName(String name);
 	Tag save(Tag Tag);
 	Tag update(Tag Tag,String id);
 
