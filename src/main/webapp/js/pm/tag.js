@@ -67,7 +67,7 @@ app.controller('tagHomeController',['$scope','RestServerce'
                 function(data){
                     console.log(data);
                     $scope.tagG.getTagList();
-                    $scope.tagG.tips("É¾³ı³É¹¦£¡");
+                    $scope.tagG.tips("åˆ é™¤æˆåŠŸï¼");
 
                 },function(error){
                    /* console.log(error);
@@ -135,7 +135,7 @@ app.controller('tagDetailController',['$scope','$stateParams','RestServerce','$s
 
     $scope.update=function(){
 
-        rest("api/pm/tag/","¸üĞÂ³É¹¦!");
+        rest("api/pm/tag/","æ›´æ–°æˆåŠŸ!");
     };
 
 
@@ -146,7 +146,7 @@ app.controller('tagDetailController',['$scope','$stateParams','RestServerce','$s
             function(data){
 
                 $scope.tagG.getTagList();
-                $scope.tagG.tips("´´½¨³É¹¦!");
+                $scope.tagG.tips("æ–°å»ºæˆåŠŸ!");
                 $scope.detail=angular.copy(data);
 
             },function(error){
