@@ -57,11 +57,6 @@ public class HomeController {
 		return "pm/"+name1+"/"+name2;
 	}
 	
-	@RequestMapping("/tag/{name}")
-	public String pmTagPage(@PathVariable String name)
-	{
-		return "tag/"+name;
-	}
 	
 	//主页
 	@RequestMapping("/test/angular-spc")
