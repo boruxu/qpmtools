@@ -53,3 +53,27 @@ function aUpDown(){
 
     });
 }
+
+function nav_dropdown_toggle(){
+    $("body").delegate(".dropdown-toggle-x", "click", function () {
+        var ul=$(this).parent().children().eq(2);
+        if(ul.hasClass("nav-hide"))
+        {
+            ul.slideDown("normal", function () {
+                ul.remove("nav-hide");
+                ul.addClass("nav-show");
+            });
+
+        }
+        else if(ul.hasClass("nav-show"))
+        {
+            ul.slideUp("normal", function () {
+                ul.remove("nav-show");
+                ul.addClass("nav-hide");
+            });
+
+        }
+    });
+}
+
+nav_dropdown_toggle();

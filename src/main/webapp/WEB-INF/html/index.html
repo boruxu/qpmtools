@@ -11,6 +11,10 @@
     <link href="./css/styles/kendo.common.min.css" rel="stylesheet">
     <link href="./css/styles/kendo.bootstrap.min.css" rel="stylesheet">
 
+
+    <link rel="stylesheet" href="./css/font-awesome.css" />
+
+
     <script type="text/javascript" src="./js/jquery.js"></script>
     <script type="text/javascript" src="./js/d3.js"></script>
     
@@ -31,8 +35,13 @@
     <script type="text/javascript" src="./js/regress/app.js"></script>
     <script type="text/javascript" src="./js/pm/tag.js"></script>
     <script type="text/javascript" src="./js/pm/product.js"></script>
-
+    <!--百度echarts工具-->
     <script type="text/javascript" src="./js/echarts-all.js"></script>
+    <!--右边栏工具所用js-->
+    <script type="text/javascript" src="./js/bootstrap.js"></script>
+    <script type="text/javascript" src="./js/ace.js"></script>
+    <script type="text/javascript" src="./js/ace.sidebar.js"></script>
+
 </head>
 <body ng-controller="IndexController">
     <!--头部-->
@@ -76,8 +85,8 @@
     <!--侧边导航-->
     <div class="container col-lg-2 col-md-2 ">
 
-            <div class="col-lg-12">
-                    <div class="navbar nav-boder nav-left-background">
+
+                   <!-- <div class="navbar nav-boder nav-left-background">
 
                         <ul class="nav nav-pills nav-stacked main-menu">
                             <li><span class="nav-left-title">主菜单</span></li>
@@ -92,8 +101,144 @@
                             <li><a ui-sref="pmTag"><i class="glyphicon glyphicon-list-alt"></i><span>管理标签</span></a></li>
                             <li><a ui-sref="pmProduct"><i class="glyphicon glyphicon-list-alt"></i><span>管理工作产品</span></a></li>
                         </ul>
-                    </div>
-            </div>
+                    </div>-->
+                <div class="no-skin box-inner">
+                    <div id="sidebar" class="sidebar responsive">
+
+
+                        <ul class="nav nav-list">
+                            <li  ui-sref="home" ui-sref-active="active">
+                                <a >
+                                    <i class="menu-icon fa fa-tachometer"></i>
+                                    <span class="menu-text"> 主页</span>
+                                </a>
+
+                                <b class="arrow"></b>
+                            </li>
+
+                            <li >
+                                <a class="dropdown-toggle">
+                                    <i class="menu-icon fa fa-desktop"></i>
+							<span class="menu-text">
+								量化项目管理工具
+							</span>
+
+                                    <b class="arrow fa fa-angle-down"></b>
+                                </a>
+
+                                <b class="arrow"></b>
+
+                                <ul class="submenu nav-hide" style="display: none">
+                                    <li class="">
+                                        <a class="dropdown-toggle">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+
+                                            流程工具
+                                            <b class="arrow fa fa-angle-down"></b>
+                                        </a>
+
+                                        <b class="arrow"></b>
+
+                                        <ul class="submenu nav-hide" style="display: none">
+                                            <li ui-sref="pmTag" ui-sref-active="active">
+                                                <a >
+                                                    <i class="menu-icon fa fa-circle-o"></i>
+                                                    管理标签
+                                                </a>
+
+                                                <b class="arrow"></b>
+                                            </li>
+
+                                            <li ui-sref="pmProduct" ui-sref-active="active">
+                                                <a >
+                                                    <i class="menu-icon fa fa-circle-o"></i>
+                                                    管理工作产品
+                                                </a>
+
+                                                <b class="arrow"></b>
+                                            </li>
+
+
+                                        </ul>
+                                    </li>
+                                    <li class="">
+                                        <a  class="dropdown-toggle">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+
+                                            量化管理技术工具
+                                            <b class="arrow fa fa-angle-down"></b>
+                                        </a>
+
+                                        <b class="arrow"></b>
+
+                                        <ul class="submenu nav-hide" style="display: none">
+                                            <li ui-sref="spc" ui-sref-active="active">
+                                                <a >
+                                                    <i class="menu-icon fa fa-circle-o"></i>
+                                                    统计过程控制
+                                                </a>
+
+                                                <b class="arrow"></b>
+                                            </li>
+                                            <li ui-sref="mc" ui-sref-active="active">
+                                                <a >
+                                                    <i class="menu-icon fa fa-circle-o"></i>
+                                                    蒙特卡洛模拟
+                                                </a>
+
+                                                <b class="arrow"></b>
+                                            </li>
+                                            <li ui-sref="regress" ui-sref-active="active">
+                                                <a >
+                                                    <i class="menu-icon fa fa-circle-o"></i>
+                                                    多元线性回归
+                                                </a>
+
+                                                <b class="arrow"></b>
+                                            </li>
+                                            <li ui-sref="risk" ui-sref-active="active">
+                                                <a >
+                                                    <i class="menu-icon fa fa-circle-o"></i>
+                                                    风险管理
+                                                </a>
+
+                                                <b class="arrow"></b>
+                                            </li>
+                                            <li ui-sref="asset" ui-sref-active="active">
+                                                <a >
+                                                    <i class="menu-icon fa fa-circle-o"></i>
+                                                    资产库数据交互
+                                                </a>
+
+                                                <b class="arrow"></b>
+                                            </li>
+
+
+
+                                        </ul>
+                                    </li>
+
+               <!--                     <li class="">
+                                        <a href="">
+                                            <i class="menu-icon fa fa-caret-right"></i>
+                                            Typography
+                                        </a>
+
+                                        <b class="arrow"></b>
+                                    </li>-->
+
+                                </ul>
+                            </li>
+
+                        </ul><!-- /.nav-list -->
+
+
+
+
+                    </div><!-- /.main-container -->
+                </div>
+
+
 
     </div>
     <!--中部主要内容-->
