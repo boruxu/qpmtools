@@ -142,17 +142,38 @@ app.controller('productDetailController',['$scope','$stateParams','RestServerce'
 
     $scope.create=function(){
 
-        RestServerce.post("api/pm/product",$scope.detail).then(
-            function(data){
+        var fd = new FormData();
+
+        fd.append("product",JSON.stringify($scope.detail));
+        fd.append("file-data", document.getElementById('fileData').files[0]);
+        $.ajax({
+
+            contentType: false,
+
+            type: "POST",
+
+            url: "api/pm/product",
+
+            data: fd,
+
+            processData: false, //不用Jquery转化data
+
+            success: function(data){
 
                 $scope.productG.getproductList();
                 $scope.productG.tips("新建成功!");
                 $scope.detail=angular.copy(data);
 
-            },function(error){
-                console.log(error);
-                $scope.productG.tips(error);
-            });
+            },
+
+            error:function (xmlHttpRequest, textStatus, errorThrown) {
+
+                console.log(textStatus);
+                $scope.productG.tips(textStatus);
+
+            }
+
+        });
 
     };
 

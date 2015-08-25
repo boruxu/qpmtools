@@ -50,5 +50,11 @@ public class Product extends AbstractDocument {
 		this.error = error;
 	}
 	
+	@Override
+	public String toString(){
+		return "Product.class: name:"+name+"description:"+description;
+		
+	}
+	
 
 }
