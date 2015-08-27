@@ -55,10 +55,23 @@ app.controller('productHomeController',['$scope','RestServerce'
 
         $scope.productG.tips=function(message){
             $scope.productG.message=message;
+
             setTimeout(function(){
                 $scope.productG.message="";
                 $scope.$apply($scope.productG.message);
             },2000);
+        };
+
+        $scope.productG.errors=function(message){
+            if(message=="NameDuplicateKey")
+            {
+                message="命名冲突,工作产品名称已存在,请换一个名称新建工作产品!"
+            }
+            $scope.productG.message=message;
+            setTimeout(function(){
+                $scope.productG.message="";
+                $scope.$apply($scope.productG.message);
+            },10000);
         };
 
         $scope.remove=function(id){
@@ -143,7 +156,6 @@ app.controller('productDetailController',['$scope','$stateParams','RestServerce'
     $scope.create=function(){
 
         var fd = new FormData();
-
         fd.append("product",JSON.stringify($scope.detail));
         fd.append("file-data", document.getElementById('fileData').files[0]);
         $.ajax({
@@ -166,10 +178,10 @@ app.controller('productDetailController',['$scope','$stateParams','RestServerce'
 
             },
 
-            error:function (xmlHttpRequest, textStatus, errorThrown) {
-
-                console.log(textStatus);
-                $scope.productG.tips(textStatus);
+            error:function (e) {
+                $scope.$apply(function () {
+                    $scope.productG.errors(e.responseText);
+                });
 
             }
 

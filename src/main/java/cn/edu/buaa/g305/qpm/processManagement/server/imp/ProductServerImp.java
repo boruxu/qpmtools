@@ -39,9 +39,11 @@ public class ProductServerImp implements ProductServer{
 		
 	}
 
+
 	@Override
-	public Product save(Product Product) {
-		return productRepository.save(Product);
+	public Product save(Product product) {
+		product.setId(null);
+		return productRepository.save(product);
 	}
 
 	@Override
