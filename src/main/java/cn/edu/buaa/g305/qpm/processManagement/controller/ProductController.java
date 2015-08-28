@@ -12,13 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -32,7 +32,6 @@ public class ProductController extends BaseController{
 	
 	@Autowired
 	private ProductServer productServer;
-	
 	@Autowired  
 	private  HttpServletRequest request; 
 	//创建Product
@@ -60,65 +59,83 @@ public class ProductController extends BaseController{
 			product.setFileName(file.getOriginalFilename());
 			product=productServer.save(product);
 			logger.log(Level.INFO, "- - -Product create file name "+file.getOriginalFilename());
-			//得到上传目录
-			String realpath=request.getSession().getServletContext().getRealPath("/upload/product"); 
+			//得到上传目录,使用和项目同级的目录，程序和数据分离，也保证数据不会被重新部署刷掉
+			String realpath=request.getSession().getServletContext().getRealPath("../qpmtoolsUpload/product");
+			//使用mongo生成的id作为文件的唯一id，原有名字存储在product.fileName
 			File target = new File(realpath, product.getId());
-			
 			FileUtils.copyInputStreamToFile(file.getInputStream(), target);
-            
+           
 			return product;	
 		}
 		else {
 			logger.log(Level.INFO, "- - -Product create file is null");
 			return productServer.save(product);	
 		}
-		/*if(file!=null)
-		{
-			if(!file.isEmpty())
-			{
-				byte[] b;
-				try {
-					b = new byte[file.getInputStream().read()];
-					file.getInputStream().read(b);
-					System.out.write(b,0,b.length);
-					
-					if(product==null)
-					{
-						System.out.println("product is null");
-						
-					}
-					logger.log(Level.INFO, "Product 创建"+product.toString());
-	
-					return productServer.save(product);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-			}
-			
-		}
-		else {
-			Product product;
-			try {
-				product = new ObjectMapper().readValue(productString, Product.class);
-				logger.log(Level.INFO, "Product创建"+product.toString());
-				return productServer.save(product);
-				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		}*/
 			
 	}
 	
 	@RequestMapping(value="/{id}",method=RequestMethod.POST)
 	@ResponseBody
+	public Product update(@RequestParam("product") String  productString,
+			@PathVariable String id,
+			@RequestPart(value="file-data",required=false)  MultipartFile file) throws ServletRequestBindingException, IOException, NoHandlerFoundException 
+	{
+		logger.log(Level.INFO, "- - -Product update API /api/pm/product/{id}");	
+		Product product;
+		
+		//得到上传目录,使用和项目同级的目录，程序和数据分离，也保证数据不会被重新部署刷掉
+		String realpath=request.getSession().getServletContext().getRealPath("../qpmtoolsUpload/product");
+		try {
+			product = new ObjectMapper().readValue(productString, Product.class);
+		} catch (IOException e) {			
+			throw new ServletRequestBindingException(productString+" binging error!");
+		}
+		
+		if(product.getName()==null||product.getDescription()==null)
+		{
+			throw new ServletRequestBindingException("Param product "+productString+" has not enough values!");
+		}
+		if(file!=null)
+		{
+			logger.log(Level.INFO, "- - -Product update has file");
+			product.setFileName(file.getOriginalFilename());
+			product=productServer.update(product,id);
+			logger.log(Level.INFO, "- - -Product update file name "+file.getOriginalFilename());
+			
+			//使用mongo生成的id作为文件的唯一id，原有名字存储在product.fileName
+			File target = new File(realpath, product.getId());
+			if(target.delete()==true&&target.createNewFile()==false)
+			{
+				FileUtils.copyInputStreamToFile(file.getInputStream(), target);
+			}
+			else{
+				throw new IOException("For some system reasons "+product.getId()+" file can not be update!");
+			}
+			return product;	
+		}
+		else {
+			logger.log(Level.INFO, "- - -Product update file is null");
+			//只删除文件的话，product更新是只要置fileName为null就行
+			if(product.getFileName()==null)
+			{
+				File target = new File(realpath, product.getId());
+				if(target.delete()!=true)
+				{
+					throw new IOException("For some system reasons "+product.getId()+" file can not be delete!");
+				}
+				
+			}
+			
+			return productServer.update(product, id);	
+		}
+		
+	}
+/*	@RequestMapping(value="/{id}",method=RequestMethod.POST)
+	@ResponseBody
 	public Product update(@RequestBody Product Product,@PathVariable String id)
 	{
 		return productServer.update(Product, id);			
-	}
+	}*/
 	
 	@RequestMapping(value="/{id}",method=RequestMethod.GET)
 	@ResponseBody

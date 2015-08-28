@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.NoHandlerFoundException;
+
 import cn.edu.buaa.g305.qpm.processManagement.dao.ProductRepository;
 import cn.edu.buaa.g305.qpm.processManagement.domian.Product;
 import cn.edu.buaa.g305.qpm.processManagement.server.ProductServer;
@@ -47,9 +49,19 @@ public class ProductServerImp implements ProductServer{
 	}
 
 	@Override
-	public Product update(Product Product, String id) {
-        Product.setId(id);		
-		return productRepository.save(Product);
+	public Product update(Product product, String id) throws NoHandlerFoundException {
+        product.setId(id);
+        Product productR=productRepository.findOne(id);
+        if(productR==null)
+        {
+        	throw new NoHandlerFoundException("post", id, null);
+        }
+        else {
+        	productR.setFileName(product.getFileName());
+        	productR.setName(product.getName());
+        	productR.setDescription(product.getDescription());
+		}
+		return productRepository.save(product);
 	}
 
 	@Override
