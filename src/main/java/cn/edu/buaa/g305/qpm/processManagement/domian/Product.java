@@ -17,6 +17,8 @@ public class Product extends AbstractDocument {
 	private String name;
 
 	private String description;
+	
+	private String fileName;
 
 	@Transient
 	private String error;
@@ -45,14 +47,22 @@ public class Product extends AbstractDocument {
 	public String getError() {
 		return error;
 	}
+	
 
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
 	public void setError(String error) {
 		this.error = error;
 	}
 	
 	@Override
 	public String toString(){
-		return "Product.class: name:"+name+"description:"+description;
+		return "Product.class:{id:"+id+"name:"+name+",description:"
+				+description+",fileName:"+fileName+"}";
 		
 	}
 	

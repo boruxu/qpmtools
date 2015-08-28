@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import cn.edu.buaa.g305.qpm.mc.dao.MCRepository;
 import cn.edu.buaa.g305.qpm.processManagement.dao.TagRepository;
 import cn.edu.buaa.g305.qpm.processManagement.domian.Tag;
 import cn.edu.buaa.g305.qpm.processManagement.server.TagServer;

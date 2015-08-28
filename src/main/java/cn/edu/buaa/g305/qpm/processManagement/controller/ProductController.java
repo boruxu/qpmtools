@@ -1,10 +1,16 @@
 package cn.edu.buaa.g305.qpm.processManagement.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,15 +32,47 @@ public class ProductController extends BaseController{
 	
 	@Autowired
 	private ProductServer productServer;
+	
+	@Autowired  
+	private  HttpServletRequest request; 
 	//创建Product
 
 	@RequestMapping(value="",method=RequestMethod.POST)
 	@ResponseBody
 	public Product create(@RequestParam("product") String  productString,
-			@RequestPart(value="file-data",required=false)  MultipartFile file)
+			@RequestPart(value="file-data",required=false)  MultipartFile file) throws ServletRequestBindingException, IOException
 	{
-		logger.log(Level.INFO, "Product API /api/pm/product");
+		logger.log(Level.INFO, "- - -Product create API /api/pm/product");	
+		Product product;
+		try {
+			product = new ObjectMapper().readValue(productString, Product.class);
+		} catch (IOException e) {			
+			throw new ServletRequestBindingException(productString+" binging error!");
+		}
+		
+		if(product.getName()==null||product.getDescription()==null)
+		{
+			throw new ServletRequestBindingException("Param product "+productString+" has not enough values!");
+		}
 		if(file!=null)
+		{
+			logger.log(Level.INFO, "- - -Product create has file");
+			product.setFileName(file.getOriginalFilename());
+			product=productServer.save(product);
+			logger.log(Level.INFO, "- - -Product create file name "+file.getOriginalFilename());
+			//得到上传目录
+			String realpath=request.getSession().getServletContext().getRealPath("/upload/product"); 
+			File target = new File(realpath, product.getId());
+			
+			FileUtils.copyInputStreamToFile(file.getInputStream(), target);
+            
+			return product;	
+		}
+		else {
+			logger.log(Level.INFO, "- - -Product create file is null");
+			return productServer.save(product);	
+		}
+		/*if(file!=null)
 		{
 			if(!file.isEmpty())
 			{
@@ -43,7 +81,7 @@ public class ProductController extends BaseController{
 					b = new byte[file.getInputStream().read()];
 					file.getInputStream().read(b);
 					System.out.write(b,0,b.length);
-					Product product = new ObjectMapper().readValue(productString, Product.class);
+					
 					if(product==null)
 					{
 						System.out.println("product is null");
@@ -71,8 +109,8 @@ public class ProductController extends BaseController{
 				e.printStackTrace();
 			}
 			
-		}
-		return null;		
+		}*/
+			
 	}
 	
 	@RequestMapping(value="/{id}",method=RequestMethod.POST)
