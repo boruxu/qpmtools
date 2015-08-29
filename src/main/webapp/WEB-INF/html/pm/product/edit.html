@@ -50,9 +50,24 @@
                                         <input type="text" ng-model="detail.description" class="col-lg-12"/>
                                     </td>
                                 </tr>
+                                <tr  ng-show="detail.fileName">
+                                    <th>
+                                        <strong>附件文档:&nbsp</strong>
+                                    </th>
+                                </tr>
+                                <tr  ng-show="detail.fileName">
+                                    <td nowrap>
+                                        <button type="button" class="btn btn-success btn-xs" ng-click="download(detail.id)">
+                                            <span class="glyphicon glyphicon-download"></span> {{detail.fileName}} 文档下载
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-xs" ng-click="fileRemove()">
+                                            <span class="glyphicon glyphicon-trash"></span> 删除
+                                        </button>
+                                    </td>
+                                </tr>
                                 <tr>
                                     <th>
-                                        <strong>文档:&nbsp</strong>
+                                        <strong>{{detail.fileName?"更换文档:&nbsp":"添加文档:&nbsp"}}</strong>
 
                                     </th>
                                 </tr>

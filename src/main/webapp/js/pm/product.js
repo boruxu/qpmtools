@@ -87,6 +87,19 @@ app.controller('productHomeController',['$scope','RestServerce'
                     $scope.productG.tips(error);*/
                 });
         };
+        $scope.download=function(id){
+            console.log("download");
+            var form = $("<form>");   //定义一个form表单
+            form.attr('style', 'display:none');   //在form表单中添加查询参数
+            form.attr('method', 'get');
+            form.attr('id',"productFileDown");
+            form.attr('action',"api/pm/product/file/"+id);
+
+            $('body').append(form);  //将表单放置在web中
+            form.submit();
+            $('#productFileDown').remove();
+        };
+
 
     }]);
 
@@ -128,27 +141,40 @@ app.controller('productDetailController',['$scope','$stateParams','RestServerce'
     }
 
 
-    var rest=function(url,message){
-
-
-        RestServerce.post(url+$scope.detail.id,$scope.detail).then(
-            function(data){
-
-                $scope.productG.getproductList();
-                console.log(message);
-                $scope.productG.tips(message);
-                $scope.detail=angular.copy(data);
-
-            },function(error){
-                console.log(error);
-                $scope.productG.tips(error);
-            });
-
-    };
 
     $scope.update=function(){
 
-        rest("api/pm/product/","更新成功!");
+        var fd = new FormData();
+        fd.append("product",JSON.stringify($scope.detail));
+        fd.append("file-data", document.getElementById('fileData').files[0]);
+        $.ajax({
+
+            contentType: false,
+
+            type: "POST",
+
+            url: "api/pm/product/" +$scope.detail.id,
+
+            data: fd,
+
+            processData: false, //不用Jquery转化data
+
+            success: function(data){
+
+                $scope.productG.getproductList();
+                $scope.productG.tips("更新成功!");
+                $scope.detail=angular.copy(data);
+
+            },
+
+            error:function (e) {
+                $scope.$apply(function () {
+                    $scope.productG.errors(e.responseText);
+                });
+
+            }
+
+        });
     };
 
 
@@ -188,6 +214,11 @@ app.controller('productDetailController',['$scope','$stateParams','RestServerce'
         });
 
     };
+    $scope.fileRemove=function(){
+        $scope.detail.fileName=null;
+        $scope.productG.errors("删除文件必须要保证未选择新的文档并提交后才可生效！");
+    }
+
 
 
 }]);

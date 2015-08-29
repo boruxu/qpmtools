@@ -32,6 +32,21 @@
                                         <strong>工作产品描述:&nbsp</strong>{{detail.description}}
                                     </td>
                                 </tr>
+                                <tr  ng-show="detail.fileName">
+                                    <th>
+                                        <strong>附件文档:&nbsp</strong>
+                                        <button type="button" class="btn btn-success btn-xs" ng-click="download(detail.id)">
+                                            <span class="glyphicon glyphicon-download"></span> {{detail.fileName}} 文档下载
+                                        </button>
+                                    </th>
+                                </tr>
+                                <tr  ng-show="!detail.fileName">
+                                    <th>
+                                        <strong>附件文档:&nbsp</strong>无
+                                    </th>
+                                </tr>
+
+
                             </table>
 
 

@@ -23,6 +23,7 @@
                                     <tr>
                                         <th>工作产品名称</th>
                                         <th>工作产品描述</th>
+                                        <th>附件文档名</th>
                                         <th>操作
                                             <button class="btn btn-success btn-xs"  ui-sref="pmProduct.create">
                                                 <span class="glyphicon glyphicon-plus "></span>新建
@@ -33,7 +34,7 @@
                                     <tr ng-repeat="productItem in productG.productList">
                                         <td>{{productItem.name}}</td>
                                         <td>{{productItem.description }}</td>
-
+                                        <td>{{productItem.fileName?productItem.fileName:"无附件"}}</td>
                                         <td nowrap>
                                             <button type="button" class="btn btn-primary btn-xs"
                                                     ui-sref="pmProduct.detail({id:productItem.id})">
@@ -46,13 +47,16 @@
                                             <button type="button" class="btn btn-danger btn-xs" ng-click="remove(productItem.id)">
                                                 <span class="glyphicon glyphicon-trash"></span> 删除
                                             </button>
-
+                                            <button type="button" class="btn btn-success btn-xs" ng-click="download(productItem.id)"
+                                                    ng-show="productItem.fileName">
+                                                <span class="glyphicon glyphicon-download"></span> 下载附件
+                                            </button>
                                         </td>
                                     </tr>
 
                                     <tr>
                                         <th>共{{productG.productList.length}}条</th>
-                                        <td></td><td></td>
+                                        <td></td><td></td><td></td>
                                     </tr>
 
                                 </table>

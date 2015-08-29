@@ -1,5 +1,7 @@
 package cn.edu.buaa.g305.qpm.system.controller;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -32,6 +34,20 @@ public class BaseController {
         
 		logger.log(Level.INFO,"- - -SourceNotFound:"+ex.getMessage());
         return new ResponseEntity<String>("SourceNotFound", HttpStatus.NOT_FOUND);
+    }
+	
+	@ExceptionHandler(FileNotFoundException.class)
+	public ResponseEntity<String> handleFileNotFoundException(FileNotFoundException ex) {
+        
+		logger.log(Level.INFO,"- - -FileNotFound:"+ex.getMessage());
+        return new ResponseEntity<String>("FileNotFound", HttpStatus.NOT_FOUND);
+    }
+	
+	@ExceptionHandler(IOException.class)
+	public ResponseEntity<String> handleIOException(IOException ex) {
+        
+		logger.log(Level.INFO,"- - -IOError:"+ex.getMessage());
+        return new ResponseEntity<String>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
 }
