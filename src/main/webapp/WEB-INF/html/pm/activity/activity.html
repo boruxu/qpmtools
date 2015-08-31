@@ -1,0 +1,77 @@
+<!--activityG管理主页面-->
+<div>
+<div ui-view>
+        <div class="row">
+            <div class="box col-lg-12">
+                <div class="box-inner">
+                    <div class="box-header well">
+                        <h2><i class="glyphicon glyphicon-list"></i>活动列表</h2>
+                        <div class="box-icon">
+                            <a href="#" class="btn btn-setting-alpha btn-round btn-default"><i
+                                    class="glyphicon glyphicon-cog"></i></a>
+                            <a href="#"  class="btn btn-minimize btn-round btn-default"><i
+                                    class="glyphicon glyphicon-chevron-up"></i></a>
+                            <a href="#" class="btn btn-close btn-round btn-default"><i
+                                    class="glyphicon glyphicon-remove"></i></a>
+                        </div>
+                    </div>
+                    <div class="box-content row" >
+                        <div class="col-lg-12  ">
+                            <div class="panel-body"  >
+                                <table class="table" >
+                                    <div class="alert-danger" ng-if="activityG.message!=''">{{activityG.message}}</div>
+                                    <tr>
+                                        <th>活动名称</th>
+                                        <th>活动描述</th>
+                                        <th>附件文档名</th>
+                                        <th>操作
+                                            <button class="btn btn-success btn-xs"  ui-sref="pmActivity.create">
+                                                <span class="glyphicon glyphicon-plus "></span>新建
+                                            </button>
+
+                                        </th>
+                                    </tr>
+                                    <tr ng-repeat="activityItem in activityG.activityList">
+
+                                        <td>{{activityItem.name}}</td>
+                                        <td>{{activityItem.description }}</td>
+                                        <td>{{activityItem.fileName?activityItem.fileName:"无附件"}}</td>
+                                        <td nowrap>
+                                            <button type="button" class="btn btn-primary btn-xs"
+                                                    ui-sref="pmActivity.detail({id:activityItem.id})">
+                                                <span class="glyphicon glyphicon-eye-open"></span> 查看
+                                            </button>
+                                            <button type="button" class="btn btn-warning btn-xs"
+                                                    ui-sref="pmActivity.edit({id:activityItem.id})">
+                                                <span class="glyphicon glyphicon-edit "></span> 编辑
+                                            </button>
+                                            <button type="button" class="btn btn-danger btn-xs" ng-click="remove(activityItem.id)">
+                                                <span class="glyphicon glyphicon-trash"></span> 删除
+                                            </button>
+                                            <button type="button" class="btn btn-success btn-xs" ng-click="download(activityItem.id)"
+                                                    ng-show="activityItem.fileName">
+                                                <span class="glyphicon glyphicon-download"></span> 下载附件
+                                            </button>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>共{{activityG.activityList.length}}条</th>
+                                        <td></td><td></td><td></td>
+                                    </tr>
+
+                                </table>
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

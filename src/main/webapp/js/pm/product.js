@@ -75,17 +75,27 @@ app.controller('productHomeController',['$scope','RestServerce'
         };
 
         $scope.remove=function(id){
-            console.log("id",id);
-            RestServerce.remove("api/pm/product/"+id).then(
-                function(data){
-                    console.log(data);
+            
+            $.ajax({
+
+                type: "DELETE",
+
+                url: "api/pm/product/" +id,
+
+                success: function(data){
+
                     $scope.productG.getproductList();
                     $scope.productG.tips("删除成功！");
+                },
 
-                },function(error){
-                   /* console.log(error);
-                    $scope.productG.tips(error);*/
-                });
+                error:function (e) {
+                    $scope.$apply(function () {
+                        $scope.productG.errors(e.responseText);
+                    });
+
+                }
+
+            });
         };
         $scope.download=function(id){
             console.log("download");

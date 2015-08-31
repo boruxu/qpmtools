@@ -4,7 +4,7 @@
  */
 var app=angular.module('qpmtools',['ui.router','qpmtools.home','qpmtools.spc.app',
 'qpmtools.risk.app','qpmtools.mc.app','qpmtools.asset.app','qpmtools.regress.app','qpmtools.pmTag.app'
-    ,'qpmtools.pmProduct.app','kendo.directives']);
+    ,'qpmtools.pmProduct.app','qpmtools.pmActivity.app','kendo.directives']);
 
 app.config(function($stateProvider, $urlRouterProvider){
 

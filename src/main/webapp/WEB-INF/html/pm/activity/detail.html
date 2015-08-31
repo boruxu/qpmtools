@@ -1,0 +1,63 @@
+<!--detail.html-->
+<div >
+    <div class="row">
+        <div class="box col-lg-12">
+            <div class="box-inner">
+                <div class="box-header well">
+                    <h2>活动</h2>
+                    <div class="box-icon">
+                        <a href="#" class="btn btn-setting-alpha btn-round btn-default"><i
+                                class="glyphicon glyphicon-cog"></i></a>
+                        <a href="#"  class="btn btn-minimize btn-round btn-default"><i
+                                class="glyphicon glyphicon-chevron-up"></i></a>
+                        <a href="#" class="btn btn-close btn-round btn-default"><i
+                                class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                </div>
+                <div class="box-content row" >
+                    <div class="col-lg-12  ">
+                        <div class="panel-heading">
+                            <button class="btn btn-default btn-xs" ui-sref="pmActivity">
+                                <span class="glyphicon glyphicon-backward"></span> 返回</button>
+                        </div>
+                        <div class="panel-body" >
+                            <table class="table" >
+                                <tr>
+                                    <td >
+                                        <strong>活动名称:&nbsp</strong>{{detail.name}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong>活动描述:&nbsp</strong>{{detail.description}}
+                                    </td>
+                                </tr>
+                                <tr  ng-show="detail.fileName">
+                                    <th>
+                                        <strong>附件文档:&nbsp</strong>
+                                        <button type="button" class="btn btn-success btn-xs" ng-click="download(detail.id)">
+                                            <span class="glyphicon glyphicon-download"></span> {{detail.fileName}} 文档下载
+                                        </button>
+                                    </th>
+                                </tr>
+                                <tr  ng-show="!detail.fileName">
+                                    <th>
+                                        <strong>附件文档:&nbsp</strong>无
+                                    </th>
+                                </tr>
+
+
+
+
+                            </table>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

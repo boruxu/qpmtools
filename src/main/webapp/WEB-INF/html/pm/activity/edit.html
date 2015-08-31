@@ -1,0 +1,94 @@
+<!--edit.html-->
+<div >
+    <div class="row">
+        <div class="box col-lg-12">
+            <div class="box-inner">
+                <div class="box-header well">
+                    <h2 ng-if="activityG.state=='pmActivity.edit'">修改活动</h2>
+                    <h2 ng-if="activityG.state=='pmActivity.create'">新建活动</h2>
+                    <div class="box-icon">
+                        <a href="#" class="btn btn-setting-alpha btn-round btn-default"><i
+                                class="glyphicon glyphicon-cog"></i></a>
+                        <a href="#"  class="btn btn-minimize btn-round btn-default"><i
+                                class="glyphicon glyphicon-chevron-up"></i></a>
+                        <a href="#" class="btn btn-close btn-round btn-default"><i
+                                class="glyphicon glyphicon-remove"></i></a>
+                    </div>
+                </div>
+                <div class="box-content row" >
+                    <div class="col-lg-12  ">
+                        <div class="panel-heading">
+                            <button class="btn btn-default btn-xs" ui-sref="pmActivity">
+                                <span class="glyphicon glyphicon-backward"></span> 返回</button>
+                            <button ng-if="activityG.state=='pmActivity.edit'" type="button" class="btn btn-warning btn-xs" ng-click="update()" >
+                                <span class="glyphicon glyphicon-refresh"></span> 更新
+                            </button>
+                            <button ng-if="activityG.state=='pmActivity.create'" type="button" class="btn btn-warning btn-xs" ng-click="create()" >
+                                <span class="glyphicon glyphicon-refresh"></span> 新建
+                            </button>
+                            <div class="alert-danger" ng-if="activityG.message!=''">{{activityG.message}}</div>
+                        </div>
+                        <div class="panel-body" >
+                            <table class="table" >
+                                <tr>
+                                    <th>
+                                        <strong>活动名称:&nbsp</strong>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td >
+                                        <input type="text" ng-model="detail.name" class="col-lg-12"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <strong>活动描述:&nbsp</strong>
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td >
+                                        <input type="text" ng-model="detail.description" class="col-lg-12"/>
+                                    </td>
+                                </tr>
+                                <tr  ng-show="detail.fileName">
+                                    <th>
+                                        <strong>附件文档:&nbsp</strong>
+                                    </th>
+                                </tr>
+                                <tr  ng-show="detail.fileName">
+                                    <td nowrap>
+                                        <button type="button" class="btn btn-success btn-xs" ng-click="download(detail.id)">
+                                            <span class="glyphicon glyphicon-download"></span> {{detail.fileName}} 文档下载
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-xs" ng-click="fileRemove()">
+                                            <span class="glyphicon glyphicon-trash"></span> 删除
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>
+                                        <strong>{{detail.fileName?"更换文档:&nbsp":"添加文档:&nbsp"}}</strong>
+
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <td >
+                                        <input type="file"  id="fileData" class="col-lg-12"/>
+                                    </td>
+                                </tr>
+
+
+                            </table>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
