@@ -75,7 +75,7 @@ app.controller('productHomeController',['$scope','RestServerce'
         };
 
         $scope.remove=function(id){
-            
+
             $.ajax({
 
                 type: "DELETE",

@@ -38,10 +38,7 @@
     <script type="text/javascript" src="./js/pm/activity.js"></script>
     <!--百度echarts工具-->
     <script type="text/javascript" src="./js/echarts-all.js"></script>
-    <!--右边栏工具所用js-->
-    <script type="text/javascript" src="./js/bootstrap.js"></script>
-    <script type="text/javascript" src="./js/ace.js"></script>
-    <script type="text/javascript" src="./js/ace.sidebar.js"></script>
+
 
 </head>
 <body ng-controller="IndexController">
@@ -62,7 +59,7 @@
 
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="#">个人设置</a></li>
+                    <li><a href="#" onclick="testActive()">个人设置</a></li>
                     <li class="divider"></li>
                     <li><a href="#">个人仓库</a></li>
                     <li class="divider"></li>
@@ -117,8 +114,8 @@
                                 <b class="arrow"></b>
                             </li>
 
-                            <li >
-                                <a class="dropdown-toggle">
+                            <li class="nav-level2">
+                                <a class="dropdown-toggle nav-level2">
                                     <i class="menu-icon fa fa-desktop"></i>
 							<span class="menu-text">
 								量化项目管理工具
@@ -130,8 +127,8 @@
                                 <b class="arrow"></b>
 
                                 <ul class="submenu nav-hide" style="display: none">
-                                    <li class="">
-                                        <a class="dropdown-toggle">
+                                    <li class="nav-level3">
+                                        <a class="dropdown-toggle nav-level3">
                                             <i class="menu-icon fa fa-caret-right"></i>
 
                                             流程工具
@@ -141,7 +138,7 @@
                                         <b class="arrow"></b>
 
                                         <ul class="submenu nav-hide" style="display: none">
-                                            <li ui-sref="pmTag" ui-sref-active="active">
+                                            <li ui-sref="pmTag" ui-sref-active="active" class="nav-level4">
                                                 <a >
                                                     <i class="menu-icon fa fa-circle-o"></i>
                                                     管理标签
@@ -150,7 +147,7 @@
                                                 <b class="arrow"></b>
                                             </li>
 
-                                            <li ui-sref="pmProduct" ui-sref-active="active">
+                                            <li ui-sref="pmProduct" ui-sref-active="active" class="nav-level4">
                                                 <a >
                                                     <i class="menu-icon fa fa-circle-o"></i>
                                                     管理工作产品
@@ -158,7 +155,7 @@
 
                                                 <b class="arrow"></b>
                                             </li>
-                                            <li ui-sref="pmActivity" ui-sref-active="active">
+                                            <li ui-sref="pmActivity" ui-sref-active="active" class="nav-level4">
                                                 <a >
                                                     <i class="menu-icon fa fa-circle-o"></i>
                                                     管理活动
@@ -170,8 +167,8 @@
 
                                         </ul>
                                     </li>
-                                    <li class="">
-                                        <a  class="dropdown-toggle">
+                                    <li class="nav-level3">
+                                        <a  class="dropdown-toggle nav-level3">
                                             <i class="menu-icon fa fa-caret-right"></i>
 
                                             量化管理技术工具
@@ -181,7 +178,7 @@
                                         <b class="arrow"></b>
 
                                         <ul class="submenu nav-hide" style="display: none">
-                                            <li ui-sref="spc" ui-sref-active="active">
+                                            <li ui-sref="spc" ui-sref-active="active" class="nav-level4">
                                                 <a >
                                                     <i class="menu-icon fa fa-circle-o"></i>
                                                     统计过程控制
@@ -189,7 +186,7 @@
 
                                                 <b class="arrow"></b>
                                             </li>
-                                            <li ui-sref="mc" ui-sref-active="active">
+                                            <li ui-sref="mc" ui-sref-active="active" class="nav-level4">
                                                 <a >
                                                     <i class="menu-icon fa fa-circle-o"></i>
                                                     蒙特卡洛模拟
@@ -197,7 +194,7 @@
 
                                                 <b class="arrow"></b>
                                             </li>
-                                            <li ui-sref="regress" ui-sref-active="active">
+                                            <li ui-sref="regress" ui-sref-active="active" class="nav-level4">
                                                 <a >
                                                     <i class="menu-icon fa fa-circle-o"></i>
                                                     多元线性回归
@@ -205,7 +202,7 @@
 
                                                 <b class="arrow"></b>
                                             </li>
-                                            <li ui-sref="risk" ui-sref-active="active">
+                                            <li ui-sref="risk" ui-sref-active="active" class="nav-level4">
                                                 <a >
                                                     <i class="menu-icon fa fa-circle-o"></i>
                                                     风险管理
@@ -213,7 +210,7 @@
 
                                                 <b class="arrow"></b>
                                             </li>
-                                            <li ui-sref="asset" ui-sref-active="active">
+                                            <li ui-sref="asset" ui-sref-active="active" class="nav-level4">
                                                 <a >
                                                     <i class="menu-icon fa fa-circle-o"></i>
                                                     资产库数据交互

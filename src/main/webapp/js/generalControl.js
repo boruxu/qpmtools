@@ -54,26 +54,33 @@ function aUpDown(){
     });
 }
 
-function nav_dropdown_toggle(){
-    $("body").delegate(".dropdown-toggle-x", "click", function () {
-        var ul=$(this).parent().children().eq(2);
-        if(ul.hasClass("nav-hide"))
-        {
-            ul.slideDown("normal", function () {
-                ul.remove("nav-hide");
-                ul.addClass("nav-show");
-            });
 
-        }
-        else if(ul.hasClass("nav-show"))
-        {
-            ul.slideUp("normal", function () {
-                ul.remove("nav-show");
-                ul.addClass("nav-hide");
-            });
 
-        }
+$(function(){
+
+    $("body").delegate(".dropdown-toggle", "click", function () {
+        console.log("nav dropdown-toggle click event!");
+        //对应的子菜单展开和合并
+        $(this).parent().children().eq(2).slideToggle(500);
     });
-}
+    //解决页面直接跳转为某一侧边栏的选项，而侧边栏没展开的问题
 
-nav_dropdown_toggle();
+    var findAngularJSUIActive=setInterval(function()
+    {
+        var $active=$("li.nav-level4.active");
+        if($active.length!=0)
+        {
+            console.log("find active!");
+
+            $active.parents(".nav-level2").children().eq(0).trigger("click");
+            setTimeout(function(){
+                $active.parents(".nav-level3").children().eq(0).trigger("click");
+            },600);
+            clearInterval(findAngularJSUIActive);
+        }
+
+    },100);
+
+});
+
+
