@@ -37,7 +37,6 @@
                             <table class="table" >
                                 <tr>
                                     <th>模拟项（名称）</th>
-                                    <th>所属组织</th>
                                     <th>所属项目</th>
                                     <th>预测变量名</th>
                                 </tr>
@@ -52,6 +51,7 @@
                                             <option value="">-- 请选择所属项目 --</option>
                                         </select>
                                     </td>
+
 
                                     <td >
                                         <input class="col-lg-12"   ng-model="detail.mcParam.predictionName" />
@@ -236,7 +236,9 @@
                         <div class="panel-body"  >
                             <svg class="mc">
                             </svg>
-
+                            <label>下界:</label><text id="lowerBound"></text>
+                            <label>上界:</label><text id="upperBound"></text>
+                            <label>概率:</label><text id="probability"></text>
                         </div>
                     </div>
                 </div>

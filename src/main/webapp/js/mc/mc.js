@@ -167,20 +167,31 @@
             svg.classed("rect", true);
             var s = brush.extent();
             rect.classed("selected",function(d){ return d.x>=s[0]&&d.x<s[1]});
-            /*d3.select("#lowerBound").text(s[0]);
-            d3.select("#upperBound").text(s[1]);*/
+            d3.select("#lowerBound").text(s[0]);
+            d3.select("#upperBound").text(s[1]);
+            d3.select("#probability").text(computeProbability(data,s[0],s[1]));
         }
 
         function brushmove() {
             var s = brush.extent();
             rect.classed("selected",function(d){ return d.x>=s[0]&&d.x<s[1]});
-            /*d3.select("#lowerBound").text(s[0]);
+            d3.select("#lowerBound").text(s[0]);
             d3.select("#upperBound").text(s[1]);
-            d3.select("#probability").text();*/
+            d3.select("#probability").text(computeProbability(data,s[0],s[1]));;
         }
 
         function brushend() {
             svg.classed("rect", !d3.event.target.empty());
+        }
+
+        function computeProbability(data,lower,upper){
+            var count=0;
+            data.forEach(function(d){
+                if(d.x>=lower&&d.x<=upper){
+                    count+= d.length;
+                }
+            });
+            return count/simulationNumber;
         }
 
         return mcD3;

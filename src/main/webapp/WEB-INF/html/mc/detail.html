@@ -139,8 +139,6 @@
 
                                     <td  ng-if="mcAP.type!=''&&mcAP.type!='2'">
                                         最大值:{{mcAP.distributionParam[1]}}
-                                        <input ng-if="mcAP.type!='2'" class="col-lg-5"  ng-model="mcAP.distributionParam[1]"/>
-                                        <input ng-if="mcAP.type=='2'" class="col-lg-5"  ng-model="mcAP.distributionParam[2]"/>
                                     </td>
                                     <td  ng-if="mcAP.type=='2'">
                                         最大值:{{mcAP.distributionParam[2]}}
@@ -190,7 +188,9 @@
                         <div class="panel-body"  >
                             <svg  class="mc">
                             </svg>
-
+                            <label>下界:</label><text id="lowerBound"></text>
+                            <label>上界:</label><text id="upperBound"></text>
+                            <label>概率:</label><text id="probability"></text>
                         </div>
                     </div>
                 </div>
